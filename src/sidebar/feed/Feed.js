@@ -83,7 +83,7 @@ export default class Feed extends React.Component {
                 color: 'white'
             },
             menuItem: {
-                fontSize: 14
+                fontSize: 15
             }
         };
 
@@ -133,9 +133,9 @@ export default class Feed extends React.Component {
                                         more_vert
                                     </IconButton>
                                 }>
-                                <MenuItem primaryText="Save As Word" onClick={this.exportToDocx} style={styles.menuItem}/>
-                                <MenuItem primaryText="Save As PowerPoint" onClick={this.exportToPptx} style={styles.menuItem}/>
-                                <MenuItem primaryText="Exit Feed" onClick={this.exit} style={styles.menuItem}/>
+                                <MenuItem primaryText="Save to Word" onClick={this.exportToDocx} style={styles.menuItem} leftIcon={<img src={chrome.runtime.getURL('images/word.png')}/>}/>
+                                <MenuItem primaryText="Save to PowerPoint" onClick={this.exportToPptx} style={styles.menuItem} leftIcon={<img src={chrome.runtime.getURL('images/powerpoint.png')}/>}/>
+                                <MenuItem primaryText="Exit Feed" onClick={this.exit} style={styles.menuItem} leftIcon={<FontIcon className="material-icons">exit_to_app</FontIcon>}/>
                             </IconMenu>
                             </div>
                         }/>
