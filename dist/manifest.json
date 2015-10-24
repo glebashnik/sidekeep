@@ -1,0 +1,46 @@
+{
+  "name": "Aftersearch",
+  "version": "0.0.8",
+  "manifest_version": 2,
+  "description": "Aftersearch - searching and collecting information together.",
+  "homepage_url": "https://github.com/firebase/firebase-chrome-extension",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "background": {
+    "scripts": [
+      "src/background.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_icon": "images/icon19.png",
+    "default_title": "Aftersearch"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "src/content.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    "images/*",
+    "sidebar.html"
+  ],
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage",
+    "contextMenus",
+    "webNavigation",
+    "webRequest",
+    "downloads"
+  ]
+}

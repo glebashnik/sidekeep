@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "dependencies": {
+    "lodash": "*",
+    "jquery": "*",
+    "react": "*",
+    "material-ui": "0.13.0",
+    "react-tap-event-plugin": "*",
+    "radium": "*",
+    "flux": "*",
+    "firebase": "*",
+    "md5": "*",
+    "jdenticon": "*",
+    "query-string": "*"
+  },
+  "devDependencies": {
+    "babelify": "*",
+    "browserify": "*",
+    "gulp": "*",
+    "gulp-sourcemaps": "*",
+    "gulp-util": "*",
+    "reactify": "*",
+    "vinyl-buffer": "*",
+    "vinyl-source-stream": "*",
+    "watchify": "*"
+  },
+  "scripts": {
+    "build": "gulp",
+    "watch": "gulp watch",
+    "test": "jest",
+    "release": "gulp"
+  }
+}
