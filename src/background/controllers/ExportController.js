@@ -4,11 +4,12 @@ import FeedStore from '../../shared/stores/FeedStore';
 
 var tasksRef = Firebase.child('/queue/tasks');
 
-var url = 'http://localhost:9000/';
+//var url = 'http://localhost:9000';
+var url = 'https://aftersearchexport.dotcloudapp.com';
 
 function exportToDocx() {
     chrome.downloads.download({
-        url: url + 'docx',
+        url: url + '/docx',
         method: 'POST',
         headers: [{name: 'content-type', value: 'application/json'}],
         body: JSON.stringify(FeedStore.state)
@@ -17,7 +18,7 @@ function exportToDocx() {
 
 function exportToPptx() {
     chrome.downloads.download({
-        url: url + 'pptx',
+        url: url + '/pptx',
         method: 'POST',
         headers: [{name: 'content-type', value: 'application/json'}],
         body: JSON.stringify(FeedStore.state)
