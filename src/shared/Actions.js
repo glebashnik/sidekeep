@@ -84,9 +84,15 @@ export default {
         });
     },
 
-    saveFeedToWord() {
+    exportToDocx() {
         Router.send({
-            type: 'SAVE_FEED_TO_WORD'
+            type: 'EXPORT_TO_DOCX'
+        });
+    },
+
+    exportToPptx() {
+        Router.send({
+            type: 'EXPORT_TO_PPTX'
         });
     }
 }
