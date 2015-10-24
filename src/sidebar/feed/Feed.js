@@ -27,8 +27,12 @@ export default class Feed extends React.Component {
         Actions.toggleSidebar();
     };
 
-    save = () => {
-        Actions.saveFeedToWord();
+    exportToDocx = () => {
+        Actions.exportToDocx();
+    };
+
+    exportToPptx = () => {
+        Actions.exportToPptx();
     };
 
     closeMenu = () => {
@@ -77,6 +81,9 @@ export default class Feed extends React.Component {
             },
             icon: {
                 color: 'white'
+            },
+            menuItem: {
+                fontSize: 14
             }
         };
 
@@ -87,7 +94,7 @@ export default class Feed extends React.Component {
                 onClick={this.assist}
                 touch={true}
                 tooltipPosition="bottom-center"
-                tooltip="Search assistant">
+                tooltip="Ask Assistant">
                 face
             </IconButton>
         );
@@ -110,7 +117,7 @@ export default class Feed extends React.Component {
                                 onClick={this.close}
                                 touch={true}
                                 tooltipPosition="bottom-right"
-                                tooltip="Hide sidebar">
+                                tooltip="Hide Sidebar">
                                 chevron_right
                             </IconButton>
                         }
@@ -126,10 +133,9 @@ export default class Feed extends React.Component {
                                         more_vert
                                     </IconButton>
                                 }>
-                                <MenuItem primaryText="Close menu" onClick={this.closeMenu} leftIcon={<FontIcon className="material-icons">expand_less</FontIcon>}/>
-                                <MenuItem primaryText="Lock feed" leftIcon={<FontIcon className="material-icons">lock_open</FontIcon>}/>
-                                <MenuItem primaryText="Save to Word" onClick={this.save} leftIcon={<FontIcon className="material-icons">file_download</FontIcon>}/>
-                                <MenuItem primaryText="Exit feed" onClick={this.exit} leftIcon={<FontIcon className="material-icons">exit_to_app</FontIcon>}/>
+                                <MenuItem primaryText="Save As Word" onClick={this.exportToDocx} style={styles.menuItem}/>
+                                <MenuItem primaryText="Save As PowerPoint" onClick={this.exportToPptx} style={styles.menuItem}/>
+                                <MenuItem primaryText="Exit Feed" onClick={this.exit} style={styles.menuItem}/>
                             </IconMenu>
                             </div>
                         }/>

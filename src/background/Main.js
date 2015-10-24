@@ -6,7 +6,7 @@ import * as Tracer from './Tracer';
 import './controllers/UIController';
 import './controllers/UserController';
 import './controllers/FeedController';
-import './controllers/SaveController';
+import './controllers/ExportController';
 import Actions from '../shared/Actions';
 import './ContextMenu';
 
