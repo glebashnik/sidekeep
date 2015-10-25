@@ -1,6 +1,6 @@
 {
   "name": "Aftersearch",
-  "version": "0.0.8",
+  "version": "0.0.9.2",
   "manifest_version": 2,
   "description": "Aftersearch - searching and collecting information together.",
   "homepage_url": "https://github.com/firebase/firebase-chrome-extension",

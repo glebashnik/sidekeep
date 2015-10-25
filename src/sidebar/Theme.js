@@ -2,17 +2,17 @@ import Colors from 'material-ui/lib/styles/colors';
 import ColorManipulator from 'material-ui/lib/utils/color-manipulator';
 import Spacing from 'material-ui/lib/styles/spacing';
 
-const spacing = Object.assign(Spacing, {
+Object.assign(Spacing, {
     desktopKeylineIncrement: 48
 });
 
 export default {
-    spacing: spacing,
+    spacing: Spacing,
     fontFamily: 'Roboto, sans-serif',
     palette: {
-        primary1Color: Colors.indigo500,
-        primary2Color: Colors.indigo500,
-        primary3Color: Colors,
+        primary1Color: '#0066CC',
+        primary2Color: '#0066CC',
+        primary3Color: '#4C97ED',
         accent1Color: Colors.pinkA200,
         accent2Color: Colors.grey300,
         accent3Color: Colors.grey500,
@@ -24,7 +24,7 @@ export default {
     },
     font: {
         primary: '400 13px Noto Sans',
-        accent: '500 14px Roboto',
+        accent: '400 14px Roboto',
         content: '400 13px Noto Sans'
     }
 };

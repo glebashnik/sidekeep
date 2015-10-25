@@ -41,7 +41,7 @@ class Sidebar extends React.Component {
         let style = {
             width: '100%',
             height: '100%',
-            background: Colors.grey200
+            background: '#F1F1F1'
         };
 
         let main = this.state.feed.inside ?
