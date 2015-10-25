@@ -11,7 +11,9 @@ export default class Post extends React.Component {
 
     render() {
         let style = {
-            margin: '10px 10px 0 10px'
+            margin: '10px 15px 0 15px',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12)',
+            borderRadius: 2
         };
 
         let post = this.props.post;

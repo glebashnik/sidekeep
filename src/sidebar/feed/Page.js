@@ -33,8 +33,8 @@ import Theme from '../Theme';
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
-                color: Theme.palette.primary2Color,
-                font: Theme.font.accent,
+                color: '#0066CC',
+                font: '400 14px Roboto',
                 textDecoration: 'none',
 
                 ':hover': {

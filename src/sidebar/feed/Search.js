@@ -6,8 +6,9 @@ import Theme from '../Theme';
 import FontIcon from '../../../node_modules/material-ui/lib/font-icon';
 import Colors from 'material-ui/lib/styles/colors';
 import Avatar from '../avatar';
+import Radium from 'radium';
 
-export default class Search extends React.Component {
+@Radium class Search extends React.Component {
     static propTypes = {
         search: React.PropTypes.object.isRequired
     };
@@ -16,29 +17,23 @@ export default class Search extends React.Component {
         let search = this.props.search;
 
         let styles = {
-            search: {
-            },
             header: {
                 padding: '10px 10px 10px 7px',
                 display: 'flex',
                 alignItems: 'center'
             },
-            text: {
-                marginLeft: 8,
-                font: Theme.font.primary,
-                color: Theme.palette.textColor
-            },
-            name: {
-                font: Theme.font.accent,
-                color: Theme.palette.primary2Color
-            },
             query: {
-                font: Theme.font.accent,
-                color: Theme.palette.primary2Color,
+                marginLeft: 8,
+                font: '400 16px Roboto',
+                color: '#0066CC',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                width: 200
+                width: 200,
+
+                ':hover': {
+                    textDecoration: 'underline'
+                }
             },
             page: {
                 borderTop: '1px solid ' + Colors.grey300
@@ -46,13 +41,10 @@ export default class Search extends React.Component {
         };
 
         return (
-            <VBox style={styles.search}>
+            <VBox>
                 <HBox style={styles.header}>
-                    <Avatar name={search.user.name} style={styles.avatar}/>
-                    <VBox style={styles.text}>
-                        <div><span style={styles.name}>{search.user.name}</span>&nbsp;searched</div>
-                        <span style={styles.query} href={search.url}>{search.query}</span>
-                    </VBox>
+                    <FontIcon className="material-icons" color={'#0066CC'}>search</FontIcon>
+                    <span style={styles.query} href={search.url}>{search.query.toLowerCase()}</span>
                 </HBox>
                 <VBox>
                     {search.pages.map((page, index) => <Page page={page} style={styles.page} key={index}/>)}
@@ -61,3 +53,5 @@ export default class Search extends React.Component {
         );
     }
 }
+
+export default Search;

@@ -7,6 +7,8 @@ import IconButton from 'material-ui/lib/icon-button';
 import FontIcon from 'material-ui/lib/font-icon';
 import Colors from 'material-ui/lib/styles/colors';
 import CircularProgress from '../ui/CircularProgress';
+import WordIcon from '../ui/WordIcon';
+import PowerPointIcon from '../ui/PowerPointIcon';
 import Actions from '../../shared/Actions';
 
 export default class Feed extends React.Component {
@@ -56,7 +58,7 @@ export default class Feed extends React.Component {
                 width: '100%'
             },
             title: {
-                fontSize: 17,
+                font: '400 17px Roboto',
                 color: 'white',
                 marginTop: 14,
                 whiteSpace: 'nowrap',
@@ -83,7 +85,7 @@ export default class Feed extends React.Component {
                 color: 'white'
             },
             menuItem: {
-                fontSize: 15
+                fontSize: 14
             }
         };
 
@@ -94,7 +96,7 @@ export default class Feed extends React.Component {
                 onClick={this.assist}
                 touch={true}
                 tooltipPosition="bottom-center"
-                tooltip="Ask Assistant">
+                tooltip="Recommend">
                 face
             </IconButton>
         );
@@ -106,10 +108,12 @@ export default class Feed extends React.Component {
                                   innerStyle={styles.progress}/>
             );
 
+        //assistant = undefined;
+
         return (
             <div style={styles.feed}>
                 <AppBar title={
-                            <div style={styles.title}>{this.props.feed.name}</div>
+                            <div style={styles.title}>{this.props.feed.name.toUpperCase()}</div>
                         }
                         iconElementLeft={
                             <IconButton
@@ -117,7 +121,7 @@ export default class Feed extends React.Component {
                                 onClick={this.close}
                                 touch={true}
                                 tooltipPosition="bottom-right"
-                                tooltip="Hide Sidebar">
+                                tooltip="Hide">
                                 chevron_right
                             </IconButton>
                         }
@@ -133,8 +137,8 @@ export default class Feed extends React.Component {
                                         more_vert
                                     </IconButton>
                                 }>
-                                <MenuItem primaryText="Save to Word" onClick={this.exportToDocx} style={styles.menuItem} leftIcon={<img src={chrome.runtime.getURL('images/word.png')}/>}/>
-                                <MenuItem primaryText="Save to PowerPoint" onClick={this.exportToPptx} style={styles.menuItem} leftIcon={<img src={chrome.runtime.getURL('images/powerpoint.png')}/>}/>
+                                <MenuItem primaryText="Export to Word" onClick={this.exportToDocx} style={styles.menuItem} leftIcon={<WordIcon/>}/>
+                                <MenuItem primaryText="Export to PowerPoint" onClick={this.exportToPptx} style={styles.menuItem} leftIcon={<PowerPointIcon/>}/>
                                 <MenuItem primaryText="Exit Feed" onClick={this.exit} style={styles.menuItem} leftIcon={<FontIcon className="material-icons">exit_to_app</FontIcon>}/>
                             </IconMenu>
                             </div>
