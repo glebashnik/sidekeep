@@ -6,7 +6,7 @@ chrome.contextMenus.create({
     onclick: function (info, tab) {
         if (info.selectionText)
             Actions.clipText(info.selectionText, tab.id);
-        else if (info.mediaType === 'image')
-            Actions.clipImage(info.srcUrl, tab.id);
+        //else if (info.mediaType === 'image')
+        //    Actions.clipImage(info.srcUrl, tab.id);
     }
 });

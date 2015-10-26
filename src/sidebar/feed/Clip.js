@@ -10,6 +10,7 @@ import Actions from '../../shared/Actions';
 import Like from './Like';
 import Comment from './Comment';
 import Theme from '../Theme';
+import Radium from 'radium';
 
 export default class Clip extends React.Component {
     state = {
@@ -55,7 +56,6 @@ export default class Clip extends React.Component {
 
         let styles = {
             clip: {
-                padding: '10px 0 0 0',
                 position: 'relative'
             },
             content: {
@@ -75,10 +75,10 @@ export default class Clip extends React.Component {
             tools: {
                 display: 'flex',
                 direction: 'row',
-                background: 'white',
+                background: Colors.darkWhite,
                 position: 'absolute',
-                bottom: -10,
-                right: -10
+                bottom: 0,
+                right: 0
             },
             comment: {
                 display: 'flex',
