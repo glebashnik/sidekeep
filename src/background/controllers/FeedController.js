@@ -205,7 +205,7 @@ function assist() {
 }
 
 
-export default Dispatcher.register(function (action) {
+export default Dispatcher.register(action => {
     switch (action.type) {
         case 'CHANGE_FEED_NAME':
             changeName(action.name);

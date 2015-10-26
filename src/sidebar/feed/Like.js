@@ -1,8 +1,9 @@
 import React from 'react';
 import Theme from '../Theme'
 import Avatar from '../Avatar'
+import Radium from 'radium';
 
-export default class Like extends React.Component {
+@Radium class Like extends React.Component {
     static propTypes = {
         like: React.PropTypes.object.isRequired
     };
@@ -23,7 +24,11 @@ export default class Like extends React.Component {
             },
             name: {
                 font: Theme.font.accent,
-                color: Theme.palette.primary2Color
+                color: Theme.palette.primary2Color,
+                cursor: 'pointer',
+                ':hover': {
+                    textDecoration: 'underline'
+                }
             }
         };
 
@@ -35,3 +40,5 @@ export default class Like extends React.Component {
         );
     }
 }
+
+export default Like;

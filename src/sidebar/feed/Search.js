@@ -30,13 +30,10 @@ import Radium from 'radium';
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 width: 200,
-
+                cursor: 'pointer',
                 ':hover': {
                     textDecoration: 'underline'
                 }
-            },
-            page: {
-                borderTop: '1px solid ' + Colors.grey300
             }
         };
 
@@ -46,9 +43,7 @@ import Radium from 'radium';
                     <FontIcon className="material-icons" color={'#0066CC'}>search</FontIcon>
                     <span style={styles.query} href={search.url}>{search.query.toLowerCase()}</span>
                 </HBox>
-                <VBox>
-                    {search.pages.map((page, index) => <Page page={page} style={styles.page} key={index}/>)}
-                </VBox>
+                {search.pages.map((page, index) => <Page page={page} key={index}/>)}
             </VBox>
         );
     }

@@ -4,8 +4,9 @@ import IconButton from 'material-ui/lib/icon-button';
 import Theme from '../Theme';
 import Avatar from '../Avatar';
 import Actions from '../../shared/Actions';
+import Radium from 'radium';
 
-export default class Comment extends React.Component {
+@Radium class Comment extends React.Component {
     state = {
         tools: false
     };
@@ -47,7 +48,11 @@ export default class Comment extends React.Component {
             },
             name: {
                 font: Theme.font.accent,
-                color: Theme.palette.primary2Color
+                color: Theme.palette.primary2Color,
+                cursor: 'pointer',
+                ':hover': {
+                    textDecoration: 'underline'
+                }
             },
             tools: {
                 background: Colors.darkWhite,
@@ -67,13 +72,15 @@ export default class Comment extends React.Component {
         if (this.state.tools)
             tools = (
                 <div style={styles.tools}>
-                    <IconButton iconClassName="material-icons" iconStyle={styles.remove} onClick={this.remove}>delete</IconButton>
+                    <IconButton iconClassName="material-icons" iconStyle={styles.remove}
+                                onClick={this.remove}>delete</IconButton>
                 </div>
             );
 
         return (
             <div style={styles.comment} onMouseEnter={this.enter} onMouseLeave={this.leave}>
                 <Avatar name={comment.user.name} style={styles.avatar}/>
+
                 <div style={styles.text}>
                     <span style={styles.name}>{comment.user.name}</span>
                     &nbsp;{comment.text}
@@ -83,3 +90,5 @@ export default class Comment extends React.Component {
         );
     }
 }
+
+export default Comment;
