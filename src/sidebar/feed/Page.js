@@ -1,6 +1,5 @@
 import React from 'react';
 import Radium from 'radium';
-import HBox from '../ui/HBox';
 import Clip from './Clip';
 import Colors from 'material-ui/lib/styles/colors';
 import Theme from '../Theme';
@@ -22,7 +21,9 @@ import Theme from '../Theme';
                 borderTop: '1px solid ' + Colors.grey300
             },
             header: {
-                marginBottom: 10
+                marginBottom: 10,
+                display: 'flex',
+                alignItems: 'center'
             },
             icon: {
                 width: 16,
@@ -58,10 +59,10 @@ import Theme from '../Theme';
 
         return (
             <div style={styles.page}>
-                <HBox style={styles.header}>
+                <div style={styles.header}>
                     <img src={page.favIconUrl} style={styles.icon}/>
                     <a href={page.url} target="_blank" style={styles.title}>{page.title}</a>
-                </HBox>
+                </div>
                 {page.clips.map((clip, index) => {
                     let clipE = <Clip clip={clip} key={index}/>;
 
