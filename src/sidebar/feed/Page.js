@@ -17,8 +17,7 @@ import Theme from '../Theme';
             page: {
                 display: 'flex',
                 flexDirection: 'column',
-                padding: '10px 10px 12px 10px',
-                borderTop: '1px solid ' + Colors.grey300
+                padding: '10px 10px 12px 10px'
             },
             header: {
                 marginBottom: 10,
@@ -67,7 +66,7 @@ import Theme from '../Theme';
                     let clipE = <Clip clip={clip} key={index}/>;
 
                     if (index > 0) {
-                        var prev = page.clips[index - 1];
+                        let prev = page.clips[index - 1];
 
                         if (!prev.comments && !prev.likes)
                             return [sep1, clipE];

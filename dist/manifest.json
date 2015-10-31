@@ -41,6 +41,16 @@
     "contextMenus",
     "webNavigation",
     "webRequest",
-    "downloads"
-  ]
+    "downloads",
+    "identity",
+    "https://accounts.google.com/*",
+    "https://www.googleapis.com/*"
+  ],
+  "oauth2": {
+    "client_id": "845684901574-p8j67pm2h7l30qb1esii9ultirs1cm54.apps.googleusercontent.com",
+    "scopes": [
+      "profile"
+    ]
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkvRR+4gWrpZx2wZfulvB7OkYti5v5RRKeLVU1i7wunlkFqhamZfNqiy1sbjIzuX5GkC/KqJ80aoNnG6sPpjK69EvU8X5J5zkk0qjOG/MY0Cvjhd1oVkFTXk6WJSklwAVniv5/jOCE1pRoVZBBqr3z8Yc6oKqg2JoW7ADK0mTpX7oydZFQF7qvni71ykv2NQ0TBa+3LOTrbzkw+3hD9uM79j+nCMhdKDxYg5TiJEpaDaD5OtpSkjhJumIytk04+9+5yCjDY5TEX9NZhZCMp88ekvrJeocjgRBsvX2wdYUFPYLYN/9VeMZ9gw4Ru0S3OihgOxpNbrYdkXrzBejsprA3QIDAQAB"
 }

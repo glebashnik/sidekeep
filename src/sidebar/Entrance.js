@@ -13,6 +13,12 @@ class Entrance extends React.Component {
         feed: React.PropTypes.object.isRequired
     };
 
+    defaultProps = {
+        user: {
+            name: ''
+        }
+    };
+
     changeUserName = (event) => {
         Actions.changeUserName(event.target.value);
     };

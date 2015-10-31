@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import Router from '../shared/Router'
 import UIStore from '../shared/stores/UIStore'
+import Actions from '../shared/Actions'
 
 Router.initContent();
 UIStore.initContent();
@@ -21,6 +22,7 @@ $(iframe).css({
 });
 
 UIStore.addChangeListener(() => {
+    console.log(UIStore.state);
     $(iframe).css({
         display: UIStore.state.sidebarVisible ? 'block' : 'none'
     });
