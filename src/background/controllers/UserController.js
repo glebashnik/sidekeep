@@ -5,45 +5,33 @@ import Firebase from '../Firebase';
 let _userRef;
 let _user;
 
-function getGoogleToken() {
-    return new Promise((resolve, reject) => {
+Firebase.onAuth(auth => {
+    if (auth) {
+        _userRef = Firebase.child('users/' + auth.uid);
+
+        _user = {
+            uid: auth.uid,
+            name: auth.google.displayName,
+            image: auth.google.profileImageURL
+        };
+
+        _userRef.set(_user);
+        UserStore.setState(_user);
+    }
+    else {
         chrome.identity.getAuthToken({interactive: true}, token => {
             if (token)
-                resolve(token);
-            else
-                reject(chrome.runtime.lastError);
-        })
-    })
-}
-
-function getFirebaseAuth(token) {
-    return new Promise((resolve, reject) => {
-        Firebase.onAuth(auth => {
-            if (auth)
-                resolve(auth);
-            else
                 Firebase.authWithOAuthToken('google', token, error => {
-                    if (error)
-                        reject(error);
+                    if (error) {
+                        console.log(error);
+                    }
                 });
+            else {
+                console.log(chrome.runtime.lastError)
+            }
         });
-    });
-}
-
-function initUser(auth) {
-    _userRef = Firebase.child('users/' + auth.uid);
-
-    _user = {
-        uid: auth.uid,
-        name: auth.google.displayName,
-        image: auth.google.profileImageURL
-    };
-
-    _userRef.set(_user);
-    UserStore.setState(_user);
-}
-
-getGoogleToken().then(getFirebaseAuth).then(initUser);
+    }
+});
 
 export default Dispatcher.register(function (action) {
 
