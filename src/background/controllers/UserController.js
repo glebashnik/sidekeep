@@ -18,19 +18,16 @@ Firebase.onAuth(auth => {
         _userRef.set(_user);
         UserStore.setState(_user);
     }
-    else {
+    else
         chrome.identity.getAuthToken({interactive: true}, token => {
             if (token)
                 Firebase.authWithOAuthToken('google', token, error => {
-                    if (error) {
+                    if (error)
                         console.log(error);
-                    }
                 });
-            else {
+            else
                 console.log(chrome.runtime.lastError)
-            }
         });
-    }
 });
 
 export default Dispatcher.register(function (action) {
