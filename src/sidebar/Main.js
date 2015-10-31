@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Router from '../shared/Router';
 import UserStore from '../shared/stores/UserStore';
 import FeedStore from '../shared/stores/FeedStore';
@@ -8,4 +9,4 @@ Router.initContent();
 UserStore.initContent();
 FeedStore.initContent();
 
-React.render(<Sidebar/>, document.getElementById('react'));
+ReactDOM.render(<Sidebar/>, document.getElementById('react'));

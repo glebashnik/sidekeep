@@ -3,71 +3,69 @@ import * as UrlHelper from '../shared/helpers/UrlHelper'
 
 let traces = {};
 
-export function init() {
-    // Fired when visiting a new page
-    chrome.webNavigation.onCommitted.addListener(details => {
-        // Ignore subframes unless the user navigated within one manually
-        if (details.transitionType == 'auto_subframe')
-            return;
+// Fired when visiting a new page
+chrome.webNavigation.onCommitted.addListener(details => {
+    // Ignore subframes unless the user navigated within one manually
+    if (details.transitionType == 'auto_subframe')
+        return;
+
+    addEvent(details.tabId, {
+        type: details.transitionType,
+        qualifiers: details.transitionQualifiers,
+        timestamp: details.timeStamp,
+        url: details.url
+    });
+});
+
+//todo It doesn't seem to fire at all.
+// Fired when any HTTP request is made (used to detect AJAX searches)
+chrome.webRequest.onSendHeaders.addListener(details => {
+        if (details.method != 'GET' || !UrlHelper.isSearch(details.url)) return;
 
         addEvent(details.tabId, {
-            type: details.transitionType,
-            qualifiers: details.transitionQualifiers,
+            type: 'ajax',
+            qualifiers: [],
             timestamp: details.timeStamp,
             url: details.url
         });
-    });
+    },
+    {urls: ['<all_urls>'], types: ['xmlhttprequest']});
 
-    //todo It doesn't seem to fire at all.
-    // Fired when any HTTP request is made (used to detect AJAX searches)
-    chrome.webRequest.onSendHeaders.addListener(details => {
-            if (details.method != 'GET' || !UrlHelper.isSearch(details.url)) return;
+// Fired when using "Open in new Tab/Window"
+chrome.webNavigation.onCreatedNavigationTarget.addListener(details => {
+    // Continue trace from original tab
+    traces[details.tabId] = (traces[details.sourceTabId] || []).slice(0);
+});
 
-            addEvent(details.tabId, {
-                type: 'ajax',
-                qualifiers: [],
-                timestamp: details.timeStamp,
-                url: details.url
-            });
-        },
-        {urls: ['<all_urls>'], types: ['xmlhttprequest']});
+//chrome.webRequest.onCompleted.addListener(details => {
+//        if (details.method != 'GET' || !UrlHelper.isSearch(details.url)) return;
+//
+//        addEvent(details.tabId, {
+//            type: 'ajax',
+//            qualifiers: [],
+//            timestamp: details.timeStamp,
+//            url: details.url
+//        });
+//    },
+//    {urls: ['<all_urls>'], types: ['xmlhttprequest']});
 
-    // Fired when using "Open in new Tab/Window"
-    chrome.webNavigation.onCreatedNavigationTarget.addListener(details => {
-        // Continue trace from original tab
-        traces[details.tabId] = (traces[details.sourceTabId] || []).slice(0);
-    });
+// Fired when using "Open in new Tab/Window"
+chrome.webNavigation.onCreatedNavigationTarget.addListener(details => {
+    // Continue trace from original tab
+    traces[details.tabId] = (traces[details.sourceTabId] || []).slice(0);
+});
 
-    //chrome.webRequest.onCompleted.addListener(details => {
-    //        if (details.method != 'GET' || !UrlHelper.isSearch(details.url)) return;
-    //
-    //        addEvent(details.tabId, {
-    //            type: 'ajax',
-    //            qualifiers: [],
-    //            timestamp: details.timeStamp,
-    //            url: details.url
-    //        });
-    //    },
-    //    {urls: ['<all_urls>'], types: ['xmlhttprequest']});
+//Add title when tab loading completed
+chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
+    let trace = traces[tabId] || [];
 
-    // Fired when using "Open in new Tab/Window"
-    chrome.webNavigation.onCreatedNavigationTarget.addListener(details => {
-        // Continue trace from original tab
-        traces[details.tabId] = (traces[details.sourceTabId] || []).slice(0);
-    });
-
-    //Add title when tab loading completed
-    chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
-        let trace = traces[tabId] || [];
-
-        if (info.status === "complete" && !_.isEmpty[trace] && tab !== undefined && trace.length > 0) {
-            let last = _.last(trace);
-            last.title = tab.title;
-            last.url = tab.url;
-            last.favIconUrl = tab.favIconUrl;
-        }
-    });
-}
+    if (info.status === "complete" && !_.isEmpty[trace] && tab !== undefined && trace.length > 0) {
+        let last = _.last(trace);
+        last.title = tab.title;
+        last.url = tab.url;
+        last.favIconUrl = tab.favIconUrl;
+    }
+});
 
 export function getTrace(tabId) {
     return traces[tabId] || [];

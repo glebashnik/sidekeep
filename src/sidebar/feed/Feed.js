@@ -113,7 +113,7 @@ export default class Feed extends React.Component {
         return (
             <div style={styles.feed}>
                 <AppBar title={
-                            <div style={styles.title}>{this.props.feed.name.toUpperCase()}</div>
+                            <div style={styles.title}>{this.props.feed.name}</div>
                         }
                         iconElementLeft={
                             <IconButton

@@ -1,6 +1,13 @@
 import Router from './Router'
 
 export default {
+    login(token) {
+        Router.send({
+            type: 'LOGIN',
+            token: token
+        });
+    },
+
     toggleSidebar() {
         Router.send({
             type: 'TOGGLE_SIDEBAR'

@@ -34,8 +34,13 @@ import Radium from 'radium';
                 ':hover': {
                     textDecoration: 'underline'
                 }
+            },
+            sep: {
+                borderTop: '1px solid ' + Colors.grey300
             }
         };
+
+        let sep = <div style={styles.sep}/>;
 
         return (
             <VBox>
@@ -43,7 +48,7 @@ import Radium from 'radium';
                     <FontIcon className="material-icons" color={'#0066CC'}>search</FontIcon>
                     <span style={styles.query} href={search.url}>{search.query.toLowerCase()}</span>
                 </HBox>
-                {search.pages.map((page, index) => <Page page={page} key={index}/>)}
+                {search.pages.map((page, index) => [sep, <Page page={page} key={index}/>])}
             </VBox>
         );
     }

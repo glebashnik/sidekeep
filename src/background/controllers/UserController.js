@@ -1,21 +1,50 @@
 import UserStore from '../../shared/stores/UserStore';
 import Dispatcher from '../../shared/Dispatcher';
-import md5 from 'md5';
-import jdenticon from 'jdenticon';
+import Firebase from '../Firebase';
 
-let _name = '';
+let _userRef;
+let _user;
 
-function emit() {
-    UserStore.setState({
-        name: _name
+function getGoogleToken() {
+    return new Promise((resolve, reject) => {
+        chrome.identity.getAuthToken({interactive: true}, token => {
+            if (token)
+                resolve(token);
+            else
+                reject(chrome.runtime.lastError);
+        })
+    })
+}
+
+function getFirebaseAuth(token) {
+    return new Promise((resolve, reject) => {
+        Firebase.onAuth(auth => {
+            if (auth)
+                resolve(auth);
+            else
+                Firebase.authWithOAuthToken('google', token, error => {
+                    if (error)
+                        reject(error);
+                });
+        });
     });
 }
 
+function initUser(auth) {
+    _userRef = Firebase.child('users/' + auth.uid);
+
+    _user = {
+        uid: auth.uid,
+        name: auth.google.displayName,
+        image: auth.google.profileImageURL
+    };
+
+    _userRef.set(_user);
+    UserStore.setState(_user);
+}
+
+getGoogleToken().then(getFirebaseAuth).then(initUser);
+
 export default Dispatcher.register(function (action) {
-    switch (action.type) {
-        case 'CHANGE_USER_NAME':
-            _name = action.name;
-            emit();
-            break;
-    }
+
 });
