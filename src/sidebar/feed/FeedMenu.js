@@ -61,8 +61,7 @@ export default class FeedMenu extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.menu}>
-                    <ListItem disabled
-                              style={styles.headerItem}
+                    <ListItem disabled style={styles.headerItem}
                               primaryText={
                                 <div style={styles.headerPrimary}>
                                     <IconButton style={styles.add} onClick={this.addFeed}>
@@ -71,9 +70,7 @@ export default class FeedMenu extends React.Component {
                                     <TextField ref="nameField" hintText="Add a topic" onEnterKeyDown={this.addFeed}/>
                                 </div>}/>
                     {user.feeds.map((feed, index) =>
-                        <FeedItem key={index}
-                                  feed={feed}
-                                  isSelected={feed.id === user.selectedFeed}/>)}
+                        <FeedItem key={index} feed={feed} isSelected={feed.id === user.selectedFeed}/>)}
                 </div>
                 <Overlay style={{position: 'absolute'}} onClick={this.toggleFeedMenu} show/>
             </div>
