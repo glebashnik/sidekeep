@@ -1,6 +1,6 @@
 import React from 'react';
 import Theme from '../Theme'
-import Avatar from '../Avatar'
+import Avatar from 'material-ui/lib/avatar';
 import Radium from 'radium';
 
 @Radium class Like extends React.Component {
@@ -34,7 +34,7 @@ import Radium from 'radium';
 
         return (
             <div style={styles.like}>
-                <Avatar name={like.user.name}/>
+                <Avatar src={like.user.image}/>
                 <div style={styles.text}><span style={styles.name}>{like.user.name}</span>&nbsp;likes this</div>
             </div>
         );
