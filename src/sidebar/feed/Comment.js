@@ -2,7 +2,7 @@ import React from 'react';
 import Colors from 'material-ui/lib/styles/colors';
 import IconButton from 'material-ui/lib/icon-button';
 import Theme from '../Theme';
-import Avatar from '../Avatar';
+import Avatar from 'material-ui/lib/avatar';
 import Actions from '../../shared/Actions';
 import Radium from 'radium';
 
@@ -79,7 +79,7 @@ import Radium from 'radium';
 
         return (
             <div style={styles.comment} onMouseEnter={this.enter} onMouseLeave={this.leave}>
-                <Avatar name={comment.user.name} style={styles.avatar}/>
+                <Avatar src={comment.user.image}/>
 
                 <div style={styles.text}>
                     <span style={styles.name}>{comment.user.name}</span>

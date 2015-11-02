@@ -12,18 +12,18 @@ export default class Post extends React.Component {
     render() {
         let style = {
             margin: '10px 10px 0 10px',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12)',
-            borderRadius: 2
+            background: 'white',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.12)'
         };
 
         let post = this.props.post;
 
         return (
-            <Paper zDepth={1} style={style}>
+            <div style={style}>
                 {post.query === undefined
                     ? <Page page={post}/>
                     : <Search search={post}/>}
-            </Paper>
+            </div>
         );
     }
 }

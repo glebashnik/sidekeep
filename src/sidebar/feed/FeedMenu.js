@@ -16,8 +16,12 @@ export default class FeedMenu extends React.Component {
 
     addFeed = () => {
         const nameField = this.refs.nameField;
-        Actions.addFeed(nameField.getValue());
-        nameField.setValue('');
+        const name = nameField.getValue();
+
+        if (name) {
+            Actions.addFeed(name);
+            nameField.setValue('');
+        }
     };
 
     toggleFeedMenu = () => {
@@ -38,7 +42,6 @@ export default class FeedMenu extends React.Component {
                 width: '100%',
                 zIndex: 10,
                 background: 'white',
-                boxShadow: '0 3px 3px rgba(0, 0, 0, 0.23)',
                 maxHeight: '50%',
                 overflowY: 'auto'
             },
