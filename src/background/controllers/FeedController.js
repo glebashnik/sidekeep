@@ -2,7 +2,7 @@ import _ from 'lodash';
 import UserStore from '../../shared/stores/UserStore';
 import FeedStore from '../../shared/stores/FeedStore';
 import Dispatcher from '../../shared/Dispatcher';
-import Firebase from '../Firebase';
+import rootRef from '../Firebase';
 import * as UrlHelper from '../../shared/helpers/UrlHelper';
 import * as TraceHelper from '../../shared/helpers/TraceHelper';
 import * as Tracer from '../Tracer';
@@ -29,13 +29,13 @@ function changeName(name) {
     emit();
 }
 
-function enter() {
-    if (!_name || !UserStore.state.name)
+function selectFeed(feedId) {
+    if (!feedId)
         return;
 
-    _ref = Firebase.child('feeds/' + _name);
+    _ref = rootRef.child(`feeds/${feedId}/posts`);
 
-    _ref.on('value', (snap) => {
+    _ref.on('value', snap => {
         _posts = snap.val();
 
         if (_posts === null) {
@@ -43,6 +43,11 @@ function enter() {
             _ref.set([]);
         }
 
+        emit();
+    });
+
+    rootRef.child(`feeds/${feedId}/name`).on('value', snap => {
+        _name = snap.val();
         emit();
     });
 }
@@ -80,7 +85,7 @@ function addClip(props, tabId) {
     };
 
     let clip = _.assign({
-        user : UserStore.state
+        user: UserStore.state
     }, props);
 
     let posts = _posts;
@@ -189,7 +194,7 @@ function loadAssists() {
     if (!_name || !UserStore.state.name)
         return;
 
-    let ref = Firebase.child('assistant/' + _name);
+    let ref = rootRef.child('assistant/' + _name);
     ref.once('value', (snap) => {
         _assists = snap.val();
     });
@@ -211,8 +216,8 @@ export default Dispatcher.register(action => {
             changeName(action.name);
             break;
 
-        case 'ENTER_FEED':
-            enter();
+        case 'SELECT_FEED':
+            selectFeed(action.feedId);
             loadAssists();
             break;
 

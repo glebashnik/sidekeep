@@ -10,13 +10,20 @@ import CircularProgress from '../ui/CircularProgress';
 import WordIcon from '../ui/WordIcon';
 import PowerPointIcon from '../ui/PowerPointIcon';
 import Actions from '../../shared/Actions';
+import TextField from 'material-ui/lib/text-field';
+import FeedMenu from './FeedMenu';
+import GroupAdd from 'material-ui/lib/svg-icons/social/group-add';
+import ShareIcon from 'material-ui/lib/svg-icons/social/share';
+import copy from 'copy-to-clipboard'
 
 export default class Feed extends React.Component {
     state = {
-        assisting: false
+        assisting: false,
+        feedMenu: false
     };
 
     static propTypes = {
+        ui: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired,
         feed: React.PropTypes.object.isRequired
     };
@@ -47,6 +54,19 @@ export default class Feed extends React.Component {
             this.setState({assisting: false});
             Actions.assist();
         }, 3000);
+    };
+
+    toggleFeedMenu = () => {
+        Actions.toggleFeedMenu();
+    };
+
+    toggleShareMenu = () => {
+        Actions.toggleShareMenu();
+    };
+
+    copyLink = () => {
+        const feedId = encodeURIComponent(this.props.user.selectedFeed);
+        copy(`https://aftersearch.firebaseapp.com/join.html?feed=${feedId}`);
     };
 
     render() {
@@ -108,7 +128,15 @@ export default class Feed extends React.Component {
                                   innerStyle={styles.progress}/>
             );
 
-        //assistant = undefined;
+        assistant = undefined;
+
+        let feedMenu;
+        if (this.props.ui.feedMenu)
+            feedMenu = <FeedMenu user={this.props.user}/>;
+
+        let shareMenu;
+        if (this.props.ui.shareMenu)
+            feedMenu = <ShareMenu feed={this.props.feed}/>;
 
         return (
             <div style={styles.feed}>
@@ -118,32 +146,39 @@ export default class Feed extends React.Component {
                         iconElementLeft={
                             <IconButton
                                 iconClassName="material-icons"
-                                onClick={this.close}
+                                onClick={this.toggleFeedMenu}
                                 touch={true}
                                 tooltipPosition="bottom-right"
-                                tooltip="Hide">
-                                chevron_right
+                                tooltip="Topics">
+                                folder_open
                             </IconButton>
                         }
                         iconElementRight={
                             <div style={styles.right}>
-                            {assistant}
-                            <IconMenu
-                                ref="menu"
-                                iconButtonElement={
-                                    <IconButton
-                                        iconClassName="material-icons"
-                                        iconStyle={styles.icon}>
-                                        more_vert
-                                    </IconButton>
-                                }>
-                                <MenuItem primaryText="Export to Word" onClick={this.exportToDocx} style={styles.menuItem} leftIcon={<WordIcon/>}/>
-                                <MenuItem primaryText="Export to PowerPoint" onClick={this.exportToPptx} style={styles.menuItem} leftIcon={<PowerPointIcon/>}/>
-                                <MenuItem primaryText="Exit Feed" onClick={this.exit} style={styles.menuItem} leftIcon={<FontIcon className="material-icons">exit_to_app</FontIcon>}/>
-                            </IconMenu>
+                                {assistant}
+                                 <IconButton
+                                    onClick={this.copyLink}
+                                    touch={true}
+                                    tooltipPosition="bottom-center"
+                                    tooltip="Copy Link">
+                                    <ShareIcon color="white"/>
+                                </IconButton>
+                                <IconMenu
+                                    ref="menu"
+                                    iconButtonElement={
+                                        <IconButton
+                                            iconClassName="material-icons"
+                                            iconStyle={styles.icon}>
+                                            more_vert
+                                        </IconButton>
+                                    }>
+                                    <MenuItem primaryText="Export to Word" onClick={this.exportToDocx} style={styles.menuItem} leftIcon={<WordIcon/>}/>
+                                    <MenuItem primaryText="Export to PowerPoint" onClick={this.exportToPptx} style={styles.menuItem} leftIcon={<PowerPointIcon/>}/>
+                                    <MenuItem primaryText="Exit Feed" onClick={this.exit} style={styles.menuItem} leftIcon={<FontIcon className="material-icons">exit_to_app</FontIcon>}/>
+                                </IconMenu>
                             </div>
                         }/>
-
+                {feedMenu}
                 <div style={styles.posts}>
                     {this.props.feed.posts.map((post, index) => <Post post={post} key={index}/>)}
                 </div>

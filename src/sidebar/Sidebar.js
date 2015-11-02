@@ -3,6 +3,7 @@ import Feed from './feed/Feed'
 import Entrance from './Entrance'
 import UserStore from '../shared/stores/UserStore'
 import FeedStore from '../shared/stores/FeedStore'
+import UIStore from '../shared/stores/UIStore'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
@@ -14,6 +15,7 @@ injectTapEventPlugin();
 
 function getStateFromStores() {
     return {
+        ui: UIStore.state,
         user: UserStore.state,
         feed: FeedStore.state
     }
@@ -28,11 +30,13 @@ class Sidebar extends React.Component {
     };
 
     componentDidMount() {
+        UIStore.addChangeListener(this.onChange);
         UserStore.addChangeListener(this.onChange);
         FeedStore.addChangeListener(this.onChange);
     }
 
     componentWillUnmount() {
+        UIStore.removeChangeListener(this.onChange);
         UserStore.removeChangeListener(this.onChange);
         FeedStore.removeChangeListener(this.onChange);
     }
@@ -44,11 +48,7 @@ class Sidebar extends React.Component {
             background: '#F1F1F1'
         };
 
-        let main = this.state.feed.inside ?
-            <Feed user={this.state.user} feed={this.state.feed}/> :
-            <Entrance user={this.state.user} feed={this.state.feed}/>;
-
-        return <div style={style}>{main}</div>;
+        return <div style={style}><Feed ui={this.state.ui} user={this.state.user} feed={this.state.feed}/></div>;
     }
 }
 
