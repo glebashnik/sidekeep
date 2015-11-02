@@ -1,6 +1,6 @@
 {
   "name": "Aftersearch",
-  "version": "0.0.9.4",
+  "version": "0.0.9.5",
   "manifest_version": 2,
   "description": "Aftersearch - searching and collecting information together.",
   "homepage_url": "https://github.com/firebase/firebase-chrome-extension",
@@ -42,9 +42,7 @@
     "webNavigation",
     "webRequest",
     "downloads",
-    "identity",
-    "https://accounts.google.com/*",
-    "https://www.googleapis.com/*"
+    "identity"
   ],
   "oauth2": {
     "client_id": "845684901574-p8j67pm2h7l30qb1esii9ultirs1cm54.apps.googleusercontent.com",

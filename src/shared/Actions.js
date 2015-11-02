@@ -101,5 +101,38 @@ export default {
         Router.send({
             type: 'EXPORT_TO_PPTX'
         });
+    },
+
+    joinFeed(feedId) {
+        Router.send({
+            type: 'JOIN_FEED',
+            feedId: feedId
+        })
+    },
+
+    addFeed(name) {
+        Router.send({
+            type: 'ADD_FEED',
+            name: name
+        })
+    },
+
+    selectFeed(feedId) {
+        Router.send({
+            type: 'SELECT_FEED',
+            feedId: feedId
+        })
+    },
+
+    toggleFeedMenu() {
+        Router.send({
+            type: 'TOGGLE_FEED_MENU'
+        })
+    },
+
+    toggleShareMenu() {
+        Router.send({
+            type: 'TOGGLE_SHARE_MENU'
+        })
     }
 }

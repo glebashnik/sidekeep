@@ -12,7 +12,8 @@
     "firebase": "*",
     "md5": "*",
     "jdenticon": "*",
-    "query-string": "*"
+    "query-string": "*",
+    "copy-to-clipboard": "*"
   },
   "devDependencies": {
     "babelify": "6.4.0",
