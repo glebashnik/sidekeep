@@ -14,7 +14,8 @@ import TextField from 'material-ui/lib/text-field';
 import FeedMenu from './FeedMenu';
 import GroupAdd from 'material-ui/lib/svg-icons/social/group-add';
 import ShareIcon from 'material-ui/lib/svg-icons/social/share';
-import copy from 'copy-to-clipboard'
+import copy from 'copy-to-clipboard';
+import Snackbar from 'material-ui/lib/snackbar';
 
 export default class Feed extends React.Component {
     state = {
