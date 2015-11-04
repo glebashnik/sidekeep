@@ -2,28 +2,46 @@ import _ from 'lodash';
 import $ from 'jquery';
 import UserStore from '../../shared/stores/UserStore';
 import Dispatcher from '../../shared/Dispatcher';
-import rootRef from '../Firebase';
+import _rootRef from '../Firebase';
 import Actions from '../../shared/Actions';
 
+const _feedsRef = _rootRef.child('feeds');
+const _usersRef = _rootRef.child('users');
 let _user = null;
 
 class Feed {
-    constructor(snap) {
-        this.id = snap.key();
+    constructor(id) {
+        this.id = id;
         this.name = null;
-        this.nameRef = rootRef.child('feeds').child(this.id + '/name');
-
         this.deferred = $.Deferred();
-        this.nameRef.on('value', this.updateName, this);
+
+        this.ref = _feedsRef.child(id);
+        this.nameRef = this.ref.child('name');
+        this.usersRef = this.ref.child('users');
+
+        this.nameRef.on('value', this._nameChanged, this);
     }
 
-    updateName(snap) {
+    off() {
+        this.nameRef.off('value', this._nameChanged, this);
+    }
+
+    static create(name) {
+        const feedRef = _feedsRef.push({name: name});
+        return new Feed(feedRef.key());
+    }
+
+    _nameChanged(snap) {
         this.name = snap.val();
-        this.deferred.resolve(this);
+        this.deferred.resolve();
     }
 
-    remove() {
-        this.nameRef.off('value', this.updateName, this);
+    addUser(userId) {
+        this.usersRef.child(userId).set(true);
+    }
+
+    removeUser(userId) {
+        this.usersRef.child(userId).set(null);
     }
 
     ready() {
@@ -34,84 +52,78 @@ class Feed {
 class User {
     constructor(auth) {
         this.id = auth.uid;
-        this.deferred = $.Deferred();
-        this.name = auth.google.displayName;
-        this.image = auth.google.profileImageURL;
-        this.selectedFeed = null;
-        this.feeds = {};
-
-        this.ref = rootRef.child('users/' + this.id);
-
+        this.ref = _usersRef.child(this.id);
         this.ref.update({
-            name: this.name,
-            image: this.image
+            name: auth.google.displayName,
+            image: auth.google.profileImageURL
         });
+        this.ref.on('value', this._changed, this);
 
-        this.ref.child('selectedFeed').on('value', this._selectedFeedChanged, this);
-        //this.ref.on('value', this.updated, this);
-        this.ref.child('feeds').on('child_added', this._addedFeed, this);
-        this.ref.child('feeds').on('child_removed', this._removedFeed, this);
+        this.feeds = {};
+        this.feedsRef = this.ref.child('feeds');
+        this.feedsRef.on('child_added', this._feedAdded, this);
+        this.feedsRef.on('child_removed', this._feedRemoved, this);
     }
 
-    _selectedFeedChanged(snap) {
-        this.selectedFeed = snap.val();
+    off() {
+        this.ref.on('value', this._changed, this);
+        this.feedsRef.off('child_added', this._feedAdded, this);
+        this.feedsRef.off('child_removed', this._feedRemoved, this);
+    }
+
+    _changed(snap) {
+        const user = snap.val();
+        this.name = user.name;
+        this.image = user.image;
+        this.selectedFeed = user.selectedFeed;
         emit();
     }
 
-    //updated(snap) {
-    //    const user = snap.val();
-    //
-    //    if (user) {
-    //        this.name = user.name;
-    //        this.image = user.image;
-    //        this.deferred.resolve(this);
-    //    }
-    //}
-
-    _addedFeed(snap) {
-        const feed = new Feed(snap);
+    _feedAdded(snap) {
+        const feed = new Feed(snap.key());
+        feed.addUser(this.id);
         this.feeds[feed.id] = feed;
-        feed.ready().then(emit);
+        feed.ready().done(emit);
     }
 
-    _removedFeed(snap) {
-        this.feeds[snap.key()].remove();
+
+    _feedRemoved(snap) {
+        const feed = this.feeds[snap.key()];
+        feed.off();
+        feed.removeUser(this.id);
+        delete this.feeds[feed.id];
+        feed.ready().done(emit);
     }
 
-    removeFeed(id) {
-        this.ref.child('feeds').child(id).remove();
+    createFeed(feedName) {
+        const feed = Feed.create(feedName);
+        this.addFeed(feed.id);
     }
 
-    ready() {
-        return this.deferred.promise();
-    };
+    addFeed(feedId) {
+        this.feedsRef.child(feedId).set(true);
+    }
+
+    removeFeed(feedId) {
+        this.feedsRef.child(feedId).set(null);
+    }
+
+    selectFeed(feedId) {
+        this.ref.child('selectedFeed').set(feedId);
+    }
 }
 
-function addFeed(feedName, userId) {
-    const feedRef = rootRef.child('feeds').push({name: feedName});
-    feedRef.child(`users/${userId}`).set(true);
-    const feedId = feedRef.key();
-    rootRef.child(`users/${userId}/feeds/${feedId}`).set(true);
-}
 
-function joinFeed(feedId, userId) {
-    rootRef.child(`feeds/${feedId}/users/${userId}`).set(true);
-    rootRef.child(`users/${userId}/feeds/${feedId}`).set(true);
-}
-
-function selectFeed(feedId, userId) {
-    rootRef.child(`users/${userId}/selectedFeed`).set(feedId);
-}
-
-rootRef.onAuth(auth => {
+_rootRef.onAuth(auth => {
     if (auth) {
+        if (_user)
+            _user.off();
         _user = new User(auth);
-        _user.ready().then(emit);
     }
     else
         chrome.identity.getAuthToken({interactive: true}, token => {
             if (token)
-                rootRef.authWithOAuthToken('google', token, error => {
+                _rootRef.authWithOAuthToken('google', token, error => {
                     if (error)
                         console.log(error);
                 });
@@ -126,23 +138,23 @@ function emit() {
         name: _user.name,
         image: _user.image,
         selectedFeed: _user.selectedFeed,
-        feeds: _.map(_user.feeds, f => ({id: f.id, name: f.name}))
+        feeds: _.map(_user.feeds, feed => ({id: feed.id, name: feed.name}))
     });
 }
 
 export default Dispatcher.register((action) => {
     switch (action.type) {
         case 'JOIN_FEED':
-            joinFeed(action.feedId, _user.id);
+            _user.addFeed(action.feedId);
             chrome.tabs.remove(action.tabId);
             break;
 
         case 'ADD_FEED':
-            addFeed(action.name, _user.id);
+            _user.createFeed(action.name);
             break;
 
         case 'SELECT_FEED':
-            selectFeed(action.feedId, _user.id);
+            _user.selectFeed(action.feedId);
             break;
     }
 });

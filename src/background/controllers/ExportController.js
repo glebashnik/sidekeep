@@ -2,10 +2,8 @@ import Dispatcher from '../../shared/Dispatcher';
 import Firebase from '../Firebase';
 import FeedStore from '../../shared/stores/FeedStore';
 
-var tasksRef = Firebase.child('/queue/tasks');
-
-//var url = 'http://localhost:9000';
 var url = 'https://aftersearchexport.dotcloudapp.com';
+//var url = 'http://localhost:9000';
 
 function exportToDocx() {
     chrome.downloads.download({
