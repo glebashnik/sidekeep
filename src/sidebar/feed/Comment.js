@@ -79,7 +79,7 @@ import Radium from 'radium';
 
         return (
             <div style={styles.comment} onMouseEnter={this.enter} onMouseLeave={this.leave}>
-                <Avatar src={comment.user.image}/>
+                <Avatar style={styles.avatar} src={comment.user.image}/>
 
                 <div style={styles.text}>
                     <span style={styles.name}>{comment.user.name}</span>
