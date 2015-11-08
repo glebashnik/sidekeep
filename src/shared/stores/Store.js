@@ -45,6 +45,11 @@ export default class Store {
         this.emit();
     }
 
+    emitState(state) {
+        this.state = state;
+        this.emit();
+    }
+
     emit() {
         if (this.callbacks)
             this.callbacks.forEach(c => c());

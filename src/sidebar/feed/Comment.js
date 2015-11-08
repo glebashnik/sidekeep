@@ -24,7 +24,7 @@ import Radium from 'radium';
     };
 
     remove = () => {
-        Actions.removeComment(this.props.comment);
+        Actions.removePost(this.props.comment.id);
     };
 
     render() {

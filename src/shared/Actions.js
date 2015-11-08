@@ -82,39 +82,18 @@ export default {
         });
     },
 
-    removeClip(clip) {
+    comment(postId, commentText) {
         Router.send({
-            type: 'REMOVE_CLIP',
-            clip: clip
+            type: 'COMMENT',
+            postId: postId,
+            commentText: commentText
         });
     },
 
-    likeClip(clip) {
+    removePost(postId) {
         Router.send({
-            type: 'LIKE_CLIP',
-            clip: clip
-        });
-    },
-
-    removeLike(clip) {
-        Router.send({
-            type: 'LIKE_CLIP',
-            clip: clip
-        });
-    },
-
-    commentClip(clip, comment) {
-        Router.send({
-            type: 'COMMENT_CLIP',
-            clip: clip,
-            comment: comment
-        });
-    },
-
-    removeComment(comment) {
-        Router.send({
-            type: 'REMOVE_COMMENT',
-            comment: comment
+            type: 'REMOVE_POST',
+            postId: postId
         });
     }
 }

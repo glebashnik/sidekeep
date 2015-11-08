@@ -4,8 +4,8 @@ import Dispatcher from '../../shared/Dispatcher';
 import Firebase from '../Firebase';
 import UserStore from '../../shared/stores/UserStore';
 
-const _usersRef = Firebase.child('users');
-const _feedsRef = Firebase.child('feeds');
+const USERS_REF = Firebase.child('users');
+const FEEDS_REF = Firebase.child('feeds');
 
 let _userRef = null;
 let _userFeedsRef = null;
@@ -18,7 +18,7 @@ function login(user) {
         _userFeedsRef.off('child_removed', _feedRemoved);
     }
 
-    _userRef = _usersRef.child(user.id);
+    _userRef = USERS_REF.child(user.id);
     _userFeedsRef = _userRef.child('feeds');
 
     _userRef.update({
@@ -47,19 +47,19 @@ function _feedAdded(snap) {
     const feedId = snap.key();
     _userFeedsDef[feedId] = $.Deferred();
 
-    const feedRef = _feedsRef.child(feedId);
+    const feedRef = FEEDS_REF.child(feedId);
     feedRef.on('value', _feedUpdated);
 }
 
 function _feedRemoved(snap) {
     const feedId = snap.key();
-    const feedRef = _feedsRef.child(feedId);
+    const feedRef = FEEDS_REF.child(feedId);
     feedRef.off('value', _feedUpdated);
 
     delete _userFeedsDef[feedId];
     delete UserStore.state.feeds[feedId];
 
-    UserStore.emitChange();
+    UserStore.emit();
 }
 
 function _feedUpdated(snap) {
@@ -80,12 +80,12 @@ function _feedUpdated(snap) {
 }
 
 function createFeed(feedName) {
-    const feedRef = _feedsRef.push({name: feedName, users: {_userId: true}});
+    const feedRef = FEEDS_REF.push({name: feedName, users: {_userId: true}});
     joinFeed(feedRef.key());
 }
 
 function renameFeed(feedId, feedName) {
-    _feedsRef.child(feedId).update({name: feedName});
+    FEEDS_REF.child(feedId).update({name: feedName});
 }
 
 function joinFeed(feedId) {

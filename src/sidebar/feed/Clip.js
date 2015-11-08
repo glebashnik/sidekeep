@@ -7,7 +7,6 @@ import TextField from 'material-ui/lib/text-field';
 
 import Snippet from '../ui/Snippet';
 import Actions from '../../shared/Actions';
-import Like from './Like';
 import Comment from './Comment';
 import Theme from '../Theme';
 import Radium from 'radium';
@@ -30,16 +29,12 @@ export default class Clip extends React.Component {
         this.setState({tools: false});
     };
 
-    likeClip = () => {
-        FeedActions.likeClip(this.props.clip);
-    };
-
     startComment = () => {
         this.setState({comment: true});
     };
 
     acceptComment = (event) => {
-        FeedActions.commentClip(this.props.clip, event.target.value);
+        Actions.comment(this.props.clip.id, event.target.value);
         this.setState({comment: false});
     };
 
@@ -48,7 +43,7 @@ export default class Clip extends React.Component {
     };
 
     removeClip = () => {
-        FeedActions.removeClip(this.props.clip);
+        Actions.removePost(this.props.clip.id);
     };
 
     render() {
@@ -91,7 +86,6 @@ export default class Clip extends React.Component {
         if (this.state.tools)
             tools = (
                 <div style={styles.tools}>
-                    <IconButton iconClassName="material-icons" iconStyle={styles.icon} onClick={this.likeClip}>favorite</IconButton>
                     <IconButton iconClassName="material-icons" iconStyle={styles.icon} onClick={this.startComment}>comment</IconButton>
                     <IconButton iconClassName="material-icons" style={styles.remove} iconStyle={styles.icon} onClick={this.removeClip}>delete</IconButton>
                 </div>);
@@ -106,18 +100,10 @@ export default class Clip extends React.Component {
             );
 
         let comments;
-        if (clip.comments)
+        if (clip.children)
             comments = (
                 <div>
-                    {clip.comments.map((comment, index) => <Comment comment={comment} key={index}/>)}
-                </div>
-            );
-
-        let likes;
-        if (clip.likes)
-            likes = (
-                <div>
-                    {clip.likes.map((like, index) => <Like like={like} key={index}/>)}
+                    {clip.children.map((comment, index) => <Comment comment={comment} key={index}/>)}
                 </div>
             );
 
@@ -129,7 +115,6 @@ export default class Clip extends React.Component {
                 </div>
                 {comment}
                 {comments}
-                {likes}
             </div>
         );
     }
