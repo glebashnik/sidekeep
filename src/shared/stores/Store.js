@@ -12,7 +12,7 @@ export default class Store {
 
         this.port.onMessage.addListener(state => {
             this.state = state;
-            this.emitChange();
+            this.emit();
         });
 
         this.port.postMessage({});
@@ -36,12 +36,16 @@ export default class Store {
         });
     }
 
-    setState(state) {
+    update(state) {
         _.assign(this.state, state);
-        this.emitChange();
     }
 
-    emitChange() {
+    emitUpdate(state) {
+        this.update(state);
+        this.emit();
+    }
+
+    emit() {
         if (this.callbacks)
             this.callbacks.forEach(c => c());
 
@@ -49,12 +53,12 @@ export default class Store {
             this.ports.forEach(p => p.postMessage(this.state));
     }
 
-    addChangeListener(callback) {
+    addListener(callback) {
         this.callbacks.push(callback);
         callback();
     }
 
-    removeChangeListener(callback) {
+    removeListener(callback) {
         _.pull(this.callbacks, callback);
     }
 }

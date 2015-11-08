@@ -2,7 +2,7 @@ import _ from 'lodash';
 import UserStore from '../../shared/stores/UserStore';
 import FeedStore from '../../shared/stores/FeedStore';
 import Dispatcher from '../../shared/Dispatcher';
-import rootRef from '../Firebase';
+import Firebase from '../Firebase';
 import * as UrlHelper from '../../shared/helpers/UrlHelper';
 import * as TraceHelper from '../../shared/helpers/TraceHelper';
 import * as Tracer from '../Tracer';
@@ -17,23 +17,18 @@ function commit() {
 }
 
 function emit() {
-    FeedStore.setState({
+    FeedStore.emitUpdate({
         name: _name,
         posts: _posts,
         inside: _ref !== null
     });
 }
 
-function changeName(name) {
-    _name = name;
-    emit();
-}
-
 function selectFeed(feedId) {
     if (!feedId)
         return;
 
-    _ref = rootRef.child(`feeds/${feedId}/posts`);
+    _ref = Firebase.child(`feeds/${feedId}/posts`);
 
     _ref.on('value', snap => {
         _posts = snap.val();
@@ -46,19 +41,10 @@ function selectFeed(feedId) {
         emit();
     });
 
-    rootRef.child(`feeds/${feedId}/name`).on('value', snap => {
+    Firebase.child(`feeds/${feedId}/name`).on('value', snap => {
         _name = snap.val();
         emit();
     });
-}
-
-function exit() {
-    if (_ref !== null) {
-        _ref.off();
-        _ref = null;
-        _posts = [];
-        emit();
-    }
 }
 
 function addClip(props, tabId) {
@@ -194,7 +180,7 @@ function loadAssists() {
     if (!_name || !UserStore.state.name)
         return;
 
-    let ref = rootRef.child('assistant/' + _name);
+    let ref = Firebase.child('assistant/' + _name);
     ref.once('value', (snap) => {
         _assists = snap.val();
     });
@@ -209,20 +195,30 @@ function assist() {
     emit();
 }
 
+let _selFeedRef = null;
+
+function login(user) {
+    if (_selFeedRef)
+        _selFeedRef.off('value', _selFeedUpdated);
+
+    _selFeedRef = Firebase.child('users/' + user.id + '/selectedFeed');
+
+    _selFeedRef.on('value', _selFeedUpdated);
+}
+
+function _selFeedUpdated(snap) {
+    selectFeed(snap.val());
+}
 
 export default Dispatcher.register(action => {
     switch (action.type) {
-        case 'CHANGE_FEED_NAME':
-            changeName(action.name);
+        case 'LOGIN':
+            login(action.user);
             break;
 
         case 'SELECT_FEED':
             selectFeed(action.feedId);
             loadAssists();
-            break;
-
-        case 'EXIT_FEED':
-            exit();
             break;
 
         case 'CLIP_TEXT':

@@ -2,15 +2,15 @@ import UIStore from '../../shared/stores/UIStore';
 import Dispatcher from '../../shared/Dispatcher';
 
 function toggleSidebar() {
-    UIStore.setState({sidebar: !UIStore.state.sidebar});
+    UIStore.emitUpdate({sidebar: !UIStore.state.sidebar});
 }
 
 function toggleFeedMenu() {
-    UIStore.setState({feedMenu: !UIStore.state.feedMenu});
+    UIStore.emitUpdate({feedMenu: !UIStore.state.feedMenu});
 }
 
 function toggleShareMenu() {
-    UIStore.setState({shareMenu: !UIStore.state.shareMenu});
+    UIStore.emitUpdate({shareMenu: !UIStore.state.shareMenu});
 }
 
 chrome.browserAction.onClicked.addListener(() => {

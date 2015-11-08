@@ -14,7 +14,7 @@ if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0)
         feedId = $('#feed').text();
 
         if(feedId != '') {
-            Actions.joinFeed(feedId);
+            FeedActions.joinFeed(feedId);
             clearTimeout(intervalId);
         }
     }
@@ -36,7 +36,7 @@ if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0)
         boxShadow: 'rgba(0, 0, 0, 0.5) 0 0 20px 0'
     });
 
-    UIStore.addChangeListener(() => {
+    UIStore.addListener(() => {
         $(iframe).css({
             display: UIStore.state.sidebar ? 'block' : 'none'
         });

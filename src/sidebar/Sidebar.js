@@ -30,15 +30,15 @@ class Sidebar extends React.Component {
     };
 
     componentDidMount() {
-        UIStore.addChangeListener(this.onChange);
-        UserStore.addChangeListener(this.onChange);
-        FeedStore.addChangeListener(this.onChange);
+        UIStore.addListener(this.onChange);
+        UserStore.addListener(this.onChange);
+        FeedStore.addListener(this.onChange);
     }
 
     componentWillUnmount() {
-        UIStore.removeChangeListener(this.onChange);
-        UserStore.removeChangeListener(this.onChange);
-        FeedStore.removeChangeListener(this.onChange);
+        UIStore.removeListener(this.onChange);
+        UserStore.removeListener(this.onChange);
+        FeedStore.removeListener(this.onChange);
     }
 
     render() {
