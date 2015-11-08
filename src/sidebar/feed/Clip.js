@@ -31,7 +31,7 @@ export default class Clip extends React.Component {
     };
 
     likeClip = () => {
-        Actions.likeClip(this.props.clip);
+        FeedActions.likeClip(this.props.clip);
     };
 
     startComment = () => {
@@ -39,7 +39,7 @@ export default class Clip extends React.Component {
     };
 
     acceptComment = (event) => {
-        Actions.commentClip(this.props.clip, event.target.value);
+        FeedActions.commentClip(this.props.clip, event.target.value);
         this.setState({comment: false});
     };
 
@@ -48,7 +48,7 @@ export default class Clip extends React.Component {
     };
 
     removeClip = () => {
-        Actions.removeClip(this.props.clip);
+        FeedActions.removeClip(this.props.clip);
     };
 
     render() {

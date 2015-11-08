@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
 import ListItem from 'material-ui/lib/lists/list-item';
@@ -17,7 +18,7 @@ export default class FeedMenu extends React.Component {
         const name = nameField.getValue();
 
         if (name) {
-            Actions.addFeed(name);
+            Actions.createFeed(name);
             nameField.setValue('');
         }
     };
@@ -70,8 +71,7 @@ export default class FeedMenu extends React.Component {
                                     </IconButton>
                                     <TextField ref="nameField" hintText="Add a topic" onEnterKeyDown={this.addFeed}/>
                                 </div>}/>
-                    {user.feeds.map((feed, index) =>
-                        <FeedItem key={index} feed={feed} isSelected={feed.id === user.selectedFeed}/>)}
+                    {_.map(user.feeds, (feed, id) => <FeedItem key={id} feed={feed}/>)}
                 </div>
                 <Overlay style={{position: 'absolute'}} onClick={this.toggleFeedMenu} show/>
             </div>
@@ -81,8 +81,7 @@ export default class FeedMenu extends React.Component {
 
 class FeedItem extends React.Component {
     static propTypes = {
-        feed: React.PropTypes.object.isRequired,
-        isSelected: React.PropTypes.bool.isRequired
+        feed: React.PropTypes.object.isRequired
     };
 
     selectFeed = () => {

@@ -1,10 +1,10 @@
 import Router from './Router'
 
 export default {
-    login(token) {
+    login(user) {
         Router.send({
             type: 'LOGIN',
-            token: token
+            user: user
         });
     },
 
@@ -14,81 +14,16 @@ export default {
         });
     },
 
-    changeUserName(name) {
+    toggleFeedMenu() {
         Router.send({
-            type: 'CHANGE_USER_NAME',
-            name: name
-        });
+            type: 'TOGGLE_FEED_MENU'
+        })
     },
 
-    changeFeedName(name) {
+    toggleShareMenu() {
         Router.send({
-            type: 'CHANGE_FEED_NAME',
-            name: name
-        });
-    },
-
-    enterFeed() {
-        Router.send({
-            type: 'ENTER_FEED'
-        });
-    },
-
-    exitFeed() {
-        Router.send({
-            type: 'EXIT_FEED'
-        });
-    },
-
-    clipText(text, tabId) {
-        Router.send({
-            type: 'CLIP_TEXT',
-            text: text,
-            tabId: tabId
-        });
-    },
-
-    clipImage(srcUrl, tabId) {
-        Router.send({
-            type: 'CLIP_TEXT',
-            srcUrl: srcUrl,
-            tabId: tabId
-        });
-    },
-
-    likeClip(clip) {
-        Router.send({
-            type: 'LIKE_CLIP',
-            clip: clip
-        });
-    },
-
-    commentClip(clip, comment) {
-        Router.send({
-            type: 'COMMENT_CLIP',
-            clip: clip,
-            comment: comment
-        });
-    },
-
-    removeClip(clip) {
-        Router.send({
-            type: 'REMOVE_CLIP',
-            clip: clip
-        });
-    },
-
-    removeComment(comment) {
-        Router.send({
-            type: 'REMOVE_COMMENT',
-            comment: comment
-        });
-    },
-
-    assist() {
-        Router.send({
-            type: 'ASSIST'
-        });
+            type: 'TOGGLE_SHARE_MENU'
+        })
     },
 
     exportToDocx() {
@@ -103,6 +38,21 @@ export default {
         });
     },
 
+    createFeed(feedName) {
+        Router.send({
+            type: 'CREATE_FEED',
+            feedName: feedName
+        })
+    },
+
+    renameFeed(feedId, feedName) {
+        Router.send({
+            type: 'RENAME_FEED',
+            feedId: feedId,
+            feedName: feedName
+        })
+    },
+
     joinFeed(feedId) {
         Router.send({
             type: 'JOIN_FEED',
@@ -110,10 +60,10 @@ export default {
         })
     },
 
-    addFeed(name) {
+    leaveFeed(feedId) {
         Router.send({
-            type: 'ADD_FEED',
-            name: name
+            type: 'LEAVE_FEED',
+            feedId: feedId
         })
     },
 
@@ -124,15 +74,47 @@ export default {
         })
     },
 
-    toggleFeedMenu() {
+    clipText(text, tabId) {
         Router.send({
-            type: 'TOGGLE_FEED_MENU'
-        })
+            type: 'CLIP_TEXT',
+            text: text,
+            tabId: tabId
+        });
     },
 
-    toggleShareMenu() {
+    removeClip(clip) {
         Router.send({
-            type: 'TOGGLE_SHARE_MENU'
-        })
+            type: 'REMOVE_CLIP',
+            clip: clip
+        });
+    },
+
+    likeClip(clip) {
+        Router.send({
+            type: 'LIKE_CLIP',
+            clip: clip
+        });
+    },
+
+    removeLike(clip) {
+        Router.send({
+            type: 'LIKE_CLIP',
+            clip: clip
+        });
+    },
+
+    commentClip(clip, comment) {
+        Router.send({
+            type: 'COMMENT_CLIP',
+            clip: clip,
+            comment: comment
+        });
+    },
+
+    removeComment(comment) {
+        Router.send({
+            type: 'REMOVE_COMMENT',
+            comment: comment
+        });
     }
 }
