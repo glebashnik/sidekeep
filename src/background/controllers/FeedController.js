@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import $ from 'jquery';
+
 import UserStore from '../../shared/stores/UserStore';
 import FeedStore from '../../shared/stores/FeedStore';
 import Dispatcher from '../../shared/Dispatcher';
@@ -6,208 +8,119 @@ import Firebase from '../Firebase';
 import * as UrlHelper from '../../shared/helpers/UrlHelper';
 import * as TraceHelper from '../../shared/helpers/TraceHelper';
 import * as Tracer from '../Tracer';
+import FlatToNested from 'flat-to-nested';
 
-let _name = '';
-let _ref = null;
-let _posts = [];
+const flatToNested = new FlatToNested();
 
+const USERS_REF = Firebase.child('users');
+const FEEDS_REF = Firebase.child('feeds');
+const POSTS_REF = Firebase.child('posts');
 
-function commit() {
-    _ref.set(_posts);
-}
+let _selectedRef = null;
+let _feedRef = null;
+let _postsRef = null;
+
+const _posts = {};
 
 function emit() {
-    FeedStore.emitUpdate({
-        name: _name,
-        posts: _posts,
-        inside: _ref !== null
-    });
+    const flat = _.values(_.cloneDeep(_posts));
+    const nested = flatToNested.convert(flat);
+    FeedStore.emitState(nested);
+}
+
+function login(user) {
+    if (_selectedRef)
+        _selectedRef.off('value', _selectedChanged);
+
+    _selectedRef = USERS_REF.child(user.id + '/selectedFeed');
+    _selectedRef.on('value', _selectedChanged);
+}
+
+function _selectedChanged(snap) {
+    selectFeed(snap.val());
 }
 
 function selectFeed(feedId) {
-    if (!feedId)
-        return;
+    if (_feedRef) {
+        _feedRef.off('value', _feedUpdate);
+        _postsRef.off('child_added', _postAddedOrChanged);
+        _postsRef.off('child_removed', _postRemoved);
+        _postsRef.off('child_changed', _postAddedOrChanged);
+    }
 
-    _ref = Firebase.child(`feeds/${feedId}/posts`);
+    _feedRef = FEEDS_REF.child(feedId);
+    _postsRef = POSTS_REF.child(feedId);
 
-    _ref.on('value', snap => {
-        _posts = snap.val();
-
-        if (_posts === null) {
-            _posts = [];
-            _ref.set([]);
-        }
-
-        emit();
-    });
-
-    Firebase.child(`feeds/${feedId}/name`).on('value', snap => {
-        _name = snap.val();
-        emit();
-    });
+    _feedRef.on('value', _feedUpdate);
+    _postsRef.on('child_added', _postAddedOrChanged);
+    _postsRef.on('child_removed', _postRemoved);
+    _postsRef.on('child_changed', _postAddedOrChanged);
 }
 
-function addClip(props, tabId) {
-    if (_ref === null)
-        return;
-
-    let trace = TraceHelper.fixTrace(Tracer.getTrace(tabId));
-
-    let first = _.first(trace);
-    let search = first.query ? {
-        url: first.url,
-        query: first.query,
-        user: UserStore.state,
-        pages: []
-    } : null;
-
-    let last = _.last(trace);
-    let page = {
-        title: last.title,
-        url: last.url,
-        favIconUrl: last.favIconUrl,
-        user: UserStore.state,
-        clips: []
+function _feedUpdate(snap) {
+    _posts[0] = {
+        id: 0,
+        type: 'feed',
+        name: snap.val().name
     };
+    emit();
+}
 
-    let clip = _.assign({
+function _postAddedOrChanged(snap) {
+    const post = snap.val();
+    post.id = snap.key();
+    _posts[post.id] = post;
+    emit();
+}
+
+function _postRemoved(snap) {
+    delete _posts[snap.key()];
+    emit();
+}
+
+function clipText(text, tabId) {
+    let trace = TraceHelper.fixTrace(Tracer.getTrace(tabId));
+    let first = _.first(trace);
+    let last = _.last(trace);
+    let parentId = 0;
+
+    if (first.query)
+        parentId = _.findKey(_posts, {query: first.query}) || _postsRef.push({
+                parent: parentId,
+                type: 'search',
+                url: first.url,
+                query: first.query,
+                user: UserStore.state
+            }).key();
+
+    parentId = _.findKey(_posts, {url: last.url}) || _postsRef.push({
+            parent: parentId,
+            type: 'page',
+            title: last.title,
+            url: last.url,
+            favIconUrl: last.favIconUrl,
+            user: UserStore.state
+        }).key();
+
+    _postsRef.push({
+        parent: parentId,
+        type: 'text',
+        text: text,
         user: UserStore.state
-    }, props);
-
-    let posts = _posts;
-
-    if (search) {
-        let prevSearch = _.find(posts, s => s.query === search.query);
-
-        if (prevSearch)
-            search = prevSearch;
-        else
-            posts.unshift(search);
-
-        posts = search.pages;
-    }
-
-    if (page) {
-        let prevPage = _.find(posts, p => p.url === page.url);
-
-        if (prevPage)
-            page = prevPage;
-        else
-            posts.unshift(page);
-
-        page.clips.push(clip);
-    }
-
-    commit();
-    emit();
-}
-
-function removeClip(clip) {
-    function tryDeleteFromPage(page) {
-        _.remove(page.clips, {text: clip.text});
-        return page.clips.length === 0;
-    }
-
-    function tryDeleteFromSearch(search) {
-        let page = _.find(search.pages, p => tryDeleteFromPage(p));
-        _.pull(search.pages, page);
-        return search.pages.length === 0;
-    }
-
-    let post = _.find(_posts, p => p.query ? tryDeleteFromSearch(p) : tryDeleteFromPage(p));
-    _.pull(_posts, post);
-
-    commit();
-    emit();
-}
-
-function findClip(clip) {
-    let result = null;
-
-    function findInPage(page) {
-        _.forEach(page.clips, c => {
-            if (c.text === clip.text)
-                result = c;
-        });
-    }
-
-    function findInSearch(search) {
-        _.forEach(search.pages, p => findInPage(p));
-    }
-
-    _.forEach(_posts, p => p.query ? findInSearch(p) : findInPage(p));
-
-    return result;
-}
-
-
-function likeClip(clip) {
-    clip = findClip(clip);
-    let user = UserStore.state;
-
-    if (!clip.likes)
-        clip.likes = [];
-
-    if (_.some(clip.likes, {user: {name: user.name}}))
-        _.remove(clip.likes, {user: {name: user.name}});
-    else
-        clip.likes.unshift({
-            user: user
-        });
-
-    commit();
-    emit();
-}
-
-function commentClip(clip, text) {
-    clip = findClip(clip);
-
-    if (!clip.comments)
-        clip.comments = [];
-
-    clip.comments.unshift({
-        user: UserStore.state,
-        text: text
-    });
-
-    commit();
-    emit();
-}
-
-let _assists = [];
-
-function loadAssists() {
-    if (!_name || !UserStore.state.name)
-        return;
-
-    let ref = Firebase.child('assistant/' + _name);
-    ref.once('value', (snap) => {
-        _assists = snap.val();
     });
 }
 
-function assist() {
-    if (_assists.length === 0 || _posts.length === 0)
-        return;
-
-    _posts.unshift(_assists.shift());
-
-    emit();
+function comment(postId, commentText) {
+    _postsRef.push({
+        type: 'comment',
+        parent: postId,
+        text: commentText,
+        user: UserStore.state
+    });
 }
 
-let _selFeedRef = null;
-
-function login(user) {
-    if (_selFeedRef)
-        _selFeedRef.off('value', _selFeedUpdated);
-
-    _selFeedRef = Firebase.child('users/' + user.id + '/selectedFeed');
-
-    _selFeedRef.on('value', _selFeedUpdated);
-}
-
-function _selFeedUpdated(snap) {
-    selectFeed(snap.val());
+function removePost(postId) {
+    _postsRef.child(postId).set(null);
 }
 
 export default Dispatcher.register(action => {
@@ -218,31 +131,18 @@ export default Dispatcher.register(action => {
 
         case 'SELECT_FEED':
             selectFeed(action.feedId);
-            loadAssists();
             break;
 
         case 'CLIP_TEXT':
-            addClip({text: action.text}, action.tabId);
+            clipText(action.text, action.tabId);
             break;
 
-        case 'REMOVE_CLIP':
-            removeClip(action.clip);
+        case 'COMMENT':
+            comment(action.postId, action.commentText);
             break;
 
-        case 'LIKE_CLIP':
-            likeClip(action.clip);
-            break;
-
-        case 'COMMENT_CLIP':
-            commentClip(action.clip, action.comment);
-            break;
-
-        case 'REMOVE_COMMENT':
-            commentClip(action.clip, action.comment);
-            break;
-
-        case 'ASSIST':
-            assist();
+        case 'REMOVE_POST':
+            removePost(action.postId);
             break;
     }
 });

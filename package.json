@@ -3,6 +3,8 @@
   "dependencies": {
     "lodash": "*",
     "jquery": "*",
+    "tree-model": "*",
+    "flat-to-nested": "*",
     "react": "*",
     "react-dom": "*",
     "material-ui": "*",

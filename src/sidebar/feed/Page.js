@@ -4,7 +4,8 @@ import Clip from './Clip';
 import Colors from 'material-ui/lib/styles/colors';
 import Theme from '../Theme';
 
-@Radium class Page extends React.Component {
+@Radium
+class Page extends React.Component {
     static propTypes = {
         page: React.PropTypes.object.isRequired,
         style: React.PropTypes.object
@@ -54,7 +55,26 @@ import Theme from '../Theme';
         };
 
         let sep1 = <div style={styles.sep1}>&#8942;</div>;
-        let sep2 = <div style={styles.sep2}/>;
+        let sep2 = <div style={styles.sep2}></div>;
+
+        let clipElems;
+
+        if (page.children)
+            clipElems = page.children.map((clip, index) => {
+                let clipE = <Clip clip={clip} key={index}/>;
+
+                if (index > 0) {
+                    let prev = page.children[index - 1];
+
+                    if (!prev.children)
+                        return [sep1, clipE];
+                    else
+                        return [sep2, clipE];
+                }
+
+                return clipE;
+            });
+
 
         return (
             <div style={styles.page}>
@@ -62,20 +82,7 @@ import Theme from '../Theme';
                     <img src={page.favIconUrl} style={styles.icon}/>
                     <a href={page.url} target="_blank" style={styles.title}>{page.title}</a>
                 </div>
-                {page.clips.map((clip, index) => {
-                    let clipE = <Clip clip={clip} key={index}/>;
-
-                    if (index > 0) {
-                        let prev = page.clips[index - 1];
-
-                        if (!prev.comments && !prev.likes)
-                            return [sep1, clipE];
-                        else
-                            return [sep2, clipE];
-                    }
-
-                    return clipE;
-                })}
+                {clipElems}
             </div>
         );
     }

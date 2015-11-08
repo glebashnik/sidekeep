@@ -18,12 +18,19 @@ export default class Post extends React.Component {
 
         let post = this.props.post;
 
+        let postElem;
+
+        switch(post.type) {
+            case 'search':
+                postElem = <Search search={post}/>;
+                break;
+            case 'page':
+                postElem = <Page page={post}/>;
+                break;
+        }
+
         return (
-            <div style={style}>
-                {post.query === undefined
-                    ? <Page page={post}/>
-                    : <Search search={post}/>}
-            </div>
+            <div style={style}>{postElem}</div>
         );
     }
 }

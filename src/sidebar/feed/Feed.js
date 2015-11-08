@@ -58,6 +58,10 @@ export default class Feed extends React.Component {
         if (this.props.ui.feedMenu)
             feedMenu = <FeedMenu user={this.props.user}/>;
 
+        let postElems;
+        if (this.props.feed.children)
+            postElems = this.props.feed.children.map((post, index) => <Post post={post} key={index}/>);
+
         return (
             <div style={styles.feed}>
                 <AppBar
@@ -84,7 +88,7 @@ export default class Feed extends React.Component {
                         </div>}/>
                 {feedMenu}
                 <div style={styles.posts}>
-                    {this.props.feed.posts.map((post, index) => <Post post={post} key={index}/>)}
+                    {postElems}
                 </div>
             </div>
         );
