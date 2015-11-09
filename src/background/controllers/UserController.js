@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import $ from 'jquery';
 import Dispatcher from '../../shared/Dispatcher';
-import Firebase from '../Firebase';
+import FirebaseRef from '../FirebaseRef';
 import UserStore from '../../shared/stores/UserStore';
 
-const USERS_REF = Firebase.child('users');
-const FEEDS_REF = Firebase.child('feeds');
+const USERS_REF = FirebaseRef.child('users');
+const FEEDS_REF = FirebaseRef.child('feeds');
 
 let _userRef = null;
 let _userFeedsRef = null;
@@ -37,7 +37,8 @@ function _userUpdated(snap) {
     UserStore.update({
         id: snap.key(),
         name: val.name,
-        image: val.image
+        image: val.image,
+        selectedFeed: val.selectedFeed
     });
 
     Promise.all(_.values(_userFeedsDef)).then(() => UserStore.emit());

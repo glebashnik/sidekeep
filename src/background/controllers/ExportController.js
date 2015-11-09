@@ -1,5 +1,5 @@
 import Dispatcher from '../../shared/Dispatcher';
-import Firebase from '../Firebase';
+import Firebase from '../FirebaseRef';
 import FeedStore from '../../shared/stores/FeedStore';
 
 var url = 'https://aftersearchexport.dotcloudapp.com';

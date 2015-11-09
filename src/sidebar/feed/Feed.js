@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import AppBar from 'material-ui/lib/app-bar';
 import Post from './Post';
@@ -58,9 +59,13 @@ export default class Feed extends React.Component {
         if (this.props.ui.feedMenu)
             feedMenu = <FeedMenu user={this.props.user}/>;
 
+        const posts = this.props.feed.children;
         let postElems;
-        if (this.props.feed.children)
-            postElems = this.props.feed.children.map((post, index) => <Post post={post} key={index}/>);
+
+        if (posts) {
+            const sortedPosts = _.sortBy(posts, p => -p.timestamp);
+            postElems = sortedPosts.map((post, index) => <Post post={post} key={index}/>);
+        }
 
         return (
             <div style={styles.feed}>
