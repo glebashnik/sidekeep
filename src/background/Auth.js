@@ -1,9 +1,9 @@
-import Firebase from './Firebase';
+import FirebaseRef from './FirebaseRef';
 import Actions from '../shared/Actions';
 
 export default {
     login() {
-        Firebase.onAuth(auth => {
+        FirebaseRef.onAuth(auth => {
             if (auth)
                 Actions.login({
                     id: auth.uid,

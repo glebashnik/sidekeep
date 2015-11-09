@@ -4,7 +4,8 @@ import $ from 'jquery';
 import UserStore from '../../shared/stores/UserStore';
 import FeedStore from '../../shared/stores/FeedStore';
 import Dispatcher from '../../shared/Dispatcher';
-import Firebase from '../Firebase';
+import Firebase from 'Firebase';
+import FirebaseRef from '../FirebaseRef';
 import * as UrlHelper from '../../shared/helpers/UrlHelper';
 import * as TraceHelper from '../../shared/helpers/TraceHelper';
 import * as Tracer from '../Tracer';
@@ -12,15 +13,17 @@ import FlatToNested from 'flat-to-nested';
 
 const flatToNested = new FlatToNested();
 
-const USERS_REF = Firebase.child('users');
-const FEEDS_REF = Firebase.child('feeds');
-const POSTS_REF = Firebase.child('posts');
+const USERS_REF = FirebaseRef.child('users');
+const FEEDS_REF = FirebaseRef.child('feeds');
+const POSTS_REF = FirebaseRef.child('posts');
 
-let _selectedRef = null;
+let _selectRef = null;
 let _feedRef = null;
 let _postsRef = null;
 
-const _posts = {};
+let _newPostsQuery = null;
+
+let _posts = {};
 
 function emit() {
     const flat = _.values(_.cloneDeep(_posts));
@@ -29,32 +32,35 @@ function emit() {
 }
 
 function login(user) {
-    if (_selectedRef)
-        _selectedRef.off('value', _selectedChanged);
+    if (_selectRef)
+        _selectRef.off('value', _selectChanged);
 
-    _selectedRef = USERS_REF.child(user.id + '/selectedFeed');
-    _selectedRef.on('value', _selectedChanged);
+    _selectRef = USERS_REF.child(user.id + '/selectedFeed');
+    _selectRef.on('value', _selectChanged);
 }
 
-function _selectedChanged(snap) {
+function _selectChanged(snap) {
     selectFeed(snap.val());
 }
 
 function selectFeed(feedId) {
     if (_feedRef) {
         _feedRef.off('value', _feedUpdate);
-        _postsRef.off('child_added', _postAddedOrChanged);
+        _newPostsQuery.off('child_added', _postAdded);
         _postsRef.off('child_removed', _postRemoved);
-        _postsRef.off('child_changed', _postAddedOrChanged);
     }
 
-    _feedRef = FEEDS_REF.child(feedId);
-    _postsRef = POSTS_REF.child(feedId);
+    _posts = {};
 
+    _feedRef = FEEDS_REF.child(feedId);
     _feedRef.on('value', _feedUpdate);
-    _postsRef.on('child_added', _postAddedOrChanged);
+
+    _postsRef = POSTS_REF.child(feedId);
+    _postsRef.once('value', _postsLoaded);
     _postsRef.on('child_removed', _postRemoved);
-    _postsRef.on('child_changed', _postAddedOrChanged);
+
+    _newPostsQuery = _postsRef.orderByChild('timestamp').startAt(Date.now());
+    _newPostsQuery.on('child_added', _postAdded);
 }
 
 function _feedUpdate(snap) {
@@ -66,10 +72,19 @@ function _feedUpdate(snap) {
     emit();
 }
 
-function _postAddedOrChanged(snap) {
+function _addPost(snap) {
     const post = snap.val();
     post.id = snap.key();
     _posts[post.id] = post;
+}
+
+function _postsLoaded(snap) {
+    snap.forEach(_addPost);
+    emit();
+}
+
+function _postAdded(snap) {
+    _addPost(snap);
     emit();
 }
 
@@ -87,6 +102,7 @@ function clipText(text, tabId) {
     if (first.query)
         parentId = _.findKey(_posts, {query: first.query}) || _postsRef.push({
                 parent: parentId,
+                timestamp: Firebase.ServerValue.TIMESTAMP,
                 type: 'search',
                 url: first.url,
                 query: first.query,
@@ -95,6 +111,7 @@ function clipText(text, tabId) {
 
     parentId = _.findKey(_posts, {url: last.url}) || _postsRef.push({
             parent: parentId,
+            timestamp: Firebase.ServerValue.TIMESTAMP,
             type: 'page',
             title: last.title,
             url: last.url,
@@ -104,6 +121,7 @@ function clipText(text, tabId) {
 
     _postsRef.push({
         parent: parentId,
+        timestamp: Firebase.ServerValue.TIMESTAMP,
         type: 'text',
         text: text,
         user: UserStore.state
@@ -113,6 +131,7 @@ function clipText(text, tabId) {
 function comment(postId, commentText) {
     _postsRef.push({
         type: 'comment',
+        timestamp: Firebase.ServerValue.TIMESTAMP,
         parent: postId,
         text: commentText,
         user: UserStore.state
