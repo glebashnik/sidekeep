@@ -97,34 +97,40 @@ function clipText(text, tabId) {
     let trace = TraceHelper.fixTrace(Tracer.getTrace(tabId));
     let first = _.first(trace);
     let last = _.last(trace);
-    let parentId = 0;
+    let parent = 0;
+
+    const user = {
+        id: UserStore.state.id,
+        name: UserStore.state.name,
+        image: UserStore.state.image
+    };
 
     if (first.query)
-        parentId = _.findKey(_posts, {query: first.query}) || _postsRef.push({
-                parent: parentId,
+        parent = _.findKey(_posts, {query: first.query}) || _postsRef.push({
+                parent: parent,
                 timestamp: Firebase.ServerValue.TIMESTAMP,
                 type: 'search',
                 url: first.url,
                 query: first.query,
-                user: UserStore.state
+                user: user
             }).key();
 
-    parentId = _.findKey(_posts, {url: last.url}) || _postsRef.push({
-            parent: parentId,
+    parent = _.findKey(_posts, {url: last.url}) || _postsRef.push({
+            parent: parent,
             timestamp: Firebase.ServerValue.TIMESTAMP,
             type: 'page',
             title: last.title,
             url: last.url,
             favIconUrl: last.favIconUrl,
-            user: UserStore.state
+            user: user
         }).key();
 
     _postsRef.push({
-        parent: parentId,
+        parent: parent,
         timestamp: Firebase.ServerValue.TIMESTAMP,
         type: 'text',
         text: text,
-        user: UserStore.state
+        user: user
     });
 }
 
@@ -134,7 +140,7 @@ function comment(postId, commentText) {
         timestamp: Firebase.ServerValue.TIMESTAMP,
         parent: postId,
         text: commentText,
-        user: UserStore.state
+        user: user //todo make user updatable
     });
 }
 

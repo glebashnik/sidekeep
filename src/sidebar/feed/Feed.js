@@ -5,9 +5,10 @@ import Post from './Post';
 import IconButton from 'material-ui/lib/icon-button';
 import Actions from '../../shared/Actions';
 import ShareIcon from 'material-ui/lib/svg-icons/social/share';
-import copy from 'copy-to-clipboard';
 import FeedMenu from './FeedMenu';
 import ExportMenu from './ExportMenu';
+import TextField from 'material-ui/lib/text-field';
+import Theme from '../Theme';
 
 export default class Feed extends React.Component {
     static propTypes = {
@@ -16,13 +17,33 @@ export default class Feed extends React.Component {
         feed: React.PropTypes.object.isRequired
     };
 
+    state = {
+        feedName: ''
+    };
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            feedName: nextProps.feed.name
+        });
+    }
+
     toggleFeedMenu = () => {
         Actions.toggleFeedMenu();
     };
 
-    copyLink = () => {
-        const feedId = encodeURIComponent(this.props.user.selectedFeed);
-        copy(`https://aftersearch.firebaseapp.com/join.html?feed=${feedId}`);
+    onChangeFeedName = (e) => {
+        this.setState({
+            feedName: e.target.value
+        });
+    };
+
+    onBlurFeedName = (e) => {
+        Actions.renameFeed(this.props.user.selectedFeed, e.target.value);
+    };
+
+    onEnterKeyDownFeedName = (e) => {
+        Actions.renameFeed(this.props.user.selectedFeed, e.target.value);
+        e.target.blur();
     };
 
     render() {
@@ -33,14 +54,12 @@ export default class Feed extends React.Component {
                 height: '100%',
                 width: '100%'
             },
-            title: {
+            titleField: {
+                width: 180
+            },
+            titleInput: {
                 font: '400 17px Roboto',
-                color: 'white',
-                marginTop: 14,
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                width: 130
+                color: 'white'
             },
             posts: {
                 display: 'flex',
@@ -70,7 +89,17 @@ export default class Feed extends React.Component {
         return (
             <div style={styles.feed}>
                 <AppBar
-                    title={<div style={styles.title}>{this.props.feed.name}</div>}
+                    title={
+                        <TextField
+                            style={styles.titleField}
+                            inputStyle={styles.titleInput}
+                            underlineStyle={{borderColor: Theme.palette.primary1Color}}
+                            underlineFocusStyle={{borderColor: 'white'}}
+                            hintText="Topic Name"
+                            value={this.state.feedName}
+                            onChange={this.onChangeFeedName}
+                            onBlur={this.onBlurFeedName}
+                            onEnterKeyDown={this.onEnterKeyDownFeedName}/>}
                     iconElementLeft={
                         <IconButton
                             iconClassName="material-icons"
@@ -82,14 +111,8 @@ export default class Feed extends React.Component {
                         </IconButton>}
                     iconElementRight={
                         <div style={styles.right}>
-                            <IconButton
-                                onClick={this.copyLink}
-                                touch={true}
-                                tooltipPosition="bottom-center"
-                                tooltip="Copy Link">
-                                <ShareIcon color="white"/>
-                            </IconButton>
-                            <ExportMenu/>
+
+                            <ExportMenu user={this.props.user}/>
                         </div>}/>
                 {feedMenu}
                 <div style={styles.posts}>
