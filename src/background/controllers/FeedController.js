@@ -23,6 +23,7 @@ let _postsRef = null;
 
 let _newPostsQuery = null;
 
+let _user = null;
 let _posts = {};
 
 function emit() {
@@ -32,6 +33,8 @@ function emit() {
 }
 
 function login(user) {
+    _user = user;
+
     if (_selectRef)
         _selectRef.off('value', _selectChanged);
 
@@ -99,12 +102,6 @@ function clipText(text, tabId) {
     let last = _.last(trace);
     let parent = 0;
 
-    const user = {
-        id: UserStore.state.id,
-        name: UserStore.state.name,
-        image: UserStore.state.image
-    };
-
     if (first.query)
         parent = _.findKey(_posts, {query: first.query}) || _postsRef.push({
                 parent: parent,
@@ -112,7 +109,7 @@ function clipText(text, tabId) {
                 type: 'search',
                 url: first.url,
                 query: first.query,
-                user: user
+                user: _user
             }).key();
 
     parent = _.findKey(_posts, {url: last.url}) || _postsRef.push({
@@ -122,7 +119,7 @@ function clipText(text, tabId) {
             title: last.title,
             url: last.url,
             favIconUrl: last.favIconUrl,
-            user: user
+            user: _user
         }).key();
 
     _postsRef.push({
@@ -130,7 +127,7 @@ function clipText(text, tabId) {
         timestamp: Firebase.ServerValue.TIMESTAMP,
         type: 'text',
         text: text,
-        user: user
+        user: _user
     });
 }
 
@@ -140,7 +137,7 @@ function comment(postId, commentText) {
         timestamp: Firebase.ServerValue.TIMESTAMP,
         parent: postId,
         text: commentText,
-        user: user //todo make user updatable
+        user: _user //todo make user updatable
     });
 }
 

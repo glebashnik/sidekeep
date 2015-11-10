@@ -14,7 +14,7 @@ if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0)
         feedId = $('#feed').text();
 
         if(feedId != '') {
-            FeedActions.joinFeed(feedId);
+            Actions.joinFeed(feedId);
             clearTimeout(intervalId);
         }
     }
