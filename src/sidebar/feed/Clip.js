@@ -73,7 +73,8 @@ export default class Clip extends React.Component {
                 background: Colors.darkWhite,
                 position: 'absolute',
                 bottom: 0,
-                right: 0
+                right: 0,
+                marginBottom: -10
             },
             comment: {
                 display: 'flex',

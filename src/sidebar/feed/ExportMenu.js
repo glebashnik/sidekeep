@@ -5,8 +5,14 @@ import IconButton from 'material-ui/lib/icon-button';
 import WordIcon from '../ui/WordIcon';
 import PowerPointIcon from '../ui/PowerPointIcon';
 import Actions from '../../shared/Actions';
+import ShareIcon from 'material-ui/lib/svg-icons/social/share';
+import copy from 'copy-to-clipboard';
 
-export default class ExportMenu {
+export default class ExportMenu extends React.Component {
+    static propTypes = {
+        user: React.PropTypes.object.isRequired
+    };
+
     exportToDocx = () => {
         Actions.exportToDocx();
     };
@@ -15,8 +21,16 @@ export default class ExportMenu {
         Actions.exportToPptx();
     };
 
+    copyLink = () => {
+        const feedId = encodeURIComponent(this.props.user.selectedFeed);
+        copy(`https://aftersearch.firebaseapp.com/join.html?feed=${feedId}`);
+    };
+
     render() {
         const styles = {
+            menu: {
+                zIndex: 6
+            },
             icon: {
                 color: 'white'
             },
@@ -28,12 +42,18 @@ export default class ExportMenu {
         return (
             <IconMenu
                 ref="menu"
+                style={styles.menu}
                 iconButtonElement={
                     <IconButton
                         iconClassName="material-icons"
                         iconStyle={styles.icon}>
                         more_vert
                     </IconButton>}>
+                <MenuItem
+                    primaryText="Share by link"
+                    onClick={this.copyLink}
+                    style={styles.item}
+                    leftIcon={<ShareIcon/>}/>
                 <MenuItem
                     primaryText="Export to Word"
                     onClick={this.exportToDocx}

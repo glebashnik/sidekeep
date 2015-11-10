@@ -7,6 +7,7 @@ import TextField from 'material-ui/lib/text-field';
 import Colors from 'material-ui/lib/styles/colors';
 import IconButton from 'material-ui/lib/icon-button';
 import Overlay from 'material-ui/lib/overlay';
+import Theme from '../Theme';
 
 export default class FeedMenu extends React.Component {
     static propTypes = {
@@ -71,7 +72,7 @@ export default class FeedMenu extends React.Component {
                                     </IconButton>
                                     <TextField ref="nameField" hintText="Add a topic" onEnterKeyDown={this.addFeed}/>
                                 </div>}/>
-                    {_.map(user.feeds, (feed, id) => <FeedItem key={id} feed={feed}/>)}
+                    {_.map(user.feeds, (feed, id) => <FeedItem key={id} feed={feed} user={user}/>)}
                 </div>
                 <Overlay style={{position: 'absolute'}} onClick={this.toggleFeedMenu} show/>
             </div>
@@ -81,7 +82,8 @@ export default class FeedMenu extends React.Component {
 
 class FeedItem extends React.Component {
     static propTypes = {
-        feed: React.PropTypes.object.isRequired
+        feed: React.PropTypes.object.isRequired,
+        user: React.PropTypes.object.isRequired
     };
 
     selectFeed = () => {
@@ -93,7 +95,8 @@ class FeedItem extends React.Component {
             padding: '0 20px 0 10px',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
-            textOverflow: 'ellipsis'
+            textOverflow: 'ellipsis',
+            color: this.props.user.selectedFeed === this.props.feed.id ? Theme.palette.primary1Color : Colors.darkBlack
         };
 
         return <ListItem onClick={this.selectFeed} primaryText={<div style={style}>{this.props.feed.name}</div>}/>

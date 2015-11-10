@@ -97,6 +97,10 @@ function leaveFeed(feedId) {
     _userFeedsRef.child(feedId).set(null);
 }
 
+function selectFeed(feedId) {
+    _userRef.child('selectedFeed').set(feedId);
+}
+
 export default Dispatcher.register((action) => {
     switch (action.type) {
         case 'LOGIN':
@@ -117,6 +121,10 @@ export default Dispatcher.register((action) => {
 
         case 'LEAVE_FEED':
             leaveFeed(action.feedId);
+            break;
+
+        case 'SELECT_FEED':
+            selectFeed(action.feedId);
             break;
     }
 });
