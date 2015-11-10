@@ -3,12 +3,18 @@ import Radium from 'radium';
 import Clip from './Clip';
 import Colors from 'material-ui/lib/styles/colors';
 import Theme from '../Theme';
+import PostMenu from './PostMenu';
+import IconButton from 'material-ui/lib/icon-button';
 
 @Radium
 class Page extends React.Component {
     static propTypes = {
         page: React.PropTypes.object.isRequired,
         style: React.PropTypes.object
+    };
+
+    state = {
+        tools: false
     };
 
     render() {
@@ -21,6 +27,8 @@ class Page extends React.Component {
                 padding: '10px 10px 12px 10px'
             },
             header: {
+                position: 'relative',
+                marginTop: 3,
                 marginBottom: 10,
                 display: 'flex',
                 alignItems: 'center'
@@ -51,8 +59,26 @@ class Page extends React.Component {
             },
             sep2: {
                 height: 10
+            },
+            tools: {
+                display: 'flex',
+                background: Colors.darkWhite,
+                position: 'absolute',
+                bottom: -17,
+                right: 0
+            },
+            toolsIcon: {
+                color: Colors.grey500
             }
         };
+
+        let tools;
+        if (this.state.tools)
+            tools = (
+                <div style={styles.tools}>
+                    <IconButton iconClassName="material-icons" iconStyle={styles.toolsIcon}>comment</IconButton>
+                    <PostMenu post={this.props.page}/>
+                </div>);
 
         let sep1 = <div style={styles.sep1}>&#8942;</div>;
         let sep2 = <div style={styles.sep2}></div>;
@@ -78,14 +104,23 @@ class Page extends React.Component {
 
         return (
             <div style={styles.page}>
-                <div style={styles.header}>
-                    <img src={page.favIconUrl} style={styles.icon}/>
+                <div style={styles.header} onMouseEnter={this.enterHeader} onMouseLeave={this.leaveHeader}>
+                    <img src={page.favIconUrl} style={styles.icon} />
                     <a href={page.url} target="_blank" style={styles.title}>{page.title}</a>
+                    {tools}
                 </div>
                 {clipElems}
             </div>
         );
     }
+
+    enterHeader = () => {
+        this.setState({tools: true});
+    };
+
+    leaveHeader = () => {
+        this.setState({tools: false});
+    };
 }
 
 export default Page;

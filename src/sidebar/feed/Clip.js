@@ -6,6 +6,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import TextField from 'material-ui/lib/text-field';
 
 import Snippet from '../ui/Snippet';
+import PostMenu from './PostMenu';
 import Actions from '../../shared/Actions';
 import Comment from './Comment';
 import Theme from '../Theme';
@@ -88,8 +89,9 @@ export default class Clip extends React.Component {
             tools = (
                 <div style={styles.tools}>
                     <IconButton iconClassName="material-icons" iconStyle={styles.icon} onClick={this.startComment}>comment</IconButton>
-                    <IconButton iconClassName="material-icons" style={styles.remove} iconStyle={styles.icon} onClick={this.removeClip}>delete</IconButton>
-                </div>);
+                    <PostMenu post={this.props.clip}/>
+                </div>
+            );
 
         let comment;
         if (this.state.comment)
