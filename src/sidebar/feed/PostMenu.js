@@ -22,9 +22,7 @@ export default class PostMenu extends React.Component {
                 color: Colors.grey500
             },
             item: {
-                fontSize: 14,
-                paddingLeft: 60,
-                paddingRight: 10
+                fontSize: 14
             }
         };
 
@@ -37,11 +35,11 @@ export default class PostMenu extends React.Component {
                         more_vert
                     </IconButton>}>
                 <MenuItem
-                    primaryText="Move to Topic"
+                    primaryText="Move"
                     innerDivStyle={styles.item}
                     leftIcon={<FolderIcon/>}/>
                 <MenuItem
-                    primaryText="Delete Post"
+                    primaryText="Delete"
                     onClick={this.removePost}
                     innerDivStyle={styles.item}
                     leftIcon={<DeleteIcon/>}/>

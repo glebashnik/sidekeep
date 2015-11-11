@@ -111,7 +111,6 @@ export default class Feed extends React.Component {
                         </IconButton>}
                     iconElementRight={
                         <div style={styles.right}>
-
                             <ExportMenu user={this.props.user}/>
                         </div>}/>
                 {feedMenu}

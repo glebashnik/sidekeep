@@ -2,8 +2,8 @@ import Dispatcher from '../../shared/Dispatcher';
 import Firebase from '../FirebaseRef';
 import FeedStore from '../../shared/stores/FeedStore';
 
-var url = 'https://aftersearchexport.dotcloudapp.com';
-//var url = 'http://localhost:9000';
+//var url = 'https://aftersearchexport.dotcloudapp.com';
+var url = 'http://localhost:9000';
 
 function exportToDocx() {
     chrome.downloads.download({

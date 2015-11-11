@@ -4,7 +4,7 @@ const PORT_NAME = 'action';
 
 export default {
     initBackground() {
-        chrome.runtime.onConnect.addListener(function (port) {
+        chrome.runtime.onConnect.addListener(port => {
             if (port.name === PORT_NAME)
                 port.onMessage.addListener(action => {
                     action.tabId = port.sender.tab.id;

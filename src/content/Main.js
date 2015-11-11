@@ -1,9 +1,9 @@
 import $ from 'jquery';
-import Router from '../shared/Router'
+import ActionRouter from '../shared/ActionRouter'
 import UIStore from '../shared/stores/UIStore'
 import Actions from '../shared/Actions'
 
-Router.initContent();
+ActionRouter.initContent();
 UIStore.initContent();
 
 if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0) {
