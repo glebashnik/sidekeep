@@ -47,6 +47,9 @@ function _selectChanged(snap) {
 }
 
 function selectFeed(feedId) {
+    if (!feedId)
+        return;
+
     if (_feedRef) {
         _feedRef.off('value', _feedUpdate);
         _newPostsQuery.off('child_added', _postAdded);

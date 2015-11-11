@@ -7,6 +7,7 @@ import UserStore from '../../shared/stores/UserStore';
 const USERS_REF = FirebaseRef.child('users');
 const FEEDS_REF = FirebaseRef.child('feeds');
 
+let _userId = null;
 let _userRef = null;
 let _userFeedsRef = null;
 const _userFeedsDef = {};
@@ -18,7 +19,8 @@ function login(user) {
         _userFeedsRef.off('child_removed', _feedRemoved);
     }
 
-    _userRef = USERS_REF.child(user.id);
+    _userId = user.id;
+    _userRef = USERS_REF.child(_userId);
     _userFeedsRef = _userRef.child('feeds');
 
     _userRef.update({
@@ -82,7 +84,9 @@ function _feedUpdated(snap) {
 
 function createFeed(feedName) {
     const feedRef = FEEDS_REF.push({name: feedName, users: {_userId: true}});
-    joinFeed(feedRef.key());
+    const feedId = feedRef.key();
+    joinFeed(feedId);
+    selectFeed(feedId);
 }
 
 function renameFeed(feedId, feedName) {

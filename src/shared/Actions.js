@@ -1,52 +1,52 @@
-import Router from './Router'
+import ActionRouter from './ActionRouter'
 
 export default {
     login(user) {
-        Router.send({
+        ActionRouter.send({
             type: 'LOGIN',
             user: user
         });
     },
 
     toggleSidebar() {
-        Router.send({
+        ActionRouter.send({
             type: 'TOGGLE_SIDEBAR'
         });
     },
 
     toggleFeedMenu() {
-        Router.send({
+        ActionRouter.send({
             type: 'TOGGLE_FEED_MENU'
         })
     },
 
     toggleShareMenu() {
-        Router.send({
+        ActionRouter.send({
             type: 'TOGGLE_SHARE_MENU'
         })
     },
 
     exportToDocx() {
-        Router.send({
+        ActionRouter.send({
             type: 'EXPORT_TO_DOCX'
         });
     },
 
     exportToPptx() {
-        Router.send({
+        ActionRouter.send({
             type: 'EXPORT_TO_PPTX'
         });
     },
 
     createFeed(feedName) {
-        Router.send({
+        ActionRouter.send({
             type: 'CREATE_FEED',
             feedName: feedName
         })
     },
 
     renameFeed(feedId, feedName) {
-        Router.send({
+        ActionRouter.send({
             type: 'RENAME_FEED',
             feedId: feedId,
             feedName: feedName
@@ -54,28 +54,28 @@ export default {
     },
 
     joinFeed(feedId) {
-        Router.send({
+        ActionRouter.send({
             type: 'JOIN_FEED',
             feedId: feedId
         })
     },
 
     leaveFeed(feedId) {
-        Router.send({
+        ActionRouter.send({
             type: 'LEAVE_FEED',
             feedId: feedId
         })
     },
 
     selectFeed(feedId) {
-        Router.send({
+        ActionRouter.send({
             type: 'SELECT_FEED',
             feedId: feedId
         })
     },
 
     clipText(text, tabId) {
-        Router.send({
+        ActionRouter.send({
             type: 'CLIP_TEXT',
             text: text,
             tabId: tabId
@@ -83,7 +83,7 @@ export default {
     },
 
     comment(postId, commentText) {
-        Router.send({
+        ActionRouter.send({
             type: 'COMMENT',
             postId: postId,
             commentText: commentText
@@ -91,7 +91,7 @@ export default {
     },
 
     removePost(postId) {
-        Router.send({
+        ActionRouter.send({
             type: 'REMOVE_POST',
             postId: postId
         });
