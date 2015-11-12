@@ -14,17 +14,17 @@ chrome.browserAction.onClicked.addListener(() => {
     toggleSidebar();
 });
 
-function openPage(pageUrl, windowId, tabId) {
-    chrome.tabs.getAllInWindow(windowId, tabs => {
-        const openedTab = _.find(tabs, {url: pageUrl});
+function openPage(pageUrl, sourceTabId) {
+    chrome.tabs.get(sourceTabId, sourceTab => {
+        chrome.tabs.getAllInWindow(sourceTab.windowId, tabs => {
+            const openedTab = _.find(tabs, {url: pageUrl});
 
-        if (openedTab)
-            chrome.tabs.update(openedTab.id, {highlighted: true});
-        else
-            chrome.tabs.get(tabId, sourceTab => {
+            if (openedTab)
+                chrome.tabs.update(openedTab.id, {highlighted: true});
+            else
                 chrome.tabs.create({url: pageUrl, index: sourceTab.index + 1});
-            });
-    });
+        });
+    })
 }
 
 export default Dispatcher.register(action => {
@@ -39,6 +39,6 @@ export default Dispatcher.register(action => {
             break;
 
         case 'OPEN_PAGE':
-            openPage(action.url, action.windowId, action.tabId);
+            openPage(action.url, action.tabId);
     }
 });
