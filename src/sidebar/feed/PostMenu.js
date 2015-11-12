@@ -32,7 +32,7 @@ export default class PostMenu extends React.Component {
                     <IconButton
                         iconClassName="material-icons"
                         iconStyle={styles.icon}>
-                        more_vert
+                        more_horiz
                     </IconButton>}>
                 <MenuItem
                     primaryText="Move"

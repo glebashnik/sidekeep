@@ -20,7 +20,9 @@ export default {
         alternateTextColor: Colors.white,
         canvasColor: Colors.white,
         borderColor: Colors.grey500,
-        disabledColor: Colors.grey500
+        disabledColor: Colors.grey500,
+        background: '#F2F2F2',
+        icon: Colors.grey600
     },
     font: {
         primary: '400 13px Noto Sans',
