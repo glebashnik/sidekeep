@@ -7,7 +7,9 @@ export default {
         chrome.runtime.onConnect.addListener(port => {
             if (port.name === PORT_NAME)
                 port.onMessage.addListener(action => {
-                    action.tabId = port.sender.tab.id;
+                    const tab = port.sender.tab;
+                    action.windowId = tab.windowId;
+                    action.tabId = tab.id;
                     Dispatcher.dispatch(action);
                 });
         });

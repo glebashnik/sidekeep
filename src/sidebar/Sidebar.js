@@ -45,7 +45,7 @@ class Sidebar extends React.Component {
         let style = {
             width: '100%',
             height: '100%',
-            background: '#F1F1F1'
+            background: Theme.palette.background
         };
 
         return <div style={style}><Feed ui={this.state.ui} user={this.state.user} feed={this.state.feed}/></div>;

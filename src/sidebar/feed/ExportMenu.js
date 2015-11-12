@@ -7,6 +7,8 @@ import PowerPointIcon from '../ui/PowerPointIcon';
 import Actions from '../../shared/Actions';
 import ShareIcon from 'material-ui/lib/svg-icons/social/share';
 import copy from 'copy-to-clipboard';
+import Colors from 'material-ui/lib/styles/colors';
+import Theme from '../Theme';
 
 export default class ExportMenu extends React.Component {
     static propTypes = {
@@ -32,7 +34,7 @@ export default class ExportMenu extends React.Component {
                 zIndex: 6
             },
             icon: {
-                color: 'white'
+                color: Theme.palette.icon
             },
             item: {
                 fontSize: 14

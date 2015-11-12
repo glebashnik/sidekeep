@@ -5,6 +5,7 @@ import Colors from 'material-ui/lib/styles/colors';
 import Theme from '../Theme';
 import PostMenu from './PostMenu';
 import IconButton from 'material-ui/lib/icon-button';
+import Actions from '../../shared/Actions';
 
 @Radium
 class Page extends React.Component {
@@ -38,13 +39,13 @@ class Page extends React.Component {
                 height: 16,
                 marginRight: 11,
                 flexShrink: 0,
-                border: '1px solid ' + Theme.palette.accent2Color
+                border: '1px solid ' + Colors.grey400
             },
             title: {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
-                color: '#0066CC',
+                color: Theme.palette.primary1Color,
                 font: '400 14px Roboto',
                 textDecoration: 'none',
                 cursor: 'pointer',
@@ -106,7 +107,7 @@ class Page extends React.Component {
             <div style={styles.page}>
                 <div style={styles.header} onMouseEnter={this.enterHeader} onMouseLeave={this.leaveHeader}>
                     <img src={page.favIconUrl} style={styles.icon} />
-                    <a href={page.url} target="_blank" style={styles.title}>{page.title}</a>
+                    <div style={styles.title} onClick={this.clickTitle}>{page.title}</div>
                     {tools}
                 </div>
                 {clipElems}
@@ -120,6 +121,10 @@ class Page extends React.Component {
 
     leaveHeader = () => {
         this.setState({tools: false});
+    };
+
+    clickTitle = () => {
+        Actions.openPage(this.props.page.url);
     };
 }
 

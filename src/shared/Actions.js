@@ -95,5 +95,12 @@ export default {
             type: 'REMOVE_POST',
             postId: postId
         });
+    },
+
+    openPage(url) {
+        ActionRouter.send({
+            type: 'OPEN_PAGE',
+            url: url
+        });
     }
 }
