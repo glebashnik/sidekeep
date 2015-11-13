@@ -13,7 +13,7 @@ export default {
             else
                 chrome.identity.getAuthToken({interactive: true}, token => {
                     if (token)
-                        Firebase.authWithOAuthToken('google', token, error => {
+                        FirebaseRef.authWithOAuthToken('google', token, error => {
                             if (error)
                                 console.log(error);
                         });

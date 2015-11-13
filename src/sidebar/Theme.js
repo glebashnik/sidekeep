@@ -10,8 +10,8 @@ export default {
     spacing: Spacing,
     fontFamily: 'Roboto, sans-serif',
     palette: {
-        primary1Color: '#0066CC',
-        primary2Color: '#0066CC',
+        primary1Color: '#2285CF',
+        primary2Color: '#2285CF',
         primary3Color: '#4C97ED',
         accent1Color: Colors.pinkA200,
         accent2Color: Colors.grey300,
@@ -21,7 +21,10 @@ export default {
         canvasColor: Colors.white,
         borderColor: Colors.grey500,
         disabledColor: Colors.grey500,
-        background: '#F2F2F2',
+        accentBackground: '#2285CF',
+        accentForeground: 'white',
+        accentText: '#2285CF',
+        background: '#EEF2F5',
         icon: Colors.grey600
     },
     font: {

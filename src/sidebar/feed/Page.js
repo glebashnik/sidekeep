@@ -45,7 +45,7 @@ class Page extends React.Component {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
-                color: Theme.palette.primary1Color,
+                color: Theme.palette.accentText,
                 font: '400 14px Roboto',
                 textDecoration: 'none',
                 cursor: 'pointer',

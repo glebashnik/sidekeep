@@ -58,18 +58,18 @@ export default class Feed extends React.Component {
             header: {
                 display: 'flex',
                 width: '100%',
-                borderBottom: '1px solid ' + Colors.grey400,
+                background: Theme.palette.accentBackground,
                 zIndex: 2
             },
             icon: {
-                color: this.props.ui.feedMenu ? Theme.palette.primary1Color : Theme.palette.icon
+                color: Theme.palette.accentForeground
             },
             titleField: {
                 flex: '1'
             },
             titleInput: {
                 font: '400 17px Roboto',
-                color: 'black'
+                color: Theme.palette.accentForeground
             },
             posts: {
                 display: 'flex',
@@ -111,8 +111,8 @@ export default class Feed extends React.Component {
                     <TextField
                         style={styles.titleField}
                         inputStyle={styles.titleInput}
-                        underlineStyle={{borderColor: Theme.palette.background}}
-                        underlineFocusStyle={{borderColor: Theme.palette.primary1Color}}
+                        underlineStyle={{borderColor: Theme.palette.accentBackground}}
+                        underlineFocusStyle={{borderColor: 'white'}}
                         hintText="Topic Name"
                         value={this.state.feedName}
                         onChange={this.onChangeFeedName}
