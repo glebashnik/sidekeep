@@ -6,6 +6,8 @@ import Paper from 'material-ui/lib/paper';
 
 export default class Post extends React.Component {
     static propTypes = {
+        ui: React.PropTypes.object.isRequired,
+        user: React.PropTypes.object.isRequired,
         post: React.PropTypes.object.isRequired
     };
 
@@ -22,10 +24,10 @@ export default class Post extends React.Component {
 
         switch(post.type) {
             case 'search':
-                postElem = <Search search={post}/>;
+                postElem = <Search user={this.props.user} ui={this.props.ui} search={post}/>;
                 break;
             case 'page':
-                postElem = <Page page={post}/>;
+                postElem = <Page user={this.props.user} ui={this.props.ui} page={post}/>;
                 break;
         }
 

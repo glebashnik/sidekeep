@@ -13,6 +13,7 @@ require('./controllers/UserController');
 require('./controllers/ExportController');
 require('./controllers/FeedController');
 require('./controllers/UIController');
+require('./controllers/TabController');
 require('./Tracer');
 require('./ContextMenu');
 

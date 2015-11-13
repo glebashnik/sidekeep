@@ -10,6 +10,8 @@ import Radium from 'radium';
 
 @Radium class Search extends React.Component {
     static propTypes = {
+        ui: React.PropTypes.object.isRequired,
+        user: React.PropTypes.object.isRequired,
         search: React.PropTypes.object.isRequired
     };
 
@@ -48,7 +50,7 @@ import Radium from 'radium';
                     <FontIcon className="material-icons" color={'#0066CC'}>search</FontIcon>
                     <span style={styles.query} href={search.url}>{search.query.toLowerCase()}</span>
                 </HBox>
-                {search.children.map((page, index) => [sep, <Page page={page} key={index}/>])}
+                {search.children.map((page, index) => [sep, <Page user={this.props.user} ui={this.props.ui} page={page} key={index}/>])}
             </VBox>
         );
     }

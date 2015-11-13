@@ -21,8 +21,6 @@ let _selectRef = null;
 let _feedRef = null;
 let _postsRef = null;
 
-let _newPostsQuery = null;
-
 let _user = null;
 let _posts = {};
 
@@ -52,7 +50,7 @@ function selectFeed(feedId) {
 
     if (_feedRef) {
         _feedRef.off('value', _feedUpdate);
-        _newPostsQuery.off('child_added', _postAdded);
+        _postsRef.off('child_added', _postAdded);
         _postsRef.off('child_removed', _postRemoved);
     }
 
@@ -62,11 +60,8 @@ function selectFeed(feedId) {
     _feedRef.on('value', _feedUpdate);
 
     _postsRef = POSTS_REF.child(feedId);
-    _postsRef.once('value', _postsLoaded);
+    _postsRef.on('child_added', _postAdded);
     _postsRef.on('child_removed', _postRemoved);
-
-    _newPostsQuery = _postsRef.orderByChild('timestamp').startAt(Date.now());
-    _newPostsQuery.on('child_added', _postAdded);
 }
 
 function _feedUpdate(snap) {
