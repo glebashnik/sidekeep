@@ -10,6 +10,8 @@ import Actions from '../../shared/Actions';
 @Radium
 class Page extends React.Component {
     static propTypes = {
+        ui: React.PropTypes.object.isRequired,
+        user: React.PropTypes.object.isRequired,
         page: React.PropTypes.object.isRequired,
         style: React.PropTypes.object
     };
@@ -25,14 +27,16 @@ class Page extends React.Component {
             page: {
                 display: 'flex',
                 flexDirection: 'column',
-                padding: '10px 10px 12px 10px'
+                padding: '10px 0 5px 0'
             },
             header: {
                 position: 'relative',
                 marginTop: 3,
                 marginBottom: 10,
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'center',
+                paddingRight: 10,
+                paddingLeft: 10
             },
             icon: {
                 width: 16,
@@ -81,27 +85,11 @@ class Page extends React.Component {
                     <PostMenu post={this.props.page}/>
                 </div>);
 
-        let sep1 = <div style={styles.sep1}>&#8942;</div>;
-        let sep2 = <div style={styles.sep2}></div>;
-
         let clipElems;
 
         if (page.children)
-            clipElems = page.children.map((clip, index) => {
-                let clipE = <Clip clip={clip} key={index}/>;
-
-                if (index > 0) {
-                    let prev = page.children[index - 1];
-
-                    if (!prev.children)
-                        return [sep1, clipE];
-                    else
-                        return [sep2, clipE];
-                }
-
-                return clipE;
-            });
-
+            clipElems = page.children.map((clip, index) =>
+                <Clip ui={this.props.ui} user={this.props.user} clip={clip} key={index}/>);
 
         return (
             <div style={styles.page}>

@@ -12,13 +12,18 @@ import Comment from './Comment';
 import Theme from '../Theme';
 import Radium from 'radium';
 
+import Avatar from 'material-ui/lib/avatar';
+
 export default class Clip extends React.Component {
     state = {
         tools: false,
-        comment: false
+        newComment: '',
+        expanded: false
     };
 
     static propTypes = {
+        ui: React.PropTypes.object.isRequired,
+        user: React.PropTypes.object.isRequired,
         clip: React.PropTypes.object.isRequired
     };
 
@@ -35,16 +40,17 @@ export default class Clip extends React.Component {
     };
 
     acceptComment = (event) => {
-        Actions.comment(this.props.clip.id, event.target.value);
-        this.setState({comment: false});
+        event.preventDefault();
+        Actions.comment(this.props.clip.id, this.refs.newComment.getValue());
+        this.refs.newComment.clearValue();
     };
 
-    cancelComment = () => {
-        this.setState({comment: false});
-    };
+    expand = () => {
+        if (this.props.clip.id === this.props.ui.expandedClipId)
+            return;
 
-    removeClip = () => {
-        Actions.removePost(this.props.clip.id);
+        Actions.expandClip(this.props.clip.id);
+        this.setState({newComment: ''});
     };
 
     render() {
@@ -52,10 +58,10 @@ export default class Clip extends React.Component {
 
         let styles = {
             clip: {
-                position: 'relative'
-            },
-            content: {
-                position: 'relative'
+                position: 'relative',
+                padding: '10px 10px 10px 10px',
+                margin: '5px 0 5px 0',
+                cursor: 'pointer'
             },
             snippet: {
                 font: Theme.font.content,
@@ -69,38 +75,28 @@ export default class Clip extends React.Component {
                 color: Colors.grey500
             },
             tools: {
-                display: 'flex',
-                direction: 'row',
-                background: Colors.darkWhite,
                 position: 'absolute',
-                bottom: 0,
+                top: -40,
                 right: 0,
-                marginBottom: -10
+                zIndex: 3
             },
             comment: {
                 display: 'flex',
-                direction: 'row',
-                marginRight: -10
+                marginTop: 5,
+                alignItems: 'center'
+            },
+            avatar: {
+                marginRight: 10,
+                flexShrink: 0
             }
         };
 
         let tools;
-        if (this.state.tools)
-            tools = (
-                <div style={styles.tools}>
-                    <IconButton iconClassName="material-icons" iconStyle={styles.icon} onClick={this.startComment}>comment</IconButton>
-                    <PostMenu post={this.props.clip}/>
-                </div>
-            );
-
-        let comment;
-        if (this.state.comment)
-            comment = (
-                <div style={styles.comment}>
-                    <TextField hintText="Comment" multiLine={true} onEnterKeyDown={this.acceptComment}/>
-                    <IconButton iconClassName="material-icons" iconStyle={styles.icon} onClick={this.cancelComment}>clear</IconButton>
-                </div>
-            );
+        if (this.state.tools) {
+            styles.clip.background = '#FEF3DA';
+            //tools = <div style={styles.tools}><PostMenu post={this.props.clip}/></div>;
+        } else
+            styles.clip.background = 'white';
 
         let comments;
         if (clip.children)
@@ -110,14 +106,33 @@ export default class Clip extends React.Component {
                 </div>
             );
 
-        return (
-            <div style={styles.clip}>
-                <div style={styles.content} onMouseEnter={this.enterClip} onMouseLeave={this.leaveClip}>
-                    <Snippet maxLines={4} text={HtmlHelper.strip(clip.text)} style={styles.snippet}/>
-                    {tools}
+        let comment;
+        let maxLines = 4;
+
+        if (this.props.clip.id === this.props.ui.expandedClipId) {
+            maxLines = 100;
+            styles.clip.background = '#FEEABC';
+            comment = (
+                <div style={styles.comment}>
+                    <Avatar style={styles.avatar} src={this.props.user.image}/>
+                    <TextField
+                        style={{fontSize: 14}}
+                        hintText="Comment"
+                        multiLine={true}
+                        ref='newComment'
+                        onEnterKeyDown={this.acceptComment}/>
                 </div>
-                {comment}
+            );
+        }
+
+        return (
+            <div style={styles.clip}
+                 onMouseEnter={this.enterClip}
+                 onMouseLeave={this.leaveClip}
+                 onClick={this.expand}>
+                <Snippet maxLines={maxLines} text={HtmlHelper.strip(clip.text)} style={styles.snippet}/>
                 {comments}
+                {comment}
             </div>
         );
     }

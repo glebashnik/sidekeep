@@ -93,7 +93,7 @@ export default class Feed extends React.Component {
 
         if (posts) {
             const sortedPosts = _.sortBy(posts, p => -p.timestamp);
-            postElems = sortedPosts.map((post, index) => <Post post={post} key={index}/>);
+            postElems = sortedPosts.map((post, index) => <Post user={this.props.user} ui={this.props.ui} post={post} key={index}/>);
         }
 
         return (

@@ -102,5 +102,12 @@ export default {
             type: 'OPEN_PAGE',
             url: url
         });
+    },
+
+    expandClip(clipId) {
+        ActionRouter.send({
+            type: 'EXPAND_CLIP',
+            clipId: clipId
+        });
     }
 }
