@@ -48,7 +48,7 @@ import Radium from 'radium';
             },
             name: {
                 font: Theme.font.accent,
-                color: Theme.palette.primary1Color,
+                color: Theme.palette.accentText,
                 cursor: 'pointer',
                 ':hover': {
                     textDecoration: 'underline'

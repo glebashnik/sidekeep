@@ -34,7 +34,7 @@ export default class ExportMenu extends React.Component {
                 zIndex: 6
             },
             icon: {
-                color: Theme.palette.icon
+                color: Theme.palette.accentForeground
             },
             item: {
                 fontSize: 14
