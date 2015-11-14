@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React from 'react';
-import AppBar from 'material-ui/lib/app-bar';
 import Post from './Post';
 import IconButton from 'material-ui/lib/icon-button';
 import Actions from '../../shared/Actions';
@@ -10,41 +9,13 @@ import ExportMenu from './ExportMenu';
 import TextField from 'material-ui/lib/text-field';
 import Theme from '../Theme';
 import Colors from 'material-ui/lib/styles/colors';
+import AppBar from './AppBar'
 
 export default class Feed extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired,
         feed: React.PropTypes.object.isRequired
-    };
-
-    state = {
-        feedName: ''
-    };
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            feedName: nextProps.feed.name
-        });
-    }
-
-    toggleFeedMenu = () => {
-        Actions.toggleFeedMenu();
-    };
-
-    onChangeFeedName = (e) => {
-        this.setState({
-            feedName: e.target.value
-        });
-    };
-
-    onBlurFeedName = (e) => {
-        Actions.renameFeed(this.props.user.selectedFeed, e.target.value);
-    };
-
-    onEnterKeyDownFeedName = (e) => {
-        Actions.renameFeed(this.props.user.selectedFeed, e.target.value);
-        e.target.blur();
     };
 
     render() {
@@ -55,38 +26,14 @@ export default class Feed extends React.Component {
                 height: '100%',
                 width: '100%'
             },
-            header: {
-                display: 'flex',
-                width: '100%',
-                background: Theme.palette.accentBackground,
-                zIndex: 2
-            },
-            icon: {
-                color: Theme.palette.accentForeground
-            },
-            titleField: {
-                flex: '1'
-            },
-            titleInput: {
-                font: '400 17px Roboto',
-                color: Theme.palette.accentForeground
-            },
             posts: {
                 display: 'flex',
                 flexDirection: 'column',
                 overflowY: 'auto',
                 flexGrow: 1,
                 paddingBottom: 10
-            },
-            right: {
-                display: 'flex',
-                alignItems: 'center'
             }
         };
-
-        let feedMenu;
-        if (this.props.ui.feedMenu)
-            feedMenu = <FeedMenu user={this.props.user}/>;
 
         const posts = this.props.feed.children;
         let postElems;
@@ -98,31 +45,7 @@ export default class Feed extends React.Component {
 
         return (
             <div style={styles.feed}>
-                <div style={styles.header}>
-                    <IconButton
-                        iconStyle={styles.icon}
-                        iconClassName="material-icons"
-                        onClick={this.toggleFeedMenu}
-                        touch={true}
-                        tooltipPosition="bottom-right"
-                        tooltip="Topics">
-                        folder_open
-                    </IconButton>
-                    <TextField
-                        style={styles.titleField}
-                        inputStyle={styles.titleInput}
-                        underlineStyle={{borderColor: Theme.palette.accentBackground}}
-                        underlineFocusStyle={{borderColor: 'white'}}
-                        hintText="Topic Name"
-                        value={this.state.feedName}
-                        onChange={this.onChangeFeedName}
-                        onBlur={this.onBlurFeedName}
-                        onEnterKeyDown={this.onEnterKeyDownFeedName}/>
-                    <div style={styles.right}>
-                        <ExportMenu user={this.props.user}/>
-                    </div>
-                </div>
-                {feedMenu}
+                <AppBar ui={this.props.ui} user={this.props.user} feed={this.props.feed}/>
                 <div style={styles.posts}>
                     {postElems}
                 </div>

@@ -7,7 +7,6 @@ import IconButton from 'material-ui/lib/icon-button';
 import Actions from '../../shared/Actions';
 import CommentSection from './CommentSection';
 import HoverBox from '../ui/HoverBox';
-import PostToolbar from './PostToolbar';
 
 class Page extends React.Component {
     static propTypes = {
@@ -58,14 +57,9 @@ class Page extends React.Component {
 
         const page = this.props.page;
         const clips = _.reject(page.children, {type: 'comment'});
-        let toolbar;
 
-        if (page.id === this.props.ui.selectedPostId) {
+        if (page.id === this.props.ui.selectedPostId)
             styles.header.background = Theme.palette.selectBackground;
-
-            if (this.props.user.id === page.user.id)
-                toolbar = <PostToolbar post={page}/>;
-        }
 
         const clipElems = clips
             ? clips.map((clip, index) =>
@@ -86,7 +80,6 @@ class Page extends React.Component {
                             onClick={this.openPage}>
                             {page.title}
                         </HoverBox>
-                        {toolbar}
                     </div>
                     <CommentSection ui={this.props.ui} user={this.props.user} post={page}/>
                 </HoverBox>

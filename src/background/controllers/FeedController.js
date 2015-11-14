@@ -162,10 +162,11 @@ function comment(postId, commentText) {
 
 function removePost(postId) {
     _postsRef.child(postId).set(null);
+    selectPost(null);
 }
 
 function selectPost(postId) {
-    UIStore.emitUpdate({selectedPostId: postId});
+    UIStore.emitUpdate({selectedPostId: UIStore.state.selectedPostId === postId ? null : postId});
 }
 
 export default Dispatcher.register(action => {

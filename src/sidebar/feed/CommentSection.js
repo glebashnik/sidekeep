@@ -7,7 +7,6 @@ import Comment from './Comment';
 
 export default class CommentSection extends React.Component {
     static propTypes = {
-        style: React.PropTypes.object,
         ui: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired,
         post: React.PropTypes.object.isRequired
@@ -37,7 +36,7 @@ export default class CommentSection extends React.Component {
             }
         };
 
-        const post = this.props.post;
+        const {ui, user, post, ...other} = this.props;
 
         const comments = _.filter(post.children, {type: 'comment'});
 
@@ -45,9 +44,9 @@ export default class CommentSection extends React.Component {
             ? comments.map((comment, index) => <Comment comment={comment} key={index}/>)
             : undefined;
 
-        const newCommentElem = post.id === this.props.ui.selectedPostId ?
+        const newCommentElem = post.id === ui.selectedPostId ?
             <div style={styles.newComment}>
-                <Avatar style={styles.avatar} src={this.props.user.image}/>
+                <Avatar style={styles.avatar} src={user.image}/>
                 <TextField
                     style={{fontSize: 14}}
                     hintText="Comment"
@@ -58,7 +57,7 @@ export default class CommentSection extends React.Component {
             : undefined;
 
         return (
-            <div style={this.props.style}>
+            <div {...other}>
                 {commentElems}
                 {newCommentElem}
             </div>
