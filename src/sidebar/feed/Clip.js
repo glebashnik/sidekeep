@@ -9,7 +9,6 @@ import Colors from 'material-ui/lib/styles/colors';
 import HoverBox from '../ui/HoverBox';
 import ImageContent from './ImageContent';
 import CommentSection from './CommentSection';
-import PostToolbar from './PostToolbar';
 
 export default class Clip extends React.Component {
     static propTypes = {
@@ -34,16 +33,12 @@ export default class Clip extends React.Component {
             }
         };
 
-        let toolbar;
         let clip = this.props.clip;
         let maxLines = 4;
 
         if (clip.id === this.props.ui.selectedPostId) {
             maxLines = 100;
             styles.clip.background = Theme.palette.selectBackground;
-
-            if (this.props.user.id === clip.user.id)
-                toolbar = <PostToolbar style={{paddingBottom: 8}} post={clip}/>;
         }
 
         let content;
@@ -60,10 +55,8 @@ export default class Clip extends React.Component {
         return (
             <HoverBox
                 style={styles.clip}
-                hoverStyle={{background: Theme.palette.selectBackground}}
-                onClick={this.selectPost}>
-                {toolbar}
-                {content}
+                hoverStyle={{background: Theme.palette.selectBackground}}>
+                <div onClick={this.selectPost}>{content}</div>
                 <CommentSection ui={this.props.ui} user={this.props.user} post={clip}/>
             </HoverBox>
         );
