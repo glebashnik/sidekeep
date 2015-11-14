@@ -16,7 +16,7 @@ class Search extends React.Component {
     };
 
     selectPost = () => {
-        Actions.selectClip(this.props.search.id);
+        Actions.selectPost(this.props.search.id);
     };
 
     render() {
@@ -51,7 +51,7 @@ class Search extends React.Component {
         const search = this.props.search;
         const pages = _.reject(search.children, {type: 'comment'});
 
-        if (search.id === this.props.ui.selectedClipId)
+        if (search.id === this.props.ui.selectedPostId)
             styles.header.background = '#FEEABC';
 
         const pageElems = pages

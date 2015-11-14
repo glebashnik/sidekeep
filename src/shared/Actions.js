@@ -119,10 +119,10 @@ export default {
         });
     },
 
-    selectClip(clipId) {
+    selectPost(postId) {
         ActionRouter.send({
-            type: 'SELECT_CLIP',
-            clipId: clipId
+            type: 'SELECT_POST',
+            postId: postId
         });
     }
 }

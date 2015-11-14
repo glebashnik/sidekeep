@@ -21,7 +21,7 @@ class Page extends React.Component {
     };
 
     selectPost = () => {
-        Actions.selectClip(this.props.page.id);
+        Actions.selectPost(this.props.page.id);
     };
 
     render() {
@@ -58,7 +58,7 @@ class Page extends React.Component {
 
         const clips = _.reject(page.children, {type: 'comment'});
 
-        if (page.id === this.props.ui.selectedClipId)
+        if (page.id === this.props.ui.selectedPostId)
             styles.header.background = '#FEEABC';
 
         const clipElems = clips

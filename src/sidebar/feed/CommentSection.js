@@ -44,7 +44,7 @@ export default class CommentSection extends React.Component {
             ? comments.map((comment, index) => <Comment comment={comment} key={index}/>)
             : undefined;
 
-        const newCommentElem = post.id === this.props.ui.selectedClipId ?
+        const newCommentElem = post.id === this.props.ui.selectedPostId ?
             <div style={styles.newComment}>
                 <Avatar style={styles.avatar} src={this.props.user.image}/>
                 <TextField

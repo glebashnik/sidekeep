@@ -19,11 +19,8 @@ export default class Clip extends React.Component {
         clip: React.PropTypes.object.isRequired
     };
 
-    selectClip = () => {
-        if (this.props.clip.id === this.props.ui.selectedClipId)
-            return;
-
-        Actions.selectClip(this.props.clip.id);
+    selectPost = () => {
+        Actions.selectPost(this.props.clip.id);
     };
 
     render() {
@@ -45,7 +42,7 @@ export default class Clip extends React.Component {
 
         let maxLines = 4;
 
-        if (clip.id === this.props.ui.selectedClipId) {
+        if (clip.id === this.props.ui.selectedPostId) {
             maxLines = 100;
             styles.clip.background = '#FEEABC';
         }
@@ -61,7 +58,7 @@ export default class Clip extends React.Component {
                 break;
         }
         return (
-            <HoverBox hoverStyle={{background: '#FEEABC'}} style={styles.clip} onClick={this.selectClip}>
+            <HoverBox hoverStyle={{background: '#FEEABC'}} style={styles.clip} onClick={this.selectPost}>
                 {content}
                 <CommentSection ui={this.props.ui} user={this.props.user} post={clip}/>
             </HoverBox>
