@@ -27,12 +27,6 @@ function openPage(pageUrl, sourceTabId) {
     })
 }
 
-function expandClip(clipId) {
-    UIStore.emitUpdate({
-        expandedClipId: UIStore.state.expandedClipId === clipId ? null : clipId
-    });
-}
-
 export default Dispatcher.register(action => {
     switch (action.type) {
         case 'TOGGLE_SIDEBAR':
@@ -46,10 +40,6 @@ export default Dispatcher.register(action => {
 
         case 'OPEN_PAGE':
             openPage(action.url, action.tabId);
-            break;
-
-        case 'EXPAND_CLIP':
-            expandClip(action.clipId);
             break;
     }
 });

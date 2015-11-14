@@ -3,6 +3,7 @@ import $ from 'jquery';
 
 import UserStore from '../../shared/stores/UserStore';
 import FeedStore from '../../shared/stores/FeedStore';
+import UIStore from '../../shared/stores/UIStore';
 import Dispatcher from '../../shared/Dispatcher';
 import Firebase from 'Firebase';
 import FirebaseRef from '../FirebaseRef';
@@ -10,6 +11,7 @@ import * as UrlHelper from '../../shared/helpers/UrlHelper';
 import * as TraceHelper from '../../shared/helpers/TraceHelper';
 import * as Tracer from '../Tracer';
 import FlatToNested from 'flat-to-nested';
+import ImageHelper from '../helpers/ImageHelper';
 
 const flatToNested = new FlatToNested();
 
@@ -73,19 +75,10 @@ function _feedUpdate(snap) {
     emit();
 }
 
-function _addPost(snap) {
+function _postAdded(snap) {
     const post = snap.val();
     post.id = snap.key();
     _posts[post.id] = post;
-}
-
-function _postsLoaded(snap) {
-    snap.forEach(_addPost);
-    emit();
-}
-
-function _postAdded(snap) {
-    _addPost(snap);
     emit();
 }
 
@@ -94,15 +87,15 @@ function _postRemoved(snap) {
     emit();
 }
 
-function clipText(text, tabId) {
+function clipPage(tabId) {
     let trace = TraceHelper.fixTrace(Tracer.getTrace(tabId));
     let first = _.first(trace);
     let last = _.last(trace);
-    let parent = 0;
+    let parentId = 0;
 
     if (first.query)
-        parent = _.findKey(_posts, {query: first.query}) || _postsRef.push({
-                parent: parent,
+        parentId = _.findKey(_posts, {query: first.query}) || _postsRef.push({
+                parent: parentId,
                 timestamp: Firebase.ServerValue.TIMESTAMP,
                 type: 'search',
                 url: first.url,
@@ -110,8 +103,8 @@ function clipText(text, tabId) {
                 user: _user
             }).key();
 
-    parent = _.findKey(_posts, {url: last.url}) || _postsRef.push({
-            parent: parent,
+    return _.findKey(_posts, {url: last.url}) || _postsRef.push({
+            parent: parentId,
             timestamp: Firebase.ServerValue.TIMESTAMP,
             type: 'page',
             title: last.title,
@@ -119,14 +112,35 @@ function clipText(text, tabId) {
             favIconUrl: last.favIconUrl,
             user: _user
         }).key();
+}
 
-    _postsRef.push({
-        parent: parent,
+
+function clipText(text, tabId) {
+    const pageId = clipPage(tabId);
+
+    const clipId = _postsRef.push({
+        parent: pageId,
         timestamp: Firebase.ServerValue.TIMESTAMP,
         type: 'text',
         text: text,
         user: _user
-    });
+    }).key();
+
+    selectClip(clipId);
+}
+
+function clipImage(imageUrl, tabId) {
+    const pageId = clipPage(tabId);
+
+    const clipId = _postsRef.push({
+        parent: pageId,
+        timestamp: Firebase.ServerValue.TIMESTAMP,
+        type: 'image',
+        imageUrl: imageUrl,
+        user: _user
+    }).key();
+
+    selectClip(clipId);
 }
 
 function comment(postId, commentText) {
@@ -143,6 +157,12 @@ function removePost(postId) {
     _postsRef.child(postId).set(null);
 }
 
+function selectClip(clipId) {
+    UIStore.emitUpdate({
+        selectedClipId: clipId
+    });
+}
+
 export default Dispatcher.register(action => {
     switch (action.type) {
         case 'LOGIN':
@@ -157,12 +177,24 @@ export default Dispatcher.register(action => {
             clipText(action.text, action.tabId);
             break;
 
+        case 'CLIP_IMAGE':
+            clipImage(action.imageUrl, action.tabId);
+            break;
+
+        case 'CLIP_PAGE':
+            clipPage(action.tabId);
+            break;
+
         case 'COMMENT':
             comment(action.postId, action.commentText);
             break;
 
         case 'REMOVE_POST':
             removePost(action.postId);
+            break;
+
+        case 'SELECT_CLIP':
+            selectClip(action.clipId);
             break;
     }
 });

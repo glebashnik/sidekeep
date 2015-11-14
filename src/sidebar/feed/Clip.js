@@ -1,18 +1,16 @@
 import React from 'react';
 import * as HtmlHelper from '../../shared/helpers/HtmlHelper';
 
-import Colors from 'material-ui/lib/styles/colors';
-import IconButton from 'material-ui/lib/icon-button';
 import TextField from 'material-ui/lib/text-field';
-
+import Avatar from 'material-ui/lib/avatar';
+import FontIcon from 'material-ui/lib/font-icon';
 import Snippet from '../ui/Snippet';
-import PostMenu from './PostMenu';
 import Actions from '../../shared/Actions';
 import Comment from './Comment';
 import Theme from '../Theme';
-import Radium from 'radium';
+import Colors from 'material-ui/lib/styles/colors';
 
-import Avatar from 'material-ui/lib/avatar';
+import ImageContent from './ImageContent';
 
 export default class Clip extends React.Component {
     state = {
@@ -27,14 +25,6 @@ export default class Clip extends React.Component {
         clip: React.PropTypes.object.isRequired
     };
 
-    enterClip = () => {
-        this.setState({tools: true});
-    };
-
-    leaveClip = () => {
-        this.setState({tools: false});
-    };
-
     startComment = () => {
         this.setState({comment: true});
     };
@@ -45,12 +35,11 @@ export default class Clip extends React.Component {
         this.refs.newComment.clearValue();
     };
 
-    expand = () => {
-        if (this.props.clip.id === this.props.ui.expandedClipId)
+    selectClip = () => {
+        if (this.props.clip.id === this.props.ui.selectedClipId)
             return;
 
-        Actions.expandClip(this.props.clip.id);
-        this.setState({newComment: ''});
+        Actions.selectClip(this.props.clip.id);
     };
 
     render() {
@@ -60,7 +49,6 @@ export default class Clip extends React.Component {
             clip: {
                 position: 'relative',
                 padding: '10px 10px 10px 10px',
-                margin: '5px 0 5px 0',
                 cursor: 'pointer'
             },
             snippet: {
@@ -71,15 +59,6 @@ export default class Clip extends React.Component {
                 margin: 0,
                 padding: 0
             },
-            icon: {
-                color: Colors.grey500
-            },
-            tools: {
-                position: 'absolute',
-                top: -40,
-                right: 0,
-                zIndex: 3
-            },
             comment: {
                 display: 'flex',
                 marginTop: 5,
@@ -88,15 +67,13 @@ export default class Clip extends React.Component {
             avatar: {
                 marginRight: 10,
                 flexShrink: 0
+            },
+            image: {
+                maxHeight: 70,
+                width: '100%',
+                objectFit: 'cover'
             }
-        };
-
-        let tools;
-        if (this.state.tools) {
-            styles.clip.background = '#FEF3DA';
-            //tools = <div style={styles.tools}><PostMenu post={this.props.clip}/></div>;
-        } else
-            styles.clip.background = 'white';
+    };
 
         let comments;
         if (clip.children)
@@ -109,9 +86,10 @@ export default class Clip extends React.Component {
         let comment;
         let maxLines = 4;
 
-        if (this.props.clip.id === this.props.ui.expandedClipId) {
+        if (clip.id === this.props.ui.selectedClipId) {
             maxLines = 100;
             styles.clip.background = '#FEEABC';
+
             comment = (
                 <div style={styles.comment}>
                     <Avatar style={styles.avatar} src={this.props.user.image}/>
@@ -125,12 +103,20 @@ export default class Clip extends React.Component {
             );
         }
 
+        let content;
+
+        switch (clip.type) {
+            case 'text':
+                content = <Snippet maxLines={maxLines} text={HtmlHelper.strip(clip.text)} style={styles.snippet}/>;
+                break;
+            case 'image':
+                content = <ImageContent ui={this.props.ui} clip={clip}/>;
+                break;
+        }
+
         return (
-            <div style={styles.clip}
-                 onMouseEnter={this.enterClip}
-                 onMouseLeave={this.leaveClip}
-                 onClick={this.expand}>
-                <Snippet maxLines={maxLines} text={HtmlHelper.strip(clip.text)} style={styles.snippet}/>
+            <div style={styles.clip} onClick={this.selectClip}>
+                {content}
                 {comments}
                 {comment}
             </div>
