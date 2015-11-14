@@ -45,7 +45,7 @@ class Search extends React.Component {
                 cursor: 'pointer'
             },
             sep: {
-                borderTop: '1px solid ' + Colors.grey300
+                borderTop: '2px solid ' + Colors.grey300
             }
         };
 
@@ -54,13 +54,11 @@ class Search extends React.Component {
         let toolbar;
 
         if (search.id === this.props.ui.selectedPostId) {
-            styles.header.background = '#FEEABC';
-            styles.header.paddingTop = 0;
+            styles.header.background = Theme.palette.selectBackground;
 
             if (this.props.user.id === search.user.id)
                 toolbar = <PostToolbar post={search}/>;
-        } else
-            styles.header.paddingTop = 10;
+        }
 
         const pageElems = pages
             ? pages.map((page, index) => [
@@ -72,7 +70,7 @@ class Search extends React.Component {
             <div style={styles.search}>
                 <HoverBox
                     style={styles.header}
-                    hoverStyle={{background: '#FEEABC'}}
+                    hoverStyle={{background: Theme.palette.selectBackground}}
                     onClick={this.selectPost}>
                     <div style={styles.content}>
                         <FontIcon

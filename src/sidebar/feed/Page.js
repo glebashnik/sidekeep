@@ -37,7 +37,8 @@ class Page extends React.Component {
             },
             content: {
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'center',
+                height: 24
             },
             icon: {
                 width: 16,
@@ -60,13 +61,11 @@ class Page extends React.Component {
         let toolbar;
 
         if (page.id === this.props.ui.selectedPostId) {
-            styles.header.background = '#FEEABC';
-            styles.header.paddingTop = 0;
+            styles.header.background = Theme.palette.selectBackground;
 
             if (this.props.user.id === page.user.id)
                 toolbar = <PostToolbar post={page}/>;
-        } else
-            styles.header.paddingTop = 10;
+        }
 
         const clipElems = clips
             ? clips.map((clip, index) =>
@@ -77,7 +76,7 @@ class Page extends React.Component {
             <div style={styles.page}>
                 <HoverBox
                     style={styles.header}
-                    hoverStyle={{background: '#FEEABC'}}
+                    hoverStyle={{background: Theme.palette.selectBackground}}
                     onClick={this.selectPost}>
                     <div style={styles.content}>
                         <img src={page.favIconUrl} style={styles.icon}/>
