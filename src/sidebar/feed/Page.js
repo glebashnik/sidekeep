@@ -60,8 +60,8 @@ class Page extends React.Component {
         let toolbar;
 
         if (page.id === this.props.ui.selectedPostId) {
-            styles.header.paddingTop = 0;
             styles.header.background = '#FEEABC';
+            styles.header.paddingTop = 0;
 
             if (this.props.user.id === page.user.id)
                 toolbar = <PostToolbar post={page}/>;
