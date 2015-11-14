@@ -17,8 +17,13 @@ export default class Clip extends React.Component {
         clip: React.PropTypes.object.isRequired
     };
 
-    selectPost = () => {
+    onClickContent = () => {
         Actions.selectPost(this.props.clip.id);
+    };
+
+    onClickComment = () => {
+        if (this.props.clip.id !== this.props.ui.selectedPostId)
+            Actions.selectPost(this.props.clip.id);
     };
 
     render() {
@@ -56,8 +61,8 @@ export default class Clip extends React.Component {
             <HoverBox
                 style={styles.clip}
                 hoverStyle={{background: Theme.palette.selectBackground}}>
-                <div onClick={this.selectPost}>{content}</div>
-                <CommentSection ui={this.props.ui} user={this.props.user} post={clip}/>
+                <div onClick={this.onClickContent}>{content}</div>
+                <CommentSection onClick={this.onClickComment} ui={this.props.ui} user={this.props.user} post={clip}/>
             </HoverBox>
         );
     }

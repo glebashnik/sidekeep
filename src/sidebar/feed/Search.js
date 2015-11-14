@@ -15,8 +15,13 @@ class Search extends React.Component {
         search: React.PropTypes.object.isRequired
     };
 
-    selectPost = () => {
+    onClickContent = () => {
         Actions.selectPost(this.props.search.id);
+    };
+
+    onClickComment = () => {
+        if (this.props.clip.id !== this.props.ui.selectedPostId)
+            Actions.selectPost(this.props.search.id);
     };
 
     render() {
@@ -64,9 +69,8 @@ class Search extends React.Component {
             <div style={styles.search}>
                 <HoverBox
                     style={styles.header}
-                    hoverStyle={{background: Theme.palette.selectBackground}}
-                    onClick={this.selectPost}>
-                    <div style={styles.content}>
+                    hoverStyle={{background: Theme.palette.selectBackground}}>
+                    <div style={styles.content} onClick={this.onClickContent}>
                         <FontIcon
                             className="material-icons"
                             color={'#0066CC'}>
@@ -79,7 +83,7 @@ class Search extends React.Component {
                             {search.query}
                         </HoverBox>
                     </div>
-                    <CommentSection user={this.props.user} ui={this.props.ui} post={search}/>
+                    <CommentSection onClick={this.onClickComment} user={this.props.user} ui={this.props.ui} post={search}/>
                 </HoverBox>
                 {pageElems}
             </div>

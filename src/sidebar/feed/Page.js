@@ -16,12 +16,13 @@ class Page extends React.Component {
         style: React.PropTypes.object
     };
 
-    openPage = () => {
-        Actions.openPage(this.props.page.url);
+    onClickContent = () => {
+        Actions.selectPost(this.props.page.id);
     };
 
-    selectPost = () => {
-        Actions.selectPost(this.props.page.id);
+    onClickComment = () => {
+        if (this.props.clip.id !== this.props.ui.selectedPostId)
+            Actions.selectPost(this.props.page.id);
     };
 
     render() {
@@ -62,17 +63,15 @@ class Page extends React.Component {
             styles.header.background = Theme.palette.selectBackground;
 
         const clipElems = clips
-            ? clips.map((clip, index) =>
-                <Clip ui={this.props.ui} user={this.props.user} clip={clip} key={index}/>)
+            ? clips.map((clip, index) => <Clip ui={this.props.ui} user={this.props.user} clip={clip} key={index}/>)
             : undefined;
 
         return (
             <div style={styles.page}>
                 <HoverBox
                     style={styles.header}
-                    hoverStyle={{background: Theme.palette.selectBackground}}
-                    onClick={this.selectPost}>
-                    <div style={styles.content}>
+                    hoverStyle={{background: Theme.palette.selectBackground}}>
+                    <div style={styles.content} onClick={this.onClickContent}>
                         <img src={page.favIconUrl} style={styles.icon}/>
                         <HoverBox
                             style={styles.title}
@@ -81,7 +80,8 @@ class Page extends React.Component {
                             {page.title}
                         </HoverBox>
                     </div>
-                    <CommentSection ui={this.props.ui} user={this.props.user} post={page}/>
+                    <CommentSection onClick={this.onClickComment} ui={this.props.ui} user={this.props.user}
+                                    post={page}/>
                 </HoverBox>
                 {clipElems}
             </div>
