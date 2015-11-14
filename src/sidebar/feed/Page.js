@@ -1,14 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
-import Radium from 'radium';
 import Clip from './Clip';
 import Colors from 'material-ui/lib/styles/colors';
 import Theme from '../Theme';
 import IconButton from 'material-ui/lib/icon-button';
 import Actions from '../../shared/Actions';
 import CommentSection from './CommentSection';
+import HoverBox from '../ui/HoverBox';
 
-@Radium
 class Page extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
@@ -21,7 +20,7 @@ class Page extends React.Component {
         Actions.openPage(this.props.page.url);
     };
 
-    selectClip = () => {
+    selectPost = () => {
         Actions.selectClip(this.props.page.id);
     };
 
@@ -29,7 +28,8 @@ class Page extends React.Component {
         const styles = {
             page: {
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                cursor: 'pointer'
             },
             header: {
                 padding: 10
@@ -50,11 +50,7 @@ class Page extends React.Component {
                 textOverflow: 'ellipsis',
                 color: Theme.palette.accentText,
                 font: '400 14px Roboto',
-                textDecoration: 'none',
-                cursor: 'pointer',
-                ':hover': {
-                    textDecoration: 'underline'
-                }
+                cursor: 'pointer'
             }
         };
 
@@ -72,13 +68,21 @@ class Page extends React.Component {
 
         return (
             <div style={styles.page}>
-                <div style={styles.header} onClick={this.selectClip}>
+                <HoverBox
+                    style={styles.header}
+                    hoverStyle={{background: '#FEEABC'}}
+                    onClick={this.selectPost}>
                     <div style={styles.content}>
                         <img src={page.favIconUrl} style={styles.icon}/>
-                        <div style={styles.title} onClick={this.openPage}>{page.title}</div>
+                        <HoverBox
+                            style={styles.title}
+                            hoverStyle={{textDecoration: 'underline'}}
+                            onClick={this.openPage}>
+                            {page.title}
+                        </HoverBox>
                     </div>
                     <CommentSection ui={this.props.ui} user={this.props.user} post={page}/>
-                </div>
+                </HoverBox>
                 {clipElems}
             </div>
         );
