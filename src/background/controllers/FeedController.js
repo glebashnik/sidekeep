@@ -132,7 +132,7 @@ function clipText(text, tabId) {
             user: _user
         }).key();
 
-        selectClip(clipId);
+        selectPost(clipId);
     });
 }
 
@@ -146,7 +146,7 @@ function clipImage(imageUrl, tabId) {
             user: _user
         }).key();
 
-        selectClip(clipId);
+        selectPost(clipId);
     });
 }
 

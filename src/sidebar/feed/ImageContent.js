@@ -55,15 +55,11 @@ export default class ImageContent extends React.Component {
 
         const clip = this.props.clip;
 
-        const iconColor = this.state.iconFocused
-            ? Theme.palette.primary1Color
-            : Colors.grey500;
-
         const icon = (this.state.iconVisible || clip.id === this.props.ui.selectedPostId)
             ? <FontIcon
                 style={styles.icon}
                 className="material-icons"
-                color={iconColor}
+                color={Theme.palette.icon}
                 onMouseEnter={this.focusIcon}
                 onMouseLeave={this.blurIcon}
                 onClick={this.openImage}>
