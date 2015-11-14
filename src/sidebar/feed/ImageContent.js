@@ -5,13 +5,22 @@ import Colors from 'material-ui/lib/styles/colors';
 import Theme from '../Theme';
 
 export default class ImageContent extends React.Component {
-    state = {
-        iconFocused: false
-    };
-
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
         clip: React.PropTypes.object.isRequired
+    };
+
+    state = {
+        iconVisible: false,
+        iconFocused: false
+    };
+
+    showIcon = () => {
+        this.setState({iconVisible: true});
+    };
+
+    hideIcon = () => {
+        this.setState({iconVisible: false});
     };
 
     focusIcon = () => {
@@ -50,7 +59,7 @@ export default class ImageContent extends React.Component {
             ? Theme.palette.primary1Color
             : Colors.grey500;
 
-        const icon = clip.id === this.props.ui.selectedClipId
+        const icon = (this.state.iconVisible || clip.id === this.props.ui.selectedClipId)
             ? <FontIcon
                 style={styles.icon}
                 className="material-icons"
@@ -63,7 +72,10 @@ export default class ImageContent extends React.Component {
             : null;
 
         return (
-            <div style={styles.content}>
+            <div
+                style={styles.content}
+                onMouseEnter={this.showIcon}
+                onMouseLeave={this.hideIcon}>
                 <img style={styles.image} src={clip.imageUrl}/>
                 {icon}
             </div>

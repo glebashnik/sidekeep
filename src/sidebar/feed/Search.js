@@ -1,26 +1,35 @@
+import _ from 'lodash';
 import React from 'react';
-import VBox from '../ui/VBox';
-import HBox from '../ui/HBox';
-import Page from './Page';
+import FontIcon from 'material-ui/lib/font-icon';
 import Theme from '../Theme';
-import FontIcon from '../../../node_modules/material-ui/lib/font-icon';
 import Colors from 'material-ui/lib/styles/colors';
-import Avatar from '../avatar';
-import Radium from 'radium';
+import Page from './Page';
+import CommentSection from './CommentSection';
+import Actions from '../../shared/Actions';
+import HoverBox from '../ui/HoverBox';
 
-@Radium class Search extends React.Component {
+class Search extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired,
         search: React.PropTypes.object.isRequired
     };
 
-    render() {
-        let search = this.props.search;
+    selectPost = () => {
+        Actions.selectClip(this.props.search.id);
+    };
 
-        let styles = {
+    render() {
+        const styles = {
+            search: {
+                display: 'flex',
+                flexDirection: 'column',
+                cursor: 'pointer'
+            },
             header: {
-                padding: '10px 10px 10px 7px',
+                padding: 10
+            },
+            content: {
                 display: 'flex',
                 alignItems: 'center'
             },
@@ -32,26 +41,48 @@ import Radium from 'radium';
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 width: 200,
-                cursor: 'pointer',
-                ':hover': {
-                    textDecoration: 'underline'
-                }
+                cursor: 'pointer'
             },
             sep: {
                 borderTop: '1px solid ' + Colors.grey300
             }
         };
 
-        let sep = <div style={styles.sep}/>;
+        const search = this.props.search;
+        const pages = _.reject(search.children, {type: 'comment'});
+
+        if (search.id === this.props.ui.selectedClipId)
+            styles.header.background = '#FEEABC';
+
+        const pageElems = pages
+            ? pages.map((page, index) => [
+            <div style={styles.sep}/>,
+            <Page user={this.props.user} ui={this.props.ui} page={page} key={index}/>])
+            : undefined;
 
         return (
-            <VBox>
-                <HBox style={styles.header}>
-                    <FontIcon className="material-icons" color={'#0066CC'}>search</FontIcon>
-                    <span style={styles.query} href={search.url}>{search.query.toLowerCase()}</span>
-                </HBox>
-                {search.children.map((page, index) => [sep, <Page user={this.props.user} ui={this.props.ui} page={page} key={index}/>])}
-            </VBox>
+            <div style={styles.search}>
+                <HoverBox
+                    style={styles.header}
+                    hoverStyle={{background: '#FEEABC'}}
+                    onClick={this.selectPost}>
+                    <div style={styles.content}>
+                        <FontIcon
+                            className="material-icons"
+                            color={'#0066CC'}>
+                            search
+                        </FontIcon>
+                        <HoverBox
+                            style={styles.query}
+                            hoverStyle={{textDecoration: 'underline'}}
+                            href={search.url}>
+                            {search.query}
+                        </HoverBox>
+                    </div>
+                    <CommentSection user={this.props.user} ui={this.props.ui} post={search}/>
+                </HoverBox>
+                {pageElems}
+            </div>
         );
     }
 }

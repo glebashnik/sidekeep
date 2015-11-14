@@ -1,4 +1,5 @@
 import React from 'react';
+import Radium from 'radium';
 import * as HtmlHelper from '../../shared/helpers/HtmlHelper';
 
 import Snippet from '../ui/Snippet';
@@ -6,9 +7,11 @@ import Actions from '../../shared/Actions';
 import Theme from '../Theme';
 import Colors from 'material-ui/lib/styles/colors';
 
+import HoverBox from '../ui/HoverBox';
 import ImageContent from './ImageContent';
 import CommentSection from './CommentSection';
 
+@Radium
 export default class Clip extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
@@ -28,6 +31,9 @@ export default class Clip extends React.Component {
             clip: {
                 padding: '10px 10px 10px 10px',
                 cursor: 'pointer'
+            },
+            clipHover: {
+                background: '#FEEABC'
             },
             snippet: {
                 font: Theme.font.content,
@@ -55,10 +61,10 @@ export default class Clip extends React.Component {
                 break;
         }
         return (
-            <div style={styles.clip} onClick={this.selectClip}>
+            <HoverBox hoverStyle={{background: '#FEEABC'}} style={styles.clip} onClick={this.selectClip}>
                 {content}
                 <CommentSection ui={this.props.ui} user={this.props.user} post={clip}/>
-            </div>
+            </HoverBox>
         );
     }
 }
