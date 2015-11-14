@@ -82,6 +82,21 @@ export default {
         });
     },
 
+    clipPage(tabId) {
+        ActionRouter.send({
+            type: 'CLIP_PAGE',
+            tabId: tabId
+        });
+    },
+
+    clipImage(imageUrl, tabId) {
+        ActionRouter.send({
+            type: 'CLIP_IMAGE',
+            imageUrl: imageUrl,
+            tabId: tabId
+        });
+    },
+
     comment(postId, commentText) {
         ActionRouter.send({
             type: 'COMMENT',
@@ -104,9 +119,9 @@ export default {
         });
     },
 
-    expandClip(clipId) {
+    selectClip(clipId) {
         ActionRouter.send({
-            type: 'EXPAND_CLIP',
+            type: 'SELECT_CLIP',
             clipId: clipId
         });
     }

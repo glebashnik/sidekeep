@@ -1,21 +1,18 @@
 import _ from 'lodash';
 import Actions from '../shared/Actions';
-import TabController from './controllers/TabController';
+import TabController from './helpers/TabHelper';
 
 chrome.contextMenus.create({
     title: 'Save to Aftersearch',
     contexts: ['selection', 'page', 'image'],
     onclick: (info, tab) => {
-        if (info.selectionText) {
-            if (tab.id !== -1) //normal page
-                Actions.clipText(info.selectionText, tab.id);
-            else {//pdf
-                const tabId = TabController.getHighlightInfo().tabIds[0];
-                Actions.clipText(info.selectionText, tabId);
-            }
-        }
+        const tabId = tab.id !== -1 ? tab.id : TabController.getHighlightInfo().tabIds[0];
 
-        //else if (info.mediaType === 'image')
-        //    Actions.clipImage(info.srcUrl, tab.id);
+        if (info.selectionText)
+            Actions.clipText(info.selectionText, tabId);
+        else if (info.mediaType === 'image')
+            Actions.clipImage(info.srcUrl, tabId);
+        else
+            Actions.clipPage(tabId);
     }
 });

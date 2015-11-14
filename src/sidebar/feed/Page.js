@@ -27,7 +27,7 @@ class Page extends React.Component {
             page: {
                 display: 'flex',
                 flexDirection: 'column',
-                padding: '10px 0 5px 0'
+                padding: '10px 0 0 0'
             },
             header: {
                 position: 'relative',
