@@ -59,7 +59,7 @@ export default class ImageContent extends React.Component {
             ? Theme.palette.primary1Color
             : Colors.grey500;
 
-        const icon = (this.state.iconVisible || clip.id === this.props.ui.selectedClipId)
+        const icon = (this.state.iconVisible || clip.id === this.props.ui.selectedPostId)
             ? <FontIcon
                 style={styles.icon}
                 className="material-icons"

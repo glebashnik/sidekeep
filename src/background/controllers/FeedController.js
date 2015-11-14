@@ -164,10 +164,8 @@ function removePost(postId) {
     _postsRef.child(postId).set(null);
 }
 
-function selectClip(clipId) {
-    UIStore.emitUpdate({
-        selectedClipId: clipId
-    });
+function selectPost(postId) {
+    UIStore.emitUpdate({selectedPostId: postId});
 }
 
 export default Dispatcher.register(action => {
@@ -200,8 +198,8 @@ export default Dispatcher.register(action => {
             removePost(action.postId);
             break;
 
-        case 'SELECT_CLIP':
-            selectClip(action.clipId);
+        case 'SELECT_POST':
+            selectPost(action.postId);
             break;
     }
 });
