@@ -43,8 +43,6 @@ export default class PostToolbar extends React.Component {
                 <IconButton
                     iconStyle={styles.icon}
                     iconClassName="material-icons"
-                    tooltip="Remove"
-                    touch={true}
                     onClick={this.removePost}>
                     delete
                 </IconButton>
