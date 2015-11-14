@@ -28,9 +28,6 @@ export default class Clip extends React.Component {
                 padding: 10,
                 cursor: 'pointer'
             },
-            clipHover: {
-                background: '#FEEABC'
-            },
             snippet: {
                 font: Theme.font.content,
                 color: Theme.palette.textColor
@@ -44,12 +41,10 @@ export default class Clip extends React.Component {
         if (clip.id === this.props.ui.selectedPostId) {
             maxLines = 100;
             styles.clip.background = Theme.palette.selectBackground;
-            styles.clip.paddingTop = 0;
 
             if (this.props.user.id === clip.user.id)
-                toolbar = <PostToolbar style={{padding: '10px 0 10px 0'}} post={clip}/>;
-        } else
-            styles.clip.paddingTop = 10;
+                toolbar = <PostToolbar style={{paddingBottom: 8}} post={clip}/>;
+        }
 
         let content;
 
@@ -61,10 +56,11 @@ export default class Clip extends React.Component {
                 content = <ImageContent ui={this.props.ui} clip={clip}/>;
                 break;
         }
+
         return (
             <HoverBox
-                hoverStyle={{background: Theme.palette.selectBackground}}
                 style={styles.clip}
+                hoverStyle={{background: Theme.palette.selectBackground}}
                 onClick={this.selectPost}>
                 {toolbar}
                 {content}
