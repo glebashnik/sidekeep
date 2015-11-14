@@ -43,11 +43,11 @@ export default class Clip extends React.Component {
 
         if (clip.id === this.props.ui.selectedPostId) {
             maxLines = 100;
-            styles.clip.background = '#FEEABC';
+            styles.clip.background = Theme.palette.selectBackground;
             styles.clip.paddingTop = 0;
 
             if (this.props.user.id === clip.user.id)
-                toolbar = <PostToolbar post={clip}/>;
+                toolbar = <PostToolbar style={{padding: '10px 0 10px 0'}} post={clip}/>;
         } else
             styles.clip.paddingTop = 10;
 
@@ -62,7 +62,10 @@ export default class Clip extends React.Component {
                 break;
         }
         return (
-            <HoverBox hoverStyle={{background: '#FEEABC'}} style={styles.clip} onClick={this.selectPost}>
+            <HoverBox
+                hoverStyle={{background: Theme.palette.selectBackground}}
+                style={styles.clip}
+                onClick={this.selectPost}>
                 {toolbar}
                 {content}
                 <CommentSection ui={this.props.ui} user={this.props.user} post={clip}/>

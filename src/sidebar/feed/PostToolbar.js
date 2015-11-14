@@ -1,15 +1,12 @@
 import React from 'react';
-import IconButton from 'material-ui/lib/icon-button';
 import Actions from '../../shared/Actions';
 import Theme from '../Theme';
+import FontIcon from 'material-ui/lib/font-icon';
 
 export default class PostToolbar extends React.Component {
     static propTypes = {
-        post: React.PropTypes.object.isRequired
-    };
-
-    movePost = () => {
-
+        post: React.PropTypes.object.isRequired,
+        style: React.PropTypes.object
     };
 
     removePost = () => {
@@ -20,32 +17,25 @@ export default class PostToolbar extends React.Component {
         const styles = {
             toolbar: {
                 display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'flex-end',
-                flexGrow: 1,
-                marginRight: -10
+                flexGrow: 1
             },
             icon: {
                 color: Theme.palette.icon
             }
         };
 
-        //<IconButton
-        //    iconStyle={styles.icon}
-        //    iconClassName="material-icons"
-        //    tooltip="Move to..."
-        //    touch={true}
-        //    onClick={this.movePost}>
-        //    folder
-        //</IconButton>
+        const merged = Object.assign({}, styles.toolbar, this.props.style);
 
         return (
-            <div style={styles.toolbar}>
-                <IconButton
-                    iconStyle={styles.icon}
-                    iconClassName="material-icons"
-                    onClick={this.removePost}>
+            <div style={merged}>
+                <FontIcon
+                    className="material-icons"
+                    onClick={this.removePost}
+                    color={Theme.palette.icon}>
                     delete
-                </IconButton>
+                </FontIcon>
             </div>
         );
 
