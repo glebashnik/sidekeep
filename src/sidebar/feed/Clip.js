@@ -1,5 +1,4 @@
 import React from 'react';
-import Radium from 'radium';
 import * as HtmlHelper from '../../shared/helpers/HtmlHelper';
 
 import Snippet from '../ui/Snippet';
@@ -10,8 +9,8 @@ import Colors from 'material-ui/lib/styles/colors';
 import HoverBox from '../ui/HoverBox';
 import ImageContent from './ImageContent';
 import CommentSection from './CommentSection';
+import PostToolbar from './PostToolbar';
 
-@Radium
 export default class Clip extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
@@ -26,7 +25,7 @@ export default class Clip extends React.Component {
     render() {
         let styles = {
             clip: {
-                padding: '10px 10px 10px 10px',
+                padding: 10,
                 cursor: 'pointer'
             },
             clipHover: {
@@ -38,14 +37,19 @@ export default class Clip extends React.Component {
             }
         };
 
+        let toolbar;
         let clip = this.props.clip;
-
         let maxLines = 4;
 
         if (clip.id === this.props.ui.selectedPostId) {
             maxLines = 100;
             styles.clip.background = '#FEEABC';
-        }
+            styles.clip.paddingTop = 0;
+
+            if (this.props.user.id === clip.user.id)
+                toolbar = <PostToolbar post={clip}/>;
+        } else
+            styles.clip.paddingTop = 10;
 
         let content;
 
@@ -59,6 +63,7 @@ export default class Clip extends React.Component {
         }
         return (
             <HoverBox hoverStyle={{background: '#FEEABC'}} style={styles.clip} onClick={this.selectPost}>
+                {toolbar}
                 {content}
                 <CommentSection ui={this.props.ui} user={this.props.user} post={clip}/>
             </HoverBox>

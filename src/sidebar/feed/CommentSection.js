@@ -7,6 +7,7 @@ import Comment from './Comment';
 
 export default class CommentSection extends React.Component {
     static propTypes = {
+        style: React.PropTypes.object,
         ui: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired,
         post: React.PropTypes.object.isRequired
@@ -57,7 +58,7 @@ export default class CommentSection extends React.Component {
             : undefined;
 
         return (
-            <div>
+            <div style={this.props.style}>
                 {commentElems}
                 {newCommentElem}
             </div>

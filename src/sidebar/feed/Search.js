@@ -7,6 +7,7 @@ import Page from './Page';
 import CommentSection from './CommentSection';
 import Actions from '../../shared/Actions';
 import HoverBox from '../ui/HoverBox';
+import PostToolbar from './PostToolbar';
 
 class Search extends React.Component {
     static propTypes = {
@@ -50,9 +51,16 @@ class Search extends React.Component {
 
         const search = this.props.search;
         const pages = _.reject(search.children, {type: 'comment'});
+        let toolbar;
 
-        if (search.id === this.props.ui.selectedPostId)
+        if (search.id === this.props.ui.selectedPostId) {
             styles.header.background = '#FEEABC';
+            styles.header.paddingTop = 0;
+
+            if (this.props.user.id === search.user.id)
+                toolbar = <PostToolbar post={search}/>;
+        } else
+            styles.header.paddingTop = 10;
 
         const pageElems = pages
             ? pages.map((page, index) => [
@@ -78,6 +86,7 @@ class Search extends React.Component {
                             href={search.url}>
                             {search.query}
                         </HoverBox>
+                        {toolbar}
                     </div>
                     <CommentSection user={this.props.user} ui={this.props.ui} post={search}/>
                 </HoverBox>
