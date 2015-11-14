@@ -88,59 +88,66 @@ function _postRemoved(snap) {
 }
 
 function clipPage(tabId) {
-    let trace = TraceHelper.fixTrace(Tracer.getTrace(tabId));
-    let first = _.first(trace);
-    let last = _.last(trace);
+    const trace = TraceHelper.fixTrace(Tracer.getTrace(tabId));
+
+    const first = _.first(trace);
+    const search = first && first.query ? first : null;
+
     let parentId = 0;
 
-    if (first.query)
-        parentId = _.findKey(_posts, {query: first.query}) || _postsRef.push({
+    if (search)
+        parentId = _.findKey(_posts, {query: search.query}) || _postsRef.push({
                 parent: parentId,
                 timestamp: Firebase.ServerValue.TIMESTAMP,
                 type: 'search',
-                url: first.url,
-                query: first.query,
+                url: search.url,
+                query: search.query,
                 user: _user
             }).key();
 
-    return _.findKey(_posts, {url: last.url}) || _postsRef.push({
-            parent: parentId,
-            timestamp: Firebase.ServerValue.TIMESTAMP,
-            type: 'page',
-            title: last.title,
-            url: last.url,
-            favIconUrl: last.favIconUrl,
-            user: _user
-        }).key();
+    return new Promise(resolve => {
+        chrome.tabs.get(tabId, tab => {
+            const pageId = _.findKey(_posts, {url: tab.url}) || _postsRef.push({
+                    parent: parentId,
+                    timestamp: Firebase.ServerValue.TIMESTAMP,
+                    type: 'page',
+                    title: tab.title,
+                    url: tab.url,
+                    favIconUrl: tab.favIconUrl || 'https://aftersearch.firebaseapp.com/img/pdf.png',
+                    user: _user
+                }).key();
+
+            resolve(pageId);
+        });
+    });
 }
 
-
 function clipText(text, tabId) {
-    const pageId = clipPage(tabId);
+    clipPage(tabId).then(pageId => {
+        const clipId = _postsRef.push({
+            parent: pageId,
+            timestamp: Firebase.ServerValue.TIMESTAMP,
+            type: 'text',
+            text: text,
+            user: _user
+        }).key();
 
-    const clipId = _postsRef.push({
-        parent: pageId,
-        timestamp: Firebase.ServerValue.TIMESTAMP,
-        type: 'text',
-        text: text,
-        user: _user
-    }).key();
-
-    selectClip(clipId);
+        selectClip(clipId);
+    });
 }
 
 function clipImage(imageUrl, tabId) {
-    const pageId = clipPage(tabId);
+    clipPage(tabId).then(pageId => {
+        const clipId = _postsRef.push({
+            parent: pageId,
+            timestamp: Firebase.ServerValue.TIMESTAMP,
+            type: 'image',
+            imageUrl: imageUrl,
+            user: _user
+        }).key();
 
-    const clipId = _postsRef.push({
-        parent: pageId,
-        timestamp: Firebase.ServerValue.TIMESTAMP,
-        type: 'image',
-        imageUrl: imageUrl,
-        user: _user
-    }).key();
-
-    selectClip(clipId);
+        selectClip(clipId);
+    });
 }
 
 function comment(postId, commentText) {

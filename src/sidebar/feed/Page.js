@@ -1,11 +1,12 @@
+import _ from 'lodash';
 import React from 'react';
 import Radium from 'radium';
 import Clip from './Clip';
 import Colors from 'material-ui/lib/styles/colors';
 import Theme from '../Theme';
-import PostMenu from './PostMenu';
 import IconButton from 'material-ui/lib/icon-button';
 import Actions from '../../shared/Actions';
+import CommentSection from './CommentSection';
 
 @Radium
 class Page extends React.Component {
@@ -16,34 +17,32 @@ class Page extends React.Component {
         style: React.PropTypes.object
     };
 
-    state = {
-        tools: false
+    openPage = () => {
+        Actions.openPage(this.props.page.url);
+    };
+
+    selectClip = () => {
+        Actions.selectClip(this.props.page.id);
     };
 
     render() {
-        let page = this.props.page;
-
-        let styles = {
+        const styles = {
             page: {
                 display: 'flex',
-                flexDirection: 'column',
-                padding: '10px 0 0 0'
+                flexDirection: 'column'
             },
             header: {
-                position: 'relative',
-                marginTop: 3,
-                marginBottom: 10,
+                padding: 10
+            },
+            content: {
                 display: 'flex',
-                alignItems: 'center',
-                paddingRight: 10,
-                paddingLeft: 10
+                alignItems: 'center'
             },
             icon: {
                 width: 16,
                 height: 16,
                 marginRight: 11,
-                flexShrink: 0,
-                border: '1px solid ' + Colors.grey400
+                flexShrink: 0
             },
             title: {
                 overflow: 'hidden',
@@ -56,64 +55,34 @@ class Page extends React.Component {
                 ':hover': {
                     textDecoration: 'underline'
                 }
-            },
-            sep1: {
-                fontSize: 14,
-                textAlign: 'center',
-                color: Colors.darkBlack
-            },
-            sep2: {
-                height: 10
-            },
-            tools: {
-                display: 'flex',
-                background: Colors.darkWhite,
-                position: 'absolute',
-                bottom: -17,
-                right: 0
-            },
-            toolsIcon: {
-                color: Colors.grey500
             }
         };
 
-        let tools;
-        if (this.state.tools)
-            tools = (
-                <div style={styles.tools}>
-                    <IconButton iconClassName="material-icons" iconStyle={styles.toolsIcon}>comment</IconButton>
-                    <PostMenu post={this.props.page}/>
-                </div>);
+        const page = this.props.page;
 
-        let clipElems;
+        const clips = _.reject(page.children, {type: 'comment'});
 
-        if (page.children)
-            clipElems = page.children.map((clip, index) =>
-                <Clip ui={this.props.ui} user={this.props.user} clip={clip} key={index}/>);
+        if (page.id === this.props.ui.selectedClipId)
+            styles.header.background = '#FEEABC';
+
+        const clipElems = clips
+            ? clips.map((clip, index) =>
+                <Clip ui={this.props.ui} user={this.props.user} clip={clip} key={index}/>)
+            : undefined;
 
         return (
             <div style={styles.page}>
-                <div style={styles.header} onMouseEnter={this.enterHeader} onMouseLeave={this.leaveHeader}>
-                    <img src={page.favIconUrl} style={styles.icon} />
-                    <div style={styles.title} onClick={this.clickTitle}>{page.title}</div>
-                    {tools}
+                <div style={styles.header} onClick={this.selectClip}>
+                    <div style={styles.content}>
+                        <img src={page.favIconUrl} style={styles.icon}/>
+                        <div style={styles.title} onClick={this.openPage}>{page.title}</div>
+                    </div>
+                    <CommentSection ui={this.props.ui} user={this.props.user} post={page}/>
                 </div>
                 {clipElems}
             </div>
         );
     }
-
-    enterHeader = () => {
-        this.setState({tools: true});
-    };
-
-    leaveHeader = () => {
-        this.setState({tools: false});
-    };
-
-    clickTitle = () => {
-        Actions.openPage(this.props.page.url);
-    };
 }
 
 export default Page;
