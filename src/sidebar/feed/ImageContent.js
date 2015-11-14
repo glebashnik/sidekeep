@@ -6,21 +6,12 @@ import Theme from '../Theme';
 
 export default class ImageContent extends React.Component {
     state = {
-        iconVisible: false,
         iconFocused: false
     };
 
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
         clip: React.PropTypes.object.isRequired
-    };
-
-    showIcon = () => {
-        this.setState({iconVisible: true});
-    };
-
-    hideIcon = () => {
-        this.setState({iconVisible: false});
     };
 
     focusIcon = () => {
@@ -36,8 +27,6 @@ export default class ImageContent extends React.Component {
     };
 
     render() {
-        const clip = this.props.clip;
-
         const styles = {
             content: {
                 position: 'relative'
@@ -51,18 +40,17 @@ export default class ImageContent extends React.Component {
                 position: 'absolute',
                 bottom: 0,
                 right: 0,
-                background: 'white'
+                background: '#FEEABC'
             }
         };
 
-        if (clip.id === this.props.ui.selectedClipId)
-            styles.icon.background = '#FEEABC';
+        const clip = this.props.clip;
 
         const iconColor = this.state.iconFocused
             ? Theme.palette.primary1Color
             : Colors.grey500;
 
-        const icon = this.state.iconVisible
+        const icon = clip.id === this.props.ui.selectedClipId
             ? <FontIcon
                 style={styles.icon}
                 className="material-icons"
@@ -75,7 +63,7 @@ export default class ImageContent extends React.Component {
             : null;
 
         return (
-            <div style={styles.content} onMouseEnter={this.showIcon} onMouseLeave={this.hideIcon}>
+            <div style={styles.content}>
                 <img style={styles.image} src={clip.imageUrl}/>
                 {icon}
             </div>
