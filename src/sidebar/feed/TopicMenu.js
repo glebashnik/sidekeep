@@ -9,7 +9,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import Overlay from 'material-ui/lib/overlay';
 import Theme from '../Theme';
 
-export default class FeedMenu extends React.Component {
+export default class TopicMenu extends React.Component {
     static propTypes = {
         user: React.PropTypes.object.isRequired
     };
@@ -55,6 +55,9 @@ export default class FeedMenu extends React.Component {
             add: {
                 marginLeft: -7,
                 marginRight: 7
+            },
+            overlay: {
+                position: 'absolute'
             }
         };
 
@@ -71,15 +74,15 @@ export default class FeedMenu extends React.Component {
                                     </IconButton>
                                     <TextField ref="nameField" hintText="Add a topic" onEnterKeyDown={this.addFeed}/>
                                 </div>}/>
-                    {_.map(user.feeds, (feed, id) => <FeedItem key={id} feed={feed} user={user}/>)}
+                    {_.map(user.feeds, (feed, id) => <TopicItem key={id} feed={feed} user={user}/>)}
                 </div>
-                <Overlay style={{position: 'absolute'}} onClick={this.toggleFeedMenu} show/>
+                <Overlay style={styles.overlay} onClick={this.toggleFeedMenu} show/>
             </div>
         );
     }
 }
 
-class FeedItem extends React.Component {
+class TopicItem extends React.Component {
     static propTypes = {
         feed: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired

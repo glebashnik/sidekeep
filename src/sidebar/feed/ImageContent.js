@@ -49,7 +49,7 @@ export default class ImageContent extends React.Component {
                 position: 'absolute',
                 bottom: 0,
                 right: 0,
-                background: Theme.palette.selectBackground
+                background: Theme.palette.hoverBackground
             }
         };
 

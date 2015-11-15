@@ -1,15 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
 import Post from './Post';
-import IconButton from 'material-ui/lib/icon-button';
-import Actions from '../../shared/Actions';
-import ShareIcon from 'material-ui/lib/svg-icons/social/share';
-import FeedMenu from './FeedMenu';
-import ExportMenu from './ExportMenu';
-import TextField from 'material-ui/lib/text-field';
 import Theme from '../Theme';
 import Colors from 'material-ui/lib/styles/colors';
-import Toolbar from './Toolbar'
+import ToolBar from './ToolBar';
+import StatusBar from './StatusBar';
 
 export default class Feed extends React.Component {
     static propTypes = {
@@ -24,12 +19,13 @@ export default class Feed extends React.Component {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
-                width: '100%'
+                width: '100%',
+                background: Theme.palette.background
             },
             posts: {
                 display: 'flex',
                 flexDirection: 'column',
-                overflowY: 'auto',
+                overflowY: 'scroll',
                 flexGrow: 1,
                 paddingBottom: 10
             }
@@ -45,10 +41,11 @@ export default class Feed extends React.Component {
 
         return (
             <div style={styles.feed}>
-                <Toolbar ui={this.props.ui} user={this.props.user} feed={this.props.feed}/>
+                <ToolBar ui={this.props.ui} user={this.props.user} feed={this.props.feed}/>
                 <div style={styles.posts}>
                     {postElems}
                 </div>
+                <StatusBar ui={this.props.ui} user={this.props.user} feed={this.props.feed}/>
             </div>
         );
     }

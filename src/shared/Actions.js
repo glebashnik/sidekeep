@@ -26,6 +26,24 @@ export default {
         })
     },
 
+    createTopic() {
+        ActionRouter.send({
+            type: 'CREATE_TOPIC'
+        })
+    },
+
+    openTopicSettings() {
+        ActionRouter.send({
+            type: 'OPEN_TOPIC_SETTINGS'
+        })
+    },
+
+    closeTopicSettings() {
+        ActionRouter.send({
+            type: 'CLOSE_TOPIC_SETTINGS'
+        })
+    },
+
     exportToDocx() {
         ActionRouter.send({
             type: 'EXPORT_TO_DOCX'
@@ -50,6 +68,13 @@ export default {
             type: 'RENAME_FEED',
             feedId: feedId,
             feedName: feedName
+        })
+    },
+
+    removeFeed(feedId) {
+        ActionRouter.send({
+            type: 'REMOVE_FEED',
+            feedId: feedId
         })
     },
 

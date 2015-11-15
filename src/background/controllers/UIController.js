@@ -41,5 +41,13 @@ export default Dispatcher.register(action => {
         case 'OPEN_PAGE':
             openPage(action.url, action.tabId);
             break;
+
+        case 'CLOSE_TOPIC_SETTINGS':
+            UIStore.emitUpdate({topicSettings: false});
+            break;
+
+        case 'OPEN_TOPIC_SETTINGS':
+            UIStore.emitUpdate({topicSettings: true});
+            break;
     }
 });
