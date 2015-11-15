@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Dispatcher from '../../shared/Dispatcher';
 import FirebaseRef from '../FirebaseRef';
 import UserStore from '../../shared/stores/UserStore';
+import UIStore from '../../shared/stores/UIStore';
 
 const USERS_REF = FirebaseRef.child('users');
 const FEEDS_REF = FirebaseRef.child('feeds');
@@ -87,6 +88,7 @@ function createFeed(feedName) {
     const feedId = feedRef.key();
     joinFeed(feedId);
     selectFeed(feedId);
+    UIStore.emitUpdate({topicSettings: true});
 }
 
 function renameFeed(feedId, feedName) {
@@ -111,8 +113,8 @@ export default Dispatcher.register((action) => {
             login(action.user);
             break;
 
-        case 'CREATE_FEED':
-            createFeed(action.feedName);
+        case 'CREATE_TOPIC':
+            createFeed('');
             break;
 
         case 'RENAME_FEED':
@@ -129,6 +131,10 @@ export default Dispatcher.register((action) => {
 
         case 'SELECT_FEED':
             selectFeed(action.feedId);
+            break;
+
+        case 'REMOVE_FEED':
+            leaveFeed(action.feedId);
             break;
     }
 });
