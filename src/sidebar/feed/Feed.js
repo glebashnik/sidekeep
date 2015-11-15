@@ -9,7 +9,7 @@ import ExportMenu from './ExportMenu';
 import TextField from 'material-ui/lib/text-field';
 import Theme from '../Theme';
 import Colors from 'material-ui/lib/styles/colors';
-import AppBar from './AppBar'
+import Toolbar from './Toolbar'
 
 export default class Feed extends React.Component {
     static propTypes = {
@@ -45,7 +45,7 @@ export default class Feed extends React.Component {
 
         return (
             <div style={styles.feed}>
-                <AppBar ui={this.props.ui} user={this.props.user} feed={this.props.feed}/>
+                <Toolbar ui={this.props.ui} user={this.props.user} feed={this.props.feed}/>
                 <div style={styles.posts}>
                     {postElems}
                 </div>

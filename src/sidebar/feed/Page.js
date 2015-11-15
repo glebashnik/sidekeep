@@ -16,13 +16,18 @@ class Page extends React.Component {
         style: React.PropTypes.object
     };
 
-    onClickContent = () => {
+    onClickHeader = () => {
         Actions.selectPost(this.props.page.id);
     };
 
-    onClickComment = () => {
-        if (this.props.clip.id !== this.props.ui.selectedPostId)
-            Actions.selectPost(this.props.page.id);
+    onClickComment = (e) => {
+        if (this.props.page.id === this.props.ui.selectedPostId)
+            e.stopPropagation();
+    };
+
+    openPage = (e) => {
+        e.preventDefault();
+        Actions.openPage(this.props.page.url);
     };
 
     render() {
@@ -51,8 +56,7 @@ class Page extends React.Component {
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
                 color: Theme.palette.accentText,
-                font: '400 14px Roboto',
-                cursor: 'pointer'
+                font: '400 14px Roboto'
             }
         };
 
@@ -70,18 +74,19 @@ class Page extends React.Component {
             <div style={styles.page}>
                 <HoverBox
                     style={styles.header}
-                    hoverStyle={{background: Theme.palette.selectBackground}}>
-                    <div style={styles.content} onClick={this.onClickContent}>
+                    hoverStyle={{background: Theme.palette.hoverBackground}}
+                    onClick={this.onClickHeader}>
+                    <div style={styles.content}>
                         <img src={page.favIconUrl} style={styles.icon}/>
-                        <HoverBox
-                            style={styles.title}
-                            hoverStyle={{textDecoration: 'underline'}}
-                            onClick={this.openPage}>
+                        <a href={page.url} style={styles.title} onClick={this.openPage}>
                             {page.title}
-                        </HoverBox>
+                        </a>
                     </div>
-                    <CommentSection onClick={this.onClickComment} ui={this.props.ui} user={this.props.user}
-                                    post={page}/>
+                    <CommentSection
+                        onClick={this.onClickComment}
+                        ui={this.props.ui}
+                        user={this.props.user}
+                        post={page}/>
                 </HoverBox>
                 {clipElems}
             </div>

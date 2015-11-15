@@ -10,6 +10,7 @@ import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 import Theme from './Theme';
 import Colors from 'material-ui/lib/styles/colors';
+import Actions from '../shared/Actions';
 
 injectTapEventPlugin();
 
@@ -48,7 +49,11 @@ class Sidebar extends React.Component {
             background: Theme.palette.background
         };
 
-        return <div style={style}><Feed ui={this.state.ui} user={this.state.user} feed={this.state.feed}/></div>;
+        return (
+            <div style={style}>
+                <Feed ui={this.state.ui} user={this.state.user} feed={this.state.feed}/>
+            </div>
+        );
     }
 }
 

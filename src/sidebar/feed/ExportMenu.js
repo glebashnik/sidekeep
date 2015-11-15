@@ -5,7 +5,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import WordIcon from '../ui/WordIcon';
 import PowerPointIcon from '../ui/PowerPointIcon';
 import Actions from '../../shared/Actions';
-import ShareIcon from 'material-ui/lib/svg-icons/social/share';
+import LinkIcon from 'material-ui/lib/svg-icons/editor/insert-link';
 import copy from 'copy-to-clipboard';
 import Colors from 'material-ui/lib/styles/colors';
 import Theme from '../Theme';
@@ -34,7 +34,8 @@ export default class ExportMenu extends React.Component {
                 zIndex: 6
             },
             icon: {
-                color: Theme.palette.accentForeground
+                color: Theme.palette.accentForeground,
+                opacity: 0.9
             },
             item: {
                 fontSize: 14
@@ -55,7 +56,7 @@ export default class ExportMenu extends React.Component {
                     primaryText="Share by link"
                     onClick={this.copyLink}
                     style={styles.item}
-                    leftIcon={<ShareIcon/>}/>
+                    leftIcon={<LinkIcon/>}/>
                 <MenuItem
                     primaryText="Export to Word"
                     onClick={this.exportToDocx}
