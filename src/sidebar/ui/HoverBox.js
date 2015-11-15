@@ -21,10 +21,9 @@ export default class HoverBox extends React.Component {
     render() {
         const {style, hoverStyle, ...other} = this.props;
 
-        const merged = Object.assign({}, style);
-
-        if (this.state.hover)
-            Object.assign(merged, hoverStyle);
+        const merged = this.state.hover
+            ? Object.assign({}, hoverStyle, style)
+            : Object.assign({}, style);
 
         return (
             <div style={merged} onMouseEnter={this.enter} onMouseLeave={this.leave} {...other}>

@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ActionRouter from '../shared/ActionRouter';
@@ -11,4 +12,5 @@ UIStore.initContent();
 UserStore.initContent();
 FeedStore.initContent();
 
-ReactDOM.render(<Sidebar/>, document.getElementById('react'));
+const root = document.getElementById('react');
+ReactDOM.render(<Sidebar/>, root);

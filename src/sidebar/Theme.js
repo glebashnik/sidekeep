@@ -26,7 +26,8 @@ export default {
         accentText: '#2285CF',
         background: '#EEF2F5',
         icon: Colors.grey600,
-        selectBackground: '#FEEABC'
+        selectBackground: '#FDE09D',
+        hoverBackground: '#FEF3DA'
     },
     font: {
         primary: '400 13px Noto Sans',
