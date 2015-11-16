@@ -88,7 +88,6 @@ function createFeed(feedName) {
     const feedId = feedRef.key();
     joinFeed(feedId);
     selectFeed(feedId);
-    UIStore.emitUpdate({topicSettings: true});
 }
 
 function renameFeed(feedId, feedName) {
@@ -113,8 +112,8 @@ export default Dispatcher.register((action) => {
             login(action.user);
             break;
 
-        case 'CREATE_TOPIC':
-            createFeed('');
+        case 'CREATE_FEED':
+            createFeed(action.feedName);
             break;
 
         case 'RENAME_FEED':

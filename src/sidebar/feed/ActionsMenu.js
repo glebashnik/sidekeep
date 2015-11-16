@@ -1,11 +1,14 @@
 import _ from 'lodash';
 import React from 'react';
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
+import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
+import ListDivider from 'material-ui/lib/lists/list-divider';
 import TextField from 'material-ui/lib/text-field';
 import Colors from 'material-ui/lib/styles/colors';
 import IconButton from 'material-ui/lib/icon-button';
 import Overlay from 'material-ui/lib/overlay';
+import FolderMoveIcon from '../ui/FolderMoveIcon'
 
 import WordIcon from '../ui/WordIcon';
 import LinkIcon from 'material-ui/lib/svg-icons/editor/insert-link';
@@ -16,7 +19,7 @@ import copy from 'copy-to-clipboard';
 import Theme from '../Theme';
 import Actions from '../../shared/Actions';
 
-export default class TopicSettings extends React.Component {
+export default class ActionsMenu extends React.Component {
     static propTypes = {
         user: React.PropTypes.object.isRequired,
         feed: React.PropTypes.object.isRequired
@@ -33,7 +36,7 @@ export default class TopicSettings extends React.Component {
         this.refs.name.setValue(nextProps.feed.name);
     };
 
-    rename = () => {
+    renameFeed = () => {
         const newName = this.refs.name.getValue();
 
         if (this.props.feed.name !== newName)
@@ -41,12 +44,12 @@ export default class TopicSettings extends React.Component {
     };
 
     close = () => {
-        this.rename();
-        Actions.closeTopicSettings();
+        this.renameFeed();
+        Actions.toggleActionsMenu();
     };
 
-    export = () => {
-        Actions.exportToDocx();
+    exportToWord = () => {
+        Actions.exportToWord();
         this.close();
     };
 
@@ -56,8 +59,13 @@ export default class TopicSettings extends React.Component {
         this.close();
     };
 
-    remove = () => {
+    deleteFeed = () => {
         Actions.removeFeed(this.props.user.selectedFeed);
+        this.close();
+    };
+
+    deletePost = () => {
+        Actions.removePost(this.props.ui.selectedPostId);
         this.close();
     };
 
@@ -73,11 +81,13 @@ export default class TopicSettings extends React.Component {
             menu: {
                 position: 'absolute',
                 width: '100%',
-                zIndex: 10,
+                zIndex: 10
+            },
+            list: {
                 background: Theme.palette.background
             },
             nameItem: {
-                margin: 0,
+                marginTop: -10,
                 padding: '0 20px 10px 20px'
             },
             overlay: {
@@ -85,22 +95,30 @@ export default class TopicSettings extends React.Component {
             }
         };
 
+        const selectedList = this.props.ui.selectedPostId ?
+            <List style={styles.list} subheader="1 selected post">
+                <ListItem leftIcon={<FolderMoveIcon/>} primaryText="Move to topic"/>
+                <ListItem leftIcon={<DeleteIcon/>} primaryText="Remove post" onClick={this.deletePost}/>
+            </List> : undefined;
+
         return (
             <div style={styles.container}>
                 <div style={styles.menu}>
-                    <ListItem
-                        disabled
-                        style={styles.nameItem}
-                        primaryText={
-                        <TextField
-                            style={{width: 250}}
-                            ref="name"
-                            floatingLabelText="Topic name"
-                            onEnterKeyDown={this.rename}/>}/>
-                    <ListItem leftIcon={<LinkIcon/>} primaryText="Copy & share the link" onClick={this.copyLink}/>
-                    <ListItem leftIcon={<WordIcon/>} primaryText="Export to Word" onClick={this.export}/>
-                    <ListItem leftIcon={<DeleteIcon/>} primaryText="Remove topic" onClick={this.remove}/>
-                    <ListItem primaryText="Close" onClick={this.close}/>
+                    {selectedList}
+                    <List style={styles.list} subheader="Topic">
+                        <ListItem
+                            disabled
+                            style={styles.nameItem}
+                            primaryText={
+                                <TextField
+                                    style={{width: 250}}
+                                    ref="name"
+                                    floatingLabelText="Rename"
+                                    onEnterKeyDown={this.renameFeed}/>}/>
+                        <ListItem leftIcon={<LinkIcon/>} primaryText="Copy & share the link" onClick={this.copyLink}/>
+                        <ListItem leftIcon={<WordIcon/>} primaryText="Export to Word" onClick={this.exportToWord}/>
+                        <ListItem leftIcon={<DeleteIcon/>} primaryText="Remove topic" onClick={this.deleteFeed}/>
+                    </List>
                 </div>
                 <Overlay style={styles.overlay} onClick={this.close} show/>
             </div>

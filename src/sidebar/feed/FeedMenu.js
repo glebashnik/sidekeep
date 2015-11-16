@@ -9,7 +9,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import Overlay from 'material-ui/lib/overlay';
 import Theme from '../Theme';
 
-export default class TopicMenu extends React.Component {
+export default class FeedMenu extends React.Component {
     static propTypes = {
         user: React.PropTypes.object.isRequired
     };
@@ -21,11 +21,8 @@ export default class TopicMenu extends React.Component {
         if (name) {
             Actions.createFeed(name);
             nameField.setValue('');
+            Actions.toggleFeedMenu();
         }
-    };
-
-    toggleFeedMenu = () => {
-        Actions.toggleFeedMenu();
     };
 
     render() {
@@ -74,15 +71,15 @@ export default class TopicMenu extends React.Component {
                                     </IconButton>
                                     <TextField ref="nameField" hintText="Add a topic" onEnterKeyDown={this.addFeed}/>
                                 </div>}/>
-                    {_.map(user.feeds, (feed, id) => <TopicItem key={id} feed={feed} user={user}/>)}
+                    {_.map(user.feeds, (feed, id) => <FeedItem key={id} feed={feed} user={user}/>)}
                 </div>
-                <Overlay style={styles.overlay} onClick={this.toggleFeedMenu} show/>
+                <Overlay style={styles.overlay} onClick={Actions.toggleFeedMenu} show/>
             </div>
         );
     }
 }
 
-class TopicItem extends React.Component {
+class FeedItem extends React.Component {
     static propTypes = {
         feed: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired
@@ -90,6 +87,7 @@ class TopicItem extends React.Component {
 
     selectFeed = () => {
         Actions.selectFeed(this.props.feed.id);
+        Actions.toggleFeedMenu();
     };
 
     render() {

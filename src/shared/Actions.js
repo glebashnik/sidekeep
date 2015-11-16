@@ -20,39 +20,21 @@ export default {
         })
     },
 
-    toggleShareMenu() {
+    toggleActionsMenu() {
         ActionRouter.send({
-            type: 'TOGGLE_SHARE_MENU'
+            type: 'TOGGLE_ACTIONS_MENU'
         })
     },
 
-    createTopic() {
+    createFeed() {
         ActionRouter.send({
-            type: 'CREATE_TOPIC'
+            type: 'CREATE_FEED'
         })
     },
 
-    openTopicSettings() {
+    exportToWord() {
         ActionRouter.send({
-            type: 'OPEN_TOPIC_SETTINGS'
-        })
-    },
-
-    closeTopicSettings() {
-        ActionRouter.send({
-            type: 'CLOSE_TOPIC_SETTINGS'
-        })
-    },
-
-    exportToDocx() {
-        ActionRouter.send({
-            type: 'EXPORT_TO_DOCX'
-        });
-    },
-
-    exportToPptx() {
-        ActionRouter.send({
-            type: 'EXPORT_TO_PPTX'
+            type: 'EXPORT_TO_WORD'
         });
     },
 
