@@ -3,7 +3,6 @@ import React from 'react';
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
-import ListDivider from 'material-ui/lib/lists/list-divider';
 import TextField from 'material-ui/lib/text-field';
 import Colors from 'material-ui/lib/styles/colors';
 import IconButton from 'material-ui/lib/icon-button';
@@ -96,7 +95,7 @@ export default class ActionsMenu extends React.Component {
         };
 
         const selectedList = this.props.ui.selectedPostId ?
-            <List style={styles.list} subheader="1 selected post">
+            <List style={styles.list} subheader="Selected posts">
                 <ListItem leftIcon={<FolderMoveIcon/>} primaryText="Move to topic"/>
                 <ListItem leftIcon={<DeleteIcon/>} primaryText="Remove post" onClick={this.deletePost}/>
             </List> : undefined;
@@ -104,21 +103,21 @@ export default class ActionsMenu extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.menu}>
-                    {selectedList}
-                    <List style={styles.list} subheader="Topic">
+                    <List style={styles.list} subheader="Selected topic">
                         <ListItem
                             disabled
                             style={styles.nameItem}
                             primaryText={
                                 <TextField
-                                    style={{width: 250}}
+                                    style={{width: 230}}
                                     ref="name"
-                                    floatingLabelText="Rename"
+                                    floatingLabelText="Edit topic name"
                                     onEnterKeyDown={this.renameFeed}/>}/>
                         <ListItem leftIcon={<LinkIcon/>} primaryText="Copy & share the link" onClick={this.copyLink}/>
                         <ListItem leftIcon={<WordIcon/>} primaryText="Export to Word" onClick={this.exportToWord}/>
                         <ListItem leftIcon={<DeleteIcon/>} primaryText="Remove topic" onClick={this.deleteFeed}/>
                     </List>
+                    {selectedList}
                 </div>
                 <Overlay style={styles.overlay} onClick={this.close} show/>
             </div>
