@@ -7,7 +7,22 @@ function toggleSidebar() {
 }
 
 function toggleFeedMenu() {
-    UIStore.emitUpdate({feedMenu: !UIStore.state.feedMenu});
+    UIStore.update({feedMenu: !UIStore.state.feedMenu});
+
+    if (UIStore.state.feedMenu)
+        UIStore.update({actionsMenu: false});
+
+    UIStore.emit();
+}
+
+
+function toggleActionsMenu() {
+    UIStore.update({actionsMenu: !UIStore.state.actionsMenu});
+
+    if (UIStore.state.actionsMenu)
+        UIStore.update({feedMenu: false});
+
+    UIStore.emit();
 }
 
 chrome.browserAction.onClicked.addListener(() => {
@@ -34,20 +49,15 @@ export default Dispatcher.register(action => {
             break;
 
         case 'TOGGLE_FEED_MENU':
-        case 'SELECT_FEED':
             toggleFeedMenu();
+            break;
+
+        case 'TOGGLE_ACTIONS_MENU':
+            toggleActionsMenu();
             break;
 
         case 'OPEN_PAGE':
             openPage(action.url, action.tabId);
-            break;
-
-        case 'CLOSE_TOPIC_SETTINGS':
-            UIStore.emitUpdate({topicSettings: false});
-            break;
-
-        case 'OPEN_TOPIC_SETTINGS':
-            UIStore.emitUpdate({topicSettings: true});
             break;
     }
 });

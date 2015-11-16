@@ -4,7 +4,6 @@ import Post from './Post';
 import Theme from '../Theme';
 import Colors from 'material-ui/lib/styles/colors';
 import ToolBar from './ToolBar';
-import StatusBar from './StatusBar';
 
 export default class Feed extends React.Component {
     static propTypes = {
@@ -45,7 +44,6 @@ export default class Feed extends React.Component {
                 <div style={styles.posts}>
                     {postElems}
                 </div>
-                <StatusBar ui={this.props.ui} user={this.props.user} feed={this.props.feed}/>
             </div>
         );
     }

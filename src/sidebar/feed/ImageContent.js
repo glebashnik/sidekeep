@@ -48,8 +48,7 @@ export default class ImageContent extends React.Component {
             icon: {
                 position: 'absolute',
                 bottom: 0,
-                right: 0,
-                background: Theme.palette.hoverBackground
+                right: 0
             }
         };
 
@@ -57,15 +56,17 @@ export default class ImageContent extends React.Component {
 
         const icon = (this.state.iconVisible || clip.id === this.props.ui.selectedPostId)
             ? <FontIcon
-                style={styles.icon}
-                className="material-icons"
-                color={Theme.palette.icon}
-                onMouseEnter={this.focusIcon}
-                onMouseLeave={this.blurIcon}
-                onClick={this.openImage}>
-                    open_in_new
-                </FontIcon>
+            style={styles.icon}
+            className="material-icons"
+            color={Theme.palette.icon}
+            onMouseEnter={this.focusIcon}
+            onMouseLeave={this.blurIcon}
+            onClick={this.openImage}>
+            open_in_new</FontIcon>
             : null;
+
+        styles.icon.background = clip.id === this.props.ui.selectedPostId
+            ? Theme.palette.selectBackground : Theme.palette.hoverBackground;
 
         return (
             <div
