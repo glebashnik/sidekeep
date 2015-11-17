@@ -60,7 +60,6 @@ import Radium from 'radium';
                 height: '100%',
                 right: 0,
                 display: 'flex',
-                direction: 'row',
                 alignItems: 'center'
             },
             remove: {

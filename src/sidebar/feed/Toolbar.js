@@ -8,12 +8,22 @@ import FolderPlusIcon from '../ui/FolderPlusIcon';
 import FeedMenu from './FeedMenu';
 import ActionsMenu from './ActionsMenu';
 import Actions from '../../shared/Actions';
+import TextField from 'material-ui/lib/text-field';
 
 export default class ToolBar extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired,
         feed: React.PropTypes.object.isRequired
+    };
+
+    componentWillReceiveProps(nextProps) {
+        this.refs.name.setValue(nextProps.feed.name);
+    }
+
+    renameFeed = (e) => {
+        Actions.renameFeed(this.props.user.selectedFeed, e.target.value);
+        e.target.blur();
     };
 
     render() {
@@ -33,17 +43,10 @@ export default class ToolBar extends React.Component {
             icon: {
                 color: '#E8F3FA'
             },
-            title: {
-                display: 'flex',
-                flexGrow: 1,
-                cursor: 'pointer',
-                alignItems: 'center',
-                paddingBottom: 3,
-                borderBottom: '1px solid ' + Colors.lightWhite,
-                marginLeft: 20
+            titleField: {
+                flexGrow: 1
             },
-            titleText: {
-                flexGrow: 1,
+            titleInput: {
                 font: '400 17px Roboto',
                 color: Theme.palette.accentForeground
             }
@@ -60,16 +63,24 @@ export default class ToolBar extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.tools}>
-                    <div style={styles.title} onClick={Actions.toggleFeedMenu}>
-                        <div style={styles.titleText}>
-                            {this.props.feed.name}
-                        </div>
-                        <FontIcon
-                            className="material-icons"
-                            color={Colors.lightWhite}>
-                            arrow_drop_down
-                        </FontIcon>
-                    </div>
+                    <IconButton
+                        onClick={Actions.toggleFeedMenu}
+                        iconClassName="material-icons"
+                        iconStyle={styles.icon}
+                        tooltipPosition="bottom-right"
+                        touch={true}
+                        tooltip="Topics">
+                        folder
+                    </IconButton>
+                    <TextField
+                        style={styles.titleField}
+                        inputStyle={styles.titleInput}
+                        underlineStyle={{borderColor: Theme.palette.accentBackground}}
+                        underlineFocusStyle={{borderColor: 'white'}}
+                        hintText="Topic Name"
+                        ref="name"
+                        onBlur={this.renameFeed}
+                        onEnterKeyDown={this.renameFeed}/>
                     <IconButton
                         onClick={Actions.toggleActionsMenu}
                         iconClassName="material-icons"
