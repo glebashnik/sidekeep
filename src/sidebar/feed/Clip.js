@@ -44,8 +44,7 @@ export default class Clip extends React.Component {
     };
 
     stopPropagation = (e) => {
-        if (this.props.clip.id === this.props.ui.selectedPostId)
-            e.stopPropagation();
+        e.stopPropagation();
     };
 
     move = (e) => {
