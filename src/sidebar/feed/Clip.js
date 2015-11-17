@@ -1,24 +1,22 @@
 import React from 'react';
 import * as HtmlHelper from '../../shared/helpers/HtmlHelper';
 
-import Snippet from '../ui/Snippet';
-import Actions from '../../shared/Actions';
 import Theme from '../Theme';
 import Colors from 'material-ui/lib/styles/colors';
 
-import HoverBox from '../ui/HoverBox';
+import Snippet from '../ui/Snippet';
 import ImageContent from './ImageContent';
 import CommentSection from './CommentSection';
 
-import FolderMoveIcon from '../ui/FolderMoveIcon'
-import DeleteIcon from 'material-ui/lib/svg-icons/action/delete';
 import FontIcon from 'material-ui/lib/font-icon';
+import FolderIcon from 'material-ui/lib/svg-icons/file/folder.js';
+import DeleteIcon from 'material-ui/lib/svg-icons/action/delete';
 
-import IconButton from 'material-ui/lib/icon-button';
 import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
 import FloatingMenuButton from './FloatingMenuButton';
+import Actions from '../../shared/Actions';
 
 export default class Clip extends React.Component {
     static propTypes = {
@@ -62,8 +60,7 @@ export default class Clip extends React.Component {
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
-                cursor: 'pointer',
-                padding: '15px 10px 10px 10px'
+                cursor: 'pointer'
             },
             snippet: {
                 font: Theme.font.content,
@@ -97,17 +94,19 @@ export default class Clip extends React.Component {
 
         switch (clip.type) {
             case 'text':
+                styles.clip.padding = '8px 10px 10px 10px';
                 contentElem = <Snippet maxLines={maxLines} text={HtmlHelper.strip(clip.text)} style={styles.snippet}/>;
                 break;
             case 'image':
+                styles.clip.padding = '18px 10px 10px 10px';
                 contentElem = <ImageContent ui={this.props.ui} clip={clip}/>;
                 break;
         }
 
         const menuElem = hover ?
             <IconMenu style={styles.menu} iconButtonElement={<FloatingMenuButton onClick={this.stopPropagation}/>}>
-                <MenuItem onClick={this.move} primaryText="Move to topic"/>
-                <MenuItem onClick={this.remove} primaryText="Remove from topic"/>
+                <MenuItem onClick={this.move} leftIcon={<FolderIcon/>} primaryText="Move to..."/>
+                <MenuItem onClick={this.remove} leftIcon={<DeleteIcon/>} primaryText="Remove"/>
             </IconMenu> : undefined;
 
         return (

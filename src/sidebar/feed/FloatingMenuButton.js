@@ -10,21 +10,21 @@ export default class FloatingMenuButton extends React.Component {
                 padding: 10
             },
             shadow: {
-                background: '#E8F3FA',
+                background: 'white',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
                 borderRadius: '50%',
                 width: 20,
                 height: 20
             },
             icon: {
-                color: Theme.palette.primary1Color,
+                color: Colors.grey600,
                 right: 2,
                 bottom: 2
             }
         };
 
         return (
-            <div style={styles.area} onClick={this.stopPropagation} {...this.props}>
+            <div style={styles.area} {...this.props}>
                 <div style={styles.shadow}>
                     <FontIcon
                         style={styles.icon}

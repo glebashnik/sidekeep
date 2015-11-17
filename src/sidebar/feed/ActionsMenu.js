@@ -57,7 +57,7 @@ export default class ActionsMenu extends React.Component {
                 position: 'absolute',
                 width: '100%',
                 zIndex: 10,
-                background: Theme.palette.background
+                background: 'white'
             },
             nameItem: {
                 marginTop: -10,
