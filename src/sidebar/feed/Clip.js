@@ -18,6 +18,8 @@ import IconButton from 'material-ui/lib/icon-button';
 import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
+import FloatingMenuButton from './FloatingMenuButton';
+
 export default class Clip extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
@@ -70,12 +72,9 @@ export default class Clip extends React.Component {
             },
             menu: {
                 position: 'absolute',
-                top: -22,
-                right: -5,
+                top: -18,
+                right: 0,
                 zIndex: 5
-            },
-            icon: {
-                color: Theme.palette.primary1Color
             },
             image: {
                 maxHeight: 70,
@@ -107,15 +106,9 @@ export default class Clip extends React.Component {
         }
 
         const menuElem = hover ?
-            <IconMenu style={styles.menu} iconButtonElement={
-                <IconButton
-                onClick={this.stopPropagation}
-                iconClassName="material-icons"
-                iconStyle={styles.icon}>
-                    arrow_drop_down_circle
-                </IconButton>}>
-                <MenuItem onClick={this.move} primaryText="Move"/>
-                <MenuItem onClick={this.remove} primaryText="Remove"/>
+            <IconMenu style={styles.menu} iconButtonElement={<FloatingMenuButton onClick={this.stopPropagation}/>}>
+                <MenuItem onClick={this.move} primaryText="Move to topic"/>
+                <MenuItem onClick={this.remove} primaryText="Remove from topic"/>
             </IconMenu> : undefined;
 
         return (
