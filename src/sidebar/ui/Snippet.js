@@ -1,12 +1,12 @@
 import React from 'react';
-let PropTypes = React.PropTypes;
-import Radium from 'radium';
+import QuoteIcon from 'material-ui/lib/svg-icons/editor/format-quote.js';
+import Colors from 'material-ui/lib/styles/colors';
 
-@Radium class Snippet extends React.Component {
+export default class Snippet extends React.Component {
     static propTypes = {
-        text: PropTypes.string,
-        maxLines: PropTypes.number.isRequired,
-        style: PropTypes.object
+        text: React.PropTypes.string,
+        maxLines: React.PropTypes.number.isRequired,
+        style: React.PropTypes.object
     };
 
     static defaultProps = {
@@ -14,16 +14,28 @@ import Radium from 'radium';
     };
 
     render() {
-        let style = {
-            display: '-webkit-box',
-            overflow: 'hidden',
-            wordWrap: 'break-word',
-            WebkitLineClamp: this.props.maxLines,
-            WebkitBoxOrient: 'vertical'
+        const styles = {
+            container: {
+                display: '-webkit-box',
+                overflow: 'hidden',
+                wordWrap: 'break-word',
+                WebkitLineClamp: this.props.maxLines,
+                WebkitBoxOrient: 'vertical'
+            },
+            quote: {
+                transform: 'rotate(180deg)',
+                color: Colors.grey600,
+                marginBottom: -5
+            }
         };
 
-        return <div style={[style, this.props.style]}>{this.props.text}</div>
+        Object.assign(styles.container, this.props.style);
+
+        return (
+            <div style={styles.container}>
+                <QuoteIcon style={styles.quote} color={styles.quote.color}/>
+                {this.props.text}
+            </div>
+        );
     }
 }
-
-export default Snippet;
