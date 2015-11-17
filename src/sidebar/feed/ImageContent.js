@@ -23,14 +23,6 @@ export default class ImageContent extends React.Component {
         this.setState({iconVisible: false});
     };
 
-    focusIcon = () => {
-        this.setState({iconFocused: true});
-    };
-
-    blurIcon = () => {
-        this.setState({iconFocused: false});
-    };
-
     openImage = () => {
         Actions.openPage(this.props.clip.imageUrl);
     };
@@ -54,13 +46,11 @@ export default class ImageContent extends React.Component {
 
         const clip = this.props.clip;
 
-        const icon = (this.state.iconVisible || clip.id === this.props.ui.selectedPostId)
+        const icon = this.state.iconVisible
             ? <FontIcon
             style={styles.icon}
             className="material-icons"
             color={Theme.palette.icon}
-            onMouseEnter={this.focusIcon}
-            onMouseLeave={this.blurIcon}
             onClick={this.openImage}>
             open_in_new</FontIcon>
             : null;
@@ -77,6 +67,5 @@ export default class ImageContent extends React.Component {
                 {icon}
             </div>
         );
-
     }
 }

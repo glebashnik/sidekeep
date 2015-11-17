@@ -10,6 +10,14 @@ import HoverBox from '../ui/HoverBox';
 import ImageContent from './ImageContent';
 import CommentSection from './CommentSection';
 
+import FolderMoveIcon from '../ui/FolderMoveIcon'
+import DeleteIcon from 'material-ui/lib/svg-icons/action/delete';
+import FontIcon from 'material-ui/lib/font-icon';
+
+import IconButton from 'material-ui/lib/icon-button';
+import IconMenu from 'material-ui/lib/menus/icon-menu';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+
 export default class Clip extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
@@ -17,53 +25,109 @@ export default class Clip extends React.Component {
         clip: React.PropTypes.object.isRequired
     };
 
+    state = {
+        hover: false
+    };
+
+    enter = () => {
+        this.setState({hover: true});
+    };
+
+    leave = () => {
+        this.setState({hover: false});
+    };
+
     onClickClip = () => {
         Actions.selectPost(this.props.clip.id);
     };
 
-    onClickComment = (e) => {
+    stopPropagation = (e) => {
         if (this.props.clip.id === this.props.ui.selectedPostId)
             e.stopPropagation();
+    };
+
+    move = (e) => {
+        this.stopPropagation(e);
+    };
+
+    remove = (e) => {
+        this.stopPropagation(e);
+        Actions.removePost(this.props.ui.selectedPostId);
     };
 
     render() {
         let styles = {
             clip: {
-                padding: 10,
-                cursor: 'pointer'
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                cursor: 'pointer',
+                padding: '15px 10px 10px 10px'
             },
             snippet: {
                 font: Theme.font.content,
                 color: Theme.palette.textColor
+            },
+            menu: {
+                position: 'absolute',
+                top: -22,
+                right: -5,
+                zIndex: 5
+            },
+            icon: {
+                color: Theme.palette.primary1Color
+            },
+            image: {
+                maxHeight: 70,
+                width: '100%',
+                objectFit: 'cover'
             }
         };
 
-        let clip = this.props.clip;
-        let maxLines = 4;
+        const clip = this.props.clip;
+        const selected = clip.id === this.props.ui.selectedPostId;
+        const hover = this.state.hover;
 
-        if (clip.id === this.props.ui.selectedPostId) {
-            maxLines = 100;
+        if (hover)
+            styles.clip.background = Theme.palette.hoverBackground;
+        if (selected)
             styles.clip.background = Theme.palette.selectBackground;
-        }
 
-        let content;
+        const maxLines = selected ? 100 : 4;
+
+        let contentElem;
 
         switch (clip.type) {
             case 'text':
-                content = <Snippet maxLines={maxLines} text={HtmlHelper.strip(clip.text)} style={styles.snippet}/>;
+                contentElem = <Snippet maxLines={maxLines} text={HtmlHelper.strip(clip.text)} style={styles.snippet}/>;
                 break;
             case 'image':
-                content = <ImageContent ui={this.props.ui} clip={clip}/>;
+                contentElem = <ImageContent ui={this.props.ui} clip={clip}/>;
                 break;
         }
 
+        const menuElem = hover ?
+            <IconMenu style={styles.menu} iconButtonElement={
+                <IconButton
+                onClick={this.stopPropagation}
+                iconClassName="material-icons"
+                iconStyle={styles.icon}>
+                    arrow_drop_down_circle
+                </IconButton>}>
+                <MenuItem onClick={this.move} primaryText="Move"/>
+                <MenuItem onClick={this.remove} primaryText="Remove"/>
+            </IconMenu> : undefined;
+
         return (
-            <HoverBox
+            <div
                 style={styles.clip}
-                hoverStyle={{background: Theme.palette.hoverBackground}} onClick={this.onClickClip}>
-                {content}
-                <CommentSection onClick={this.onClickComment} ui={this.props.ui} user={this.props.user} post={clip}/>
-            </HoverBox>
+                onMouseEnter={this.enter}
+                onMouseLeave={this.leave}
+                onClick={this.onClickClip}>
+                {menuElem}
+                {contentElem}
+                <CommentSection onClick={this.stopPropagation} ui={this.props.ui} user={this.props.user} post={clip}/>
+            </div>
         );
     }
 }
