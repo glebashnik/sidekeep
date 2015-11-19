@@ -42,8 +42,7 @@ class Page extends React.Component {
             },
             content: {
                 display: 'flex',
-                alignItems: 'center',
-                height: 24
+                alignItems: 'center'
             },
             icon: {
                 width: 16,
@@ -52,11 +51,9 @@ class Page extends React.Component {
                 flexShrink: 0
             },
             title: {
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
                 color: Theme.palette.accentText,
-                font: '400 14px Roboto'
+                font: '400 14px Roboto',
+                textDecoration: 'none'
             }
         };
 
@@ -78,9 +75,9 @@ class Page extends React.Component {
                     onClick={this.onClickHeader}>
                     <div style={styles.content}>
                         <img src={page.favIconUrl} style={styles.icon}/>
-                        <a href={page.url} style={styles.title} onClick={this.openPage}>
-                            {page.title}
-                        </a>
+                        <HoverBox hoverStyle={{textDecoration: 'underline'}}>
+                            <a href={page.url} style={styles.title} onClick={this.openPage}>{page.title}</a>
+                        </HoverBox>
                     </div>
                     <CommentSection
                         onClick={this.onClickComment}

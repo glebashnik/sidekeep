@@ -4,13 +4,12 @@ import IconButton from 'material-ui/lib/icon-button';
 import FontIcon from 'material-ui/lib/font-icon';
 import Colors from 'material-ui/lib/styles/colors';
 import Theme from '../Theme';
-import FolderPlusIcon from '../ui/FolderPlusIcon';
 import FeedMenu from './FeedMenu';
 import ActionsMenu from './ActionsMenu';
 import Actions from '../../shared/Actions';
 import TextField from 'material-ui/lib/text-field';
 
-export default class ToolBar extends React.Component {
+export default class Toolbar extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired,
@@ -35,14 +34,14 @@ export default class ToolBar extends React.Component {
                 zIndex: 5,
                 boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
             },
-            tools: {
+            content: {
                 display: 'flex',
                 width: '100%',
                 background: Theme.palette.accentBackground,
                 alignItems: 'center'
             },
             icon: {
-                color: '#E8F3FA'
+                color: 'white'
             },
             titleField: {
                 flexGrow: 1
@@ -63,7 +62,7 @@ export default class ToolBar extends React.Component {
 
         return (
             <div style={styles.container}>
-                <div style={styles.tools}>
+                <div style={styles.content}>
                     <IconButton
                         onClick={Actions.toggleFeedMenu}
                         iconClassName="material-icons"

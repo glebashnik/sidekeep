@@ -1,5 +1,5 @@
 import React from 'react';
-import QuoteIcon from 'material-ui/lib/svg-icons/editor/format-quote.js';
+import QuoteIcon from './QuoteIcon';
 import Colors from 'material-ui/lib/styles/colors';
 
 export default class Snippet extends React.Component {
@@ -23,9 +23,11 @@ export default class Snippet extends React.Component {
                 WebkitBoxOrient: 'vertical'
             },
             quote: {
-                transform: 'rotate(180deg)',
                 color: Colors.grey600,
-                marginBottom: -5
+                width: 14,
+                height: 10,
+                marginRight: 5,
+                marginBottom: 2
             }
         };
 
@@ -33,7 +35,7 @@ export default class Snippet extends React.Component {
 
         return (
             <div style={styles.container}>
-                <QuoteIcon style={styles.quote} color={styles.quote.color}/>
+                <QuoteIcon viewBox="0 0 14 10" style={styles.quote} color={styles.quote.color}/>
                 {this.props.text}
             </div>
         );
