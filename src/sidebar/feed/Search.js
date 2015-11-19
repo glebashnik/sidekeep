@@ -42,10 +42,6 @@ class Search extends React.Component {
                 marginLeft: 8,
                 font: '400 16px Roboto',
                 color: '#0066CC',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                width: 200,
                 cursor: 'pointer'
             },
             sep: {

@@ -17,7 +17,7 @@ export default class FloatingMenuButton extends React.Component {
                 height: 20
             },
             icon: {
-                color: Colors.grey600,
+                color: Theme.palette.primary1Color,
                 right: 2,
                 bottom: 2
             }

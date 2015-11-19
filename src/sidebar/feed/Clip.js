@@ -18,6 +18,8 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import FloatingMenuButton from './FloatingMenuButton';
 import Actions from '../../shared/Actions';
 
+import copy from 'copy-to-clipboard';
+
 export default class Clip extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
@@ -54,6 +56,10 @@ export default class Clip extends React.Component {
         Actions.removePost(this.props.ui.selectedPostId);
     };
 
+    copy = () => {
+        copy(this.props.clip.text);
+    };
+
     render() {
         let styles = {
             clip: {
@@ -68,7 +74,7 @@ export default class Clip extends React.Component {
             },
             menu: {
                 position: 'absolute',
-                top: -18,
+                top: -20,
                 right: 0,
                 zIndex: 5
             },
@@ -98,13 +104,14 @@ export default class Clip extends React.Component {
                 contentElem = <Snippet maxLines={maxLines} text={HtmlHelper.strip(clip.text)} style={styles.snippet}/>;
                 break;
             case 'image':
-                styles.clip.padding = '18px 10px 10px 10px';
+                styles.clip.padding = '14px 10px 10px 10px';
                 contentElem = <ImageContent ui={this.props.ui} clip={clip}/>;
                 break;
         }
 
         const menuElem = hover ?
             <IconMenu style={styles.menu} iconButtonElement={<FloatingMenuButton onClick={this.stopPropagation}/>}>
+                <MenuItem onClick={this.copy} leftIcon={<FontIcon className="material-icons">content_copy</FontIcon>} primaryText="Copy"/>
                 <MenuItem onClick={this.move} leftIcon={<FolderIcon/>} primaryText="Move to..."/>
                 <MenuItem onClick={this.remove} leftIcon={<DeleteIcon/>} primaryText="Remove"/>
             </IconMenu> : undefined;

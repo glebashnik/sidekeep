@@ -6,8 +6,8 @@ export default class HoverBox extends React.Component {
     };
 
     static propTypes = {
-        style: React.PropTypes.object.isRequired,
-        hoverStyle: React.PropTypes.object.isRequired
+        style: React.PropTypes.object,
+        hoverStyle: React.PropTypes.object
     };
 
     enter = () => {
