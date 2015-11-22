@@ -7,7 +7,7 @@ export default class Store {
     }
 
     initContent() {
-        this.callbacks = [];
+        this.listeners = [];
         this.port = chrome.runtime.connect({name: this.name});
 
         this.port.onMessage.addListener(state => {
@@ -51,19 +51,19 @@ export default class Store {
     }
 
     emit() {
-        if (this.callbacks)
-            this.callbacks.forEach(c => c());
+        if (this.listeners)
+            this.listeners.forEach(listener => listener());
 
         if (this.ports)
-            this.ports.forEach(p => p.postMessage(this.state));
+            this.ports.forEach(port => port.postMessage(this.state));
     }
 
     addListener(callback) {
-        this.callbacks.push(callback);
+        this.listeners.push(callback);
         callback();
     }
 
     removeListener(callback) {
-        _.pull(this.callbacks, callback);
+        _.pull(this.listeners, callback);
     }
 }

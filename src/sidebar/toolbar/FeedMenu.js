@@ -1,17 +1,19 @@
 import _ from 'lodash';
 import React from 'react';
+
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
 import ListItem from 'material-ui/lib/lists/list-item';
-import Actions from '../../shared/Actions';
 import TextField from 'material-ui/lib/text-field';
 import Colors from 'material-ui/lib/styles/colors';
 import IconButton from 'material-ui/lib/icon-button';
 import Overlay from 'material-ui/lib/overlay';
+
+import Actions from '../../shared/Actions';
 import Theme from '../Theme';
 
 export default class FeedMenu extends React.Component {
     static propTypes = {
-        user: React.PropTypes.object.isRequired
+        feeds: React.PropTypes.object.isRequired
     };
 
     addFeed = () => {
@@ -19,9 +21,8 @@ export default class FeedMenu extends React.Component {
         const name = nameField.getValue();
 
         if (name) {
-            Actions.createFeed(name);
+            Actions.addFeed(name);
             nameField.setValue('');
-            Actions.toggleFeedMenu();
         }
     };
 
@@ -58,8 +59,6 @@ export default class FeedMenu extends React.Component {
             }
         };
 
-        const user = this.props.user;
-
         return (
             <div style={styles.container}>
                 <div style={styles.menu}>
@@ -71,7 +70,7 @@ export default class FeedMenu extends React.Component {
                                     </IconButton>
                                     <TextField ref="nameField" hintText="Add a topic" onEnterKeyDown={this.addFeed}/>
                                 </div>}/>
-                    {_.map(user.feeds, (feed, id) => <FeedItem key={id} feed={feed} user={user}/>)}
+                    {_.map(this.props.feeds, (feed, id) => <FeedItem key={id} feed={feed}/>)}
                 </div>
                 <Overlay style={styles.overlay} onClick={Actions.toggleFeedMenu} show/>
             </div>
@@ -81,8 +80,7 @@ export default class FeedMenu extends React.Component {
 
 class FeedItem extends React.Component {
     static propTypes = {
-        feed: React.PropTypes.object.isRequired,
-        user: React.PropTypes.object.isRequired
+        feed: React.PropTypes.object.isRequired
     };
 
     selectFeed = () => {
@@ -96,7 +94,7 @@ class FeedItem extends React.Component {
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            color: this.props.user.selectedFeed === this.props.feed.id ? Theme.palette.primary1Color : Colors.darkBlack
+            color: this.props.feed.selected ? Theme.palette.primary1Color : Colors.darkBlack
         };
 
         return <ListItem onClick={this.selectFeed} primaryText={<div style={style}>{this.props.feed.name}</div>}/>

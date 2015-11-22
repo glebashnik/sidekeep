@@ -41,6 +41,12 @@ if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0)
             display: UIStore.state.sidebar ? 'block' : 'none'
         });
     });
+
+    $(() => {
+        $('body').click(() => {
+            Actions.selectPost();
+        });
+    });
 }
 
 
