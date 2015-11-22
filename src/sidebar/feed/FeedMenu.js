@@ -27,7 +27,7 @@ export default class FeedMenu extends React.Component {
             content: {
                 width: '100%',
                 zIndex: 10,
-                background: 'white',
+                background: Colors.grey50,
                 overflowY: 'auto'
             },
             overlay: {
