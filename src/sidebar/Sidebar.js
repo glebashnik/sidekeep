@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
@@ -5,15 +6,14 @@ import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 import Theme from './Theme';
 import Colors from 'material-ui/lib/styles/colors';
 
-
 import UIStore from '../shared/stores/UIStore'
 import UserStore from '../shared/stores/UserStore'
 import FeedStore from '../shared/stores/FeedStore'
 import PostStore from '../shared/stores/PostStore'
 import Actions from '../shared/Actions';
 
-import Feed from './feed/Feed'
-import Toolbar from './toolbar/Toolbar';
+import Toolbar from './Toolbar';
+import Card from './post/Card'
 
 injectTapEventPlugin();
 
@@ -49,18 +49,37 @@ class Sidebar extends React.Component {
     }
 
     render() {
-        const style = {
+        const styles = {
+            container: {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
                 width: '100%',
                 background: Theme.palette.background
+            },
+            feed: {
+                display: 'flex',
+                flexDirection: 'column',
+                overflowY: 'scroll',
+                flexGrow: 1,
+                paddingBottom: 10
+            }
         };
 
+        const root = this.state.posts.root;
+        let postElems;
+
+        if (root) {
+            const sorted = _.sortBy(root.children, p => -p.timestamp);
+            postElems = _.map(sorted, (post, id) => <Card user={this.state.user} post={post} key={id}/>);
+        }
+
         return (
-            <div style={style}>
+            <div style={styles.container}>
                 <Toolbar ui={this.state.ui} user={this.state.user} feeds={this.state.feeds}/>
-                <Feed user={this.state.user} posts={this.state.posts}/>
+                <div style={styles.feed}>
+                    {postElems}
+                </div>
             </div>
         );
     }

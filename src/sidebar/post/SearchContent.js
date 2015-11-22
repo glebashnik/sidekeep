@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import FontIcon from 'material-ui/lib/font-icon';
-import HoverBox from '../../ui/HoverBox';
+import HoverBox from '../ui/HoverBox';
 
 export default class SearchContent extends React.Component {
     static propTypes = {

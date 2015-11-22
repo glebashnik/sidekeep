@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
-import Theme from '../../Theme';
-import Actions from '../../../shared/Actions';
+import Theme from '../Theme';
+import Actions from '../../shared/Actions';
 
 export default class PageContent extends React.Component {
     static propTypes = {

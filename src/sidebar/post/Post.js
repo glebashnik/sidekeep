@@ -2,14 +2,14 @@ import _ from 'lodash';
 import React from 'react';
 import Colors from 'material-ui/lib/styles/colors';
 
-import PageContent from './content/PageContent';
-import SearchContent from './content/SearchContent';
-import TextContent from './content/TextContent';
-import ImageContent from './content/ImageContent';
-import CommentContent from './content/CommentContent';
+import PageContent from './PageContent';
+import SearchContent from './SearchContent';
+import TextContent from './TextContent';
+import ImageContent from './ImageContent';
+import CommentContent from './CommentContent';
 
 import PostMenu from './PostMenu';
-import CommentField from './CommentField';
+import CommentAdd from './CommentAdd';
 import Theme from '../Theme';
 
 import Actions from '../../shared/Actions';
@@ -78,7 +78,7 @@ export default class Post extends React.Component {
             styles.content.background = Theme.palette.selectBackground;
 
         const menuElem = this.state.hover ? <PostMenu post={post} style={{background: styles.content.background}}/> : undefined;
-        const commentFieldElem = post.selected ? <CommentField post={post} user={user}/> : undefined;
+        const commentAddElem = post.selected ? <CommentAdd post={post} user={user}/> : undefined;
 
         const clips = _.reject(post.children, {type: 'comment'});
         const clipElems = _.map(clips, (clip, id) => <Post key={id} post={clip} user={user}/>);
@@ -91,7 +91,7 @@ export default class Post extends React.Component {
                 <div style={styles.content} onMouseEnter={this.enter} onMouseLeave={this.leave} onClick={this.select}>
                     {menuElem}
                     {contentElem}
-                    {commentFieldElem}
+                    {commentAddElem}
                 </div>
                 {clipElems}
                 {commentElems}

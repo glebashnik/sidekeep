@@ -2,7 +2,7 @@ import React from 'react';
 import Colors from 'material-ui/lib/styles/colors';
 import IconButton from 'material-ui/lib/icon-button';
 import Avatar from 'material-ui/lib/avatar';
-import Theme from '../../Theme';
+import Theme from '../Theme';
 
 export default class CommentContent extends React.Component {
     static propTypes = {
