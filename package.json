@@ -15,7 +15,8 @@
     "md5": "*",
     "jdenticon": "*",
     "query-string": "*",
-    "copy-to-clipboard": "*"
+    "copy-to-clipboard": "*",
+    "moment": "*"
   },
   "devDependencies": {
     "babelify": "6.4.0",

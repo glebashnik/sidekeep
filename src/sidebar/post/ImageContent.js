@@ -30,7 +30,7 @@ export default class ImageContent extends React.Component {
         const styles = {
             container: {
                 position: 'relative',
-                padding: 10
+                padding: '10px 15px 10px 15px'
             },
             image: {
                 maxHeight: 70,

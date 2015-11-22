@@ -18,7 +18,7 @@ export default class PageContent extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: 10
+                padding: '10px 15px 10px 15px'
             },
             icon: {
                 width: 16,
@@ -32,7 +32,7 @@ export default class PageContent extends React.Component {
                 overflowWrap: 'break-word',
                 wordWrap: 'break-word',
                 hyphens: 'auto',
-                WebkitLineClamp: 4,
+                WebkitLineClamp: 3,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
                 color: Theme.palette.accentText,

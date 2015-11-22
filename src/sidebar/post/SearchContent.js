@@ -13,16 +13,13 @@ export default class SearchContent extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: 10
+                padding: '10px 15px 10px 13px'
             },
             query: {
-                marginLeft: 8,
-                font: '400 16px Roboto',
+                marginLeft: 7,
+                font: '400 14px Roboto',
                 color: '#0066CC',
                 cursor: 'pointer'
-            },
-            queryHover: {
-                textDecoration: 'underline'
             }
         };
 
@@ -33,12 +30,9 @@ export default class SearchContent extends React.Component {
                     color={'#0066CC'}>
                     search
                 </FontIcon>
-                <HoverBox
-                    style={styles.query}
-                    hoverStyle={styles.queryHover}
-                    href={this.props.post.url}>
+                <div style={styles.query}>
                     {this.props.post.query}
-                </HoverBox>
+                </div>
             </div>
         );
     }

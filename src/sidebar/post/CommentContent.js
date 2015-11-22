@@ -23,7 +23,7 @@ export default class CommentContent extends React.Component {
                 position: 'relative',
                 font: Theme.font.primary,
                 color: Theme.palette.textColor,
-                padding: '5px 10px 5px 10px'
+                padding: '10px 15px 10px 15px'
             },
             avatar: {
                 flexShrink: 0,
