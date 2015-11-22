@@ -8,7 +8,6 @@ import TextField from 'material-ui/lib/text-field';
 
 import Theme from '../Theme';
 import FeedMenu from './FeedMenu';
-import ActionsMenu from './ActionsMenu';
 import Actions from '../../shared/Actions';
 
 export default class Toolbar extends React.Component {
@@ -61,10 +60,6 @@ export default class Toolbar extends React.Component {
             ? <FeedMenu feeds={this.props.feeds}/>
             : undefined;
 
-        const actionsMenuElem = this.props.ui.actionsMenu
-            ? <ActionsMenu user={this.props.user}/>
-            : undefined;
-
         return (
             <div style={styles.container}>
                 <div style={styles.content}>
@@ -87,17 +82,16 @@ export default class Toolbar extends React.Component {
                         onBlur={this.renameFeed}
                         onEnterKeyDown={this.renameFeed}/>
                     <IconButton
-                        onClick={Actions.toggleActionsMenu}
+                        onClick={Actions.toggleSidebar}
                         iconClassName="material-icons"
                         iconStyle={styles.icon}
                         tooltipPosition="bottom-left"
                         touch={true}
-                        tooltip="Actions">
-                        more_vert
+                        tooltip="Hide sidebar">
+                        close
                     </IconButton>
                 </div>
                 {feedMenuElem}
-                {actionsMenuElem}
             </div>
 
         );

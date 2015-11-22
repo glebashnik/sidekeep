@@ -77,7 +77,7 @@ export default class Post extends React.Component {
         if (post.selected)
             styles.content.background = Theme.palette.selectBackground;
 
-        const menuElem = this.state.hover ? <PostMenu post={post}/> : undefined;
+        const menuElem = this.state.hover ? <PostMenu post={post} style={{background: styles.content.background}}/> : undefined;
         const commentFieldElem = post.selected ? <CommentField post={post} user={user}/> : undefined;
 
         const clips = _.reject(post.children, {type: 'comment'});

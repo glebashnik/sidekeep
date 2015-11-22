@@ -9,9 +9,9 @@ import Colors from 'material-ui/lib/styles/colors';
 import IconButton from 'material-ui/lib/icon-button';
 import Overlay from 'material-ui/lib/overlay';
 
-import FolderMoveIcon from '../ui/FolderMoveIcon'
+import FolderMoveIcon from '../icons/FolderMoveIcon'
 import DeleteIcon from '../../../node_modules/material-ui/lib/svg-icons/action/delete';
-import WordIcon from '../ui/WordIcon';
+import WordIcon from '../icons/WordIcon';
 import LinkIcon from '../../../node_modules/material-ui/lib/svg-icons/editor/insert-link';
 
 import copy from 'copy-to-clipboard';

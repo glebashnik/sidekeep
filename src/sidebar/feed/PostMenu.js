@@ -1,15 +1,18 @@
 import React from 'react';
 
-import IconMenu from '../../../node_modules/material-ui/lib/menus/icon-menu';
-import MenuItem from '../../../node_modules/material-ui/lib/menus/menu-item';
-import FolderIcon from '../../../node_modules/material-ui/lib/svg-icons/file/folder';
-import DeleteIcon from '../../../node_modules/material-ui/lib/svg-icons/action/delete';
+import IconMenu from 'material-ui/lib/menus/icon-menu';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import FolderIcon from 'material-ui/lib/svg-icons/file/folder';
+import DeleteIcon from 'material-ui/lib/svg-icons/action/delete';
+import FontIcon from 'material-ui/lib/font-icon';
+import Colors from 'material-ui/lib/styles/colors';
 
-import FloatingMenuButton from './FloatingMenuButton';
+import Theme from '../Theme';
 import Actions from '../../shared/Actions';
 
 export default class PostMenu extends React.Component {
     static propTypes = {
+        style: React.PropTypes.object,
         post: React.PropTypes.object.isRequired
     };
 
@@ -28,15 +31,22 @@ export default class PostMenu extends React.Component {
     };
 
     render() {
-        let style = {
+        const style = {
             position: 'absolute',
-            top: -20,
             right: 0,
             zIndex: 5
         };
 
+        const mergedStyle = Object.assign({}, style, this.props.style);
+
         return (
-            <IconMenu style={style} iconButtonElement={<FloatingMenuButton onClick={this.stopPropagation}/>}>
+            <IconMenu style={mergedStyle} iconButtonElement={
+                <FontIcon
+                    className="material-icons"
+                    style={{padding: 5}}
+                    color={Colors.grey600}
+                    hoverColor={Theme.palette.primary1Color}
+                    onClick={this.stopPropagation}>expand_more</FontIcon>}>
                 <MenuItem onClick={this.move} leftIcon={<FolderIcon/>} primaryText="Move to..."/>
                 <MenuItem onClick={this.remove} leftIcon={<DeleteIcon/>} primaryText="Remove"/>
             </IconMenu>

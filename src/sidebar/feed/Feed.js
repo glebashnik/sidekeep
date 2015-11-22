@@ -16,7 +16,7 @@ export default class Feed extends React.Component {
             flexDirection: 'column',
             overflowY: 'scroll',
             flexGrow: 1,
-            paddingBottom: 15
+            paddingBottom: 10
         };
 
         const root = this.props.posts.root;

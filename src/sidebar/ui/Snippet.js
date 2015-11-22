@@ -1,5 +1,5 @@
 import React from 'react';
-import QuoteIcon from './QuoteIcon';
+import QuoteIcon from './../icons/QuoteIcon';
 import Colors from 'material-ui/lib/styles/colors';
 
 export default class Snippet extends React.Component {

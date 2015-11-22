@@ -13,6 +13,7 @@ import PostStore from '../../shared/stores/PostStore';
 const USERS_REF = FirebaseRef.child('users');
 const POSTS_REF = FirebaseRef.child('posts');
 
+let _feedId = null;
 let _user = null;
 let _posts = null;
 let _selectedFeedRef = null;
@@ -33,8 +34,12 @@ function login(user) {
 }
 
 function _selected(snap) {
-    if (!snap.val())
+    const feedId = snap.val();
+
+    if (!feedId || feedId === _feedId)
         return;
+
+    _feedId = feedId;
 
     if (_postsRef) {
         _postsRef.off('child_added', _added);
@@ -44,7 +49,7 @@ function _selected(snap) {
     _posts = {};
     emit();
 
-    _postsRef = POSTS_REF.child(snap.val());
+    _postsRef = POSTS_REF.child(_feedId);
     _postsRef.on('child_added', _added);
     _postsRef.on('child_removed', _removed);
 }
@@ -129,7 +134,11 @@ function addImage(imageUrl, tabId) {
     });
 }
 
-function addComment(parentId, text) {
+function addComment(postId, text) {
+    const parentId = _posts[postId].type === 'comment'
+        ? _posts[postId].parent
+        : postId;
+
     const commentId = addPost({
         parent: parentId,
         type: 'comment',

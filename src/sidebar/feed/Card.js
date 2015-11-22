@@ -11,7 +11,7 @@ export default class Card extends React.Component {
 
     render() {
         let style = {
-            margin: '15px 5px 0 10px',
+            margin: '10px 6px 0 10px',
             background: 'white',
             boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
         };
