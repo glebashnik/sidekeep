@@ -9,10 +9,10 @@ chrome.contextMenus.create({
         const tabId = tab.id !== -1 ? tab.id : TabHelper.getHighlightInfo().tabIds[0];
 
         if (info.selectionText)
-            Actions.clipText(info.selectionText, tabId);
+            Actions.addText(info.selectionText, tabId);
         else if (info.mediaType === 'image')
-            Actions.clipImage(info.srcUrl, tabId);
+            Actions.addImage(info.srcUrl, tabId);
         else
-            Actions.clipPage(tabId);
+            Actions.addPage(tabId);
     }
 });

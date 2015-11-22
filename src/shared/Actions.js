@@ -38,9 +38,9 @@ export default {
         });
     },
 
-    createFeed(feedName) {
+    addFeed(feedName) {
         ActionRouter.send({
-            type: 'CREATE_FEED',
+            type: 'ADD_FEED',
             feedName: feedName
         })
     },
@@ -81,34 +81,34 @@ export default {
         })
     },
 
-    clipText(text, tabId) {
+    addText(text, tabId) {
         ActionRouter.send({
-            type: 'CLIP_TEXT',
+            type: 'ADD_TEXT',
             text: text,
             tabId: tabId
         });
     },
 
-    clipPage(tabId) {
+    addPage(tabId) {
         ActionRouter.send({
-            type: 'CLIP_PAGE',
+            type: 'ADD_PAGE',
             tabId: tabId
         });
     },
 
-    clipImage(imageUrl, tabId) {
+    addImage(imageUrl, tabId) {
         ActionRouter.send({
-            type: 'CLIP_IMAGE',
+            type: 'ADD_IMAGE',
             imageUrl: imageUrl,
             tabId: tabId
         });
     },
 
-    comment(postId, commentText) {
+    addComment(postId, text) {
         ActionRouter.send({
-            type: 'COMMENT',
+            type: 'ADD_COMMENT',
             postId: postId,
-            commentText: commentText
+            text: text
         });
     },
 

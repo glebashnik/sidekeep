@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
@@ -9,9 +10,9 @@ import IconButton from 'material-ui/lib/icon-button';
 import Overlay from 'material-ui/lib/overlay';
 
 import FolderMoveIcon from '../ui/FolderMoveIcon'
-import DeleteIcon from 'material-ui/lib/svg-icons/action/delete';
+import DeleteIcon from '../../../node_modules/material-ui/lib/svg-icons/action/delete';
 import WordIcon from '../ui/WordIcon';
-import LinkIcon from 'material-ui/lib/svg-icons/editor/insert-link';
+import LinkIcon from '../../../node_modules/material-ui/lib/svg-icons/editor/insert-link';
 
 import copy from 'copy-to-clipboard';
 
@@ -20,8 +21,7 @@ import Actions from '../../shared/Actions';
 
 export default class ActionsMenu extends React.Component {
     static propTypes = {
-        user: React.PropTypes.object.isRequired,
-        feed: React.PropTypes.object.isRequired
+        user: React.PropTypes.object.isRequired
     };
 
     close = () => {
@@ -39,7 +39,7 @@ export default class ActionsMenu extends React.Component {
         this.close();
     };
 
-    deleteFeed = () => {
+    removeFeed = () => {
         Actions.removeFeed(this.props.user.selectedFeed);
         this.close();
     };
@@ -73,7 +73,7 @@ export default class ActionsMenu extends React.Component {
                 <div style={styles.menu}>
                     <ListItem leftIcon={<LinkIcon/>} primaryText="Copy & share topic link" onClick={this.copyLink}/>
                     <ListItem leftIcon={<WordIcon/>} primaryText="Export to Word" onClick={this.exportToWord}/>
-                    <ListItem leftIcon={<DeleteIcon/>} primaryText="Remove topic" onClick={this.deleteFeed}/>
+                    <ListItem leftIcon={<DeleteIcon/>} primaryText="Remove topic" onClick={this.removeFeed}/>
                 </div>
                 <Overlay style={styles.overlay} onClick={this.close} show/>
             </div>

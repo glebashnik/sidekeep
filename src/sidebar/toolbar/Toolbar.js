@@ -1,23 +1,28 @@
 import _ from 'lodash';
 import React from 'react';
+
 import IconButton from 'material-ui/lib/icon-button';
 import FontIcon from 'material-ui/lib/font-icon';
 import Colors from 'material-ui/lib/styles/colors';
+import TextField from 'material-ui/lib/text-field';
+
 import Theme from '../Theme';
 import FeedMenu from './FeedMenu';
 import ActionsMenu from './ActionsMenu';
 import Actions from '../../shared/Actions';
-import TextField from 'material-ui/lib/text-field';
 
 export default class Toolbar extends React.Component {
     static propTypes = {
         ui: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired,
-        feed: React.PropTypes.object.isRequired
+        feeds: React.PropTypes.object.isRequired
     };
 
     componentWillReceiveProps(nextProps) {
-        this.refs.name.setValue(nextProps.feed.name);
+        const feed = nextProps.feeds[nextProps.user.selectedFeed];
+
+        if (feed)
+            this.refs.name.setValue(feed.name);
     }
 
     renameFeed = (e) => {
@@ -53,11 +58,11 @@ export default class Toolbar extends React.Component {
         };
 
         const feedMenuElem = this.props.ui.feedMenu
-            ? <FeedMenu user={this.props.user}/>
+            ? <FeedMenu feeds={this.props.feeds}/>
             : undefined;
 
         const actionsMenuElem = this.props.ui.actionsMenu
-            ? <ActionsMenu ui={this.props.ui} user={this.props.user} feed={this.props.feed}/>
+            ? <ActionsMenu user={this.props.user}/>
             : undefined;
 
         return (

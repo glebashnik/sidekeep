@@ -1,13 +1,12 @@
 import React from 'react';
 import FontIcon from 'material-ui/lib/font-icon';
-import Actions from '../../shared/Actions';
 import Colors from 'material-ui/lib/styles/colors';
-import Theme from '../Theme';
+import Actions from '../../../shared/Actions';
+import Theme from '../../Theme';
 
 export default class ImageContent extends React.Component {
     static propTypes = {
-        ui: React.PropTypes.object.isRequired,
-        clip: React.PropTypes.object.isRequired
+        post: React.PropTypes.object.isRequired
     };
 
     state = {
@@ -24,13 +23,14 @@ export default class ImageContent extends React.Component {
     };
 
     openImage = () => {
-        Actions.openPage(this.props.clip.imageUrl);
+        Actions.openPage(this.props.post.imageUrl);
     };
 
     render() {
         const styles = {
-            content: {
-                position: 'relative'
+            container: {
+                position: 'relative',
+                padding: '15px 10px 15px 10px'
             },
             image: {
                 maxHeight: 70,
@@ -44,7 +44,7 @@ export default class ImageContent extends React.Component {
             }
         };
 
-        const clip = this.props.clip;
+        const post = this.props.post;
 
         const icon = this.state.iconVisible
             ? <FontIcon
@@ -55,15 +55,14 @@ export default class ImageContent extends React.Component {
             open_in_new</FontIcon>
             : null;
 
-        styles.icon.background = clip.id === this.props.ui.selectedPostId
-            ? Theme.palette.selectBackground : Theme.palette.hoverBackground;
+        styles.icon.background = post.selected ? Theme.palette.selectBackground : Theme.palette.hoverBackground;
 
         return (
             <div
-                style={styles.content}
+                style={styles.container}
                 onMouseEnter={this.showIcon}
                 onMouseLeave={this.hideIcon}>
-                <img style={styles.image} src={clip.imageUrl}/>
+                <img style={styles.image} src={post.imageUrl}/>
                 {icon}
             </div>
         );

@@ -22,7 +22,7 @@ export default class HoverBox extends React.Component {
         const {style, hoverStyle, ...other} = this.props;
 
         const merged = this.state.hover
-            ? Object.assign({}, hoverStyle, style)
+            ? Object.assign({}, style, hoverStyle)
             : Object.assign({}, style);
 
         return (
