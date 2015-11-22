@@ -21,7 +21,7 @@ export default class CommentAdd extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: '0 10px 5px 10px'
+                padding: '5px 15px 10px 15px'
             },
             avatar: {
                 margin: 0,

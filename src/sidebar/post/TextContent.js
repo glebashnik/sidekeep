@@ -13,7 +13,7 @@ export default class TextContent extends React.Component {
             container: {
                 font: Theme.font.content,
                 color: Theme.palette.textColor,
-                padding: 10
+                padding: '10px 15px 10px 15px'
             },
             content: {
                 display: '-webkit-box',

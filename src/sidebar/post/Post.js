@@ -16,6 +16,7 @@ import Actions from '../../shared/Actions';
 
 export default class Post extends React.Component {
     static propTypes = {
+        borderless: React.PropTypes.bool,
         user: React.PropTypes.object.isRequired,
         post: React.PropTypes.object.isRequired
     };
@@ -47,7 +48,8 @@ export default class Post extends React.Component {
             content: {
                 display: 'flex',
                 flexDirection: 'column'
-            }
+            },
+            border: this.props.borderless ? 'none' : '1px solid ' + Colors.grey300
         };
 
         const {user, post} = this.props;
@@ -55,10 +57,11 @@ export default class Post extends React.Component {
 
         switch (post.type) {
             case 'search':
+                styles.container.borderTop = styles.border;
                 contentElem = <SearchContent post={post}/>;
                 break;
             case 'page':
-                styles.container.borderTop = '1px solid ' + Colors.grey300;
+                styles.container.borderTop = styles.border;
                 contentElem = <PageContent post={post}/>;
                 break;
             case 'text':

@@ -13,7 +13,7 @@ import PostStore from '../shared/stores/PostStore'
 import Actions from '../shared/Actions';
 
 import Toolbar from './Toolbar';
-import Card from './post/Card'
+import Card from './post/Card';
 
 injectTapEventPlugin();
 
@@ -55,7 +55,7 @@ class Sidebar extends React.Component {
                 flexDirection: 'column',
                 height: '100%',
                 width: '100%',
-                background: Theme.palette.background
+                background: '#EEEEEE'
             },
             feed: {
                 display: 'flex',
