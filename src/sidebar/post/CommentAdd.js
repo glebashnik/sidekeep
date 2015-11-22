@@ -4,7 +4,7 @@ import TextField from 'material-ui/lib/text-field';
 import Avatar from 'material-ui/lib/avatar';
 import Actions from '../../shared/Actions';
 
-export default class CommentField extends React.Component {
+export default class CommentAdd extends React.Component {
     static propTypes = {
         user: React.PropTypes.object.isRequired,
         post: React.PropTypes.object.isRequired

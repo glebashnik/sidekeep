@@ -1,7 +1,7 @@
 import React from 'react';
 import Colors from 'material-ui/lib/styles/colors';
-import QuoteIcon from '../../icons/QuoteIcon';
-import Theme from '../../Theme';
+import QuoteIcon from '../icons/QuoteIcon';
+import Theme from '../Theme';
 
 export default class TextContent extends React.Component {
     static propTypes = {
