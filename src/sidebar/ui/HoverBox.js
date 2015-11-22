@@ -18,6 +18,10 @@ export default class HoverBox extends React.Component {
         this.setState({hover: false});
     };
 
+    isHover = () => {
+        return this.state.hover;
+    };
+
     render() {
         const {style, hoverStyle, ...other} = this.props;
 

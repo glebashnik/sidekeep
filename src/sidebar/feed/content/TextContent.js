@@ -1,7 +1,7 @@
 import React from 'react';
-import * as HtmlHelper from '../../../shared/helpers/HtmlHelper';
+import Colors from 'material-ui/lib/styles/colors';
+import QuoteIcon from '../../icons/QuoteIcon';
 import Theme from '../../Theme';
-import Snippet from '../../ui/Snippet';
 
 export default class TextContent extends React.Component {
     static propTypes = {
@@ -9,17 +9,34 @@ export default class TextContent extends React.Component {
     };
 
     render() {
-        let style = {
-            font: Theme.font.content,
-            color: Theme.palette.textColor,
-            padding: 10
+        let styles = {
+            container: {
+                font: Theme.font.content,
+                color: Theme.palette.textColor,
+                padding: 10
+            },
+            content: {
+                display: '-webkit-box',
+                overflow: 'hidden',
+                wordWrap: 'break-word',
+                WebkitLineClamp: this.props.post.selected ? 100 : 4,
+                WebkitBoxOrient: 'vertical'
+            },
+            icon: {
+                color: Colors.grey600,
+                width: 14,
+                height: 10,
+                marginRight: 5,
+                marginBottom: 2
+            }
         };
 
-        const maxLines = this.props.post.selected ? 100 : 4;
-
         return (
-            <div style={style}>
-                <Snippet maxLines={maxLines} text={HtmlHelper.strip(this.props.post.text)}/>
+            <div style={styles.container}>
+                <div style={styles.content}>
+                    <QuoteIcon viewBox="0 0 14 10" style={styles.icon} color={styles.icon.color}/>
+                    {this.props.post.text}
+                </div>
             </div>
         );
     }

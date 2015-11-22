@@ -1,5 +1,5 @@
 import React from 'react';
-import FontIcon from 'material-ui/lib/font-icon';
+import FontIcon from '../../../node_modules/material-ui/lib/font-icon';
 
 export default class HoverFontIcon extends React.Component {
     state = {
