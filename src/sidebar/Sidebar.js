@@ -61,8 +61,7 @@ class Sidebar extends React.Component {
                 display: 'flex',
                 flexDirection: 'column',
                 overflowY: 'scroll',
-                flexGrow: 1,
-                paddingBottom: 10
+                flexGrow: 1
             }
         };
 
