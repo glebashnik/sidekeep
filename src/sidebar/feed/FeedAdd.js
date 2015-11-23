@@ -1,36 +1,60 @@
 import React from 'react';
 
-import IconButton from 'material-ui/lib/icon-button';
 import TextField from 'material-ui/lib/text-field';
-import AddIcon from 'material-ui/lib/svg-icons/content/add';
-import Colors from 'material-ui/lib/styles/colors';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 import Actions from '../../shared/Actions';
 
 export default class FeedAdd extends React.Component {
-    addFeed = () => {
-        const nameField = this.refs.nameField;
-        const name = nameField.getValue();
+    static propTypes = {
+        onClose: React.PropTypes.func.isRequired
+    };
+
+    save = () => {
+        const name = this.refs.name.getValue();
 
         if (name) {
+            this.refs.name.setValue('');
             Actions.addFeed(name);
-            nameField.setValue('');
+            this.props.onClose();
         }
     };
 
+    cancel = () => {
+        this.props.onClose();
+    };
+
+    stopPropagation = (e) => {
+        e.stopPropagation();
+    };
+
     render() {
-        const style = {
-            display: 'flex',
-            alignItems: 'center',
-            padding: '0 25px 0 0'
+        const styles = {
+            container: {
+                padding: '0 20px 20px 20px',
+                display: 'flex',
+                flexDirection: 'column'
+            },
+            buttons: {
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: 20
+            },
+            button: {
+                margin: '0 10px 0 10px'
+            }
         };
 
         return (
-            <div style={style}>
-                <IconButton onClick={this.addFeed}>
-                    <AddIcon color={Colors.grey600}/>
-                </IconButton>
-                <TextField ref="nameField" hintText="Add a topic" onEnterKeyDown={this.addFeed}/>
+            <div style={styles.container}>
+                <TextField
+                    onChange={this.stopPropagation}
+                    floatingLabelText="New topic name"
+                    ref="name"/>
+                <div style={styles.buttons}>
+                    <RaisedButton style={styles.button} label="Save" onClick={this.save}/>
+                    <RaisedButton style={styles.button} label="Cancel" onClick={this.cancel}/>
+                </div>
             </div>
         );
     }

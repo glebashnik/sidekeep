@@ -16,7 +16,6 @@ import Actions from '../../shared/Actions';
 
 export default class Post extends React.Component {
     static propTypes = {
-        borderless: React.PropTypes.bool,
         user: React.PropTypes.object.isRequired,
         post: React.PropTypes.object.isRequired
     };
@@ -49,7 +48,7 @@ export default class Post extends React.Component {
                 display: 'flex',
                 flexDirection: 'column'
             },
-            border: this.props.borderless ? 'none' : '1px solid ' + Colors.grey300
+            border: '1px solid ' + Colors.grey300
         };
 
         const {user, post} = this.props;

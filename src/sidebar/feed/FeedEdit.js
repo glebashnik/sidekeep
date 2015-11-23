@@ -11,10 +11,6 @@ export default class FeedEdit extends React.Component {
         onClose: React.PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-        this.refs.name.focus();
-    }
-
     save = () => {
         Actions.renameFeed(this.props.feed.id, this.refs.name.getValue());
         this.props.onClose();

@@ -1,19 +1,11 @@
 import React from 'react';
-
-import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 
 import Actions from '../../shared/Actions';
 
-export default class FeedRemove extends React.Component {
+export default class FeedExport extends React.Component {
     static propTypes = {
-        feed: React.PropTypes.object.isRequired,
         onClose: React.PropTypes.func.isRequired
-    };
-
-    remove = () => {
-        Actions.removeFeed(this.props.feed.id);
-        this.props.onClose();
     };
 
     render() {
@@ -38,10 +30,12 @@ export default class FeedRemove extends React.Component {
 
         return (
             <div style={styles.container}>
-                <div style={styles.text}>Everything collected in this topic will be lost. Do you want to proceed?</div>
+                <div style={styles.text}>
+                    Export collected information to a Word document.
+                </div>
                 <div style={styles.buttons}>
-                    <RaisedButton style={styles.button} label="Delete" onClick={this.remove}/>
-                    <RaisedButton style={styles.button} label="Cancel" onClick={this.props.onClose}/>
+                    <RaisedButton style={styles.button} label="Export" onClick={Actions.exportToWord}/>
+                    <RaisedButton style={styles.button} label="Close" onClick={this.props.onClose}/>
                 </div>
             </div>
         );
