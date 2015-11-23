@@ -18,7 +18,7 @@ export default class Card extends React.Component {
                 boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
             },
             time: {
-                padding: '15px 15px 5px 15px',
+                padding: '15px 15px 6px 15px',
                 font: '400 14px Roboto',
                 color: Colors.grey600
             }
@@ -27,7 +27,7 @@ export default class Card extends React.Component {
         return (
             <div>
                 <div style={styles.time}>{moment(this.props.post.timestamp).fromNow()}</div>
-                <div style={styles.card}><Post user={this.props.user} post={this.props.post} borderless/></div>
+                <div style={styles.card}><Post user={this.props.user} post={this.props.post}/></div>
             </div>
         );
     }

@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import $ from 'jquery';
-import Dispatcher from '../../shared/Dispatcher';
+import Firebase from 'Firebase';
 import FirebaseRef from '../FirebaseRef';
+import Dispatcher from '../../shared/Dispatcher';
 import FeedStore from '../../shared/stores/FeedStore';
 
 const USERS_REF = FirebaseRef.child('users');
@@ -37,16 +38,23 @@ function _added(snap) {
 }
 
 function _updated(snap) {
-    const feed = snap.val();
-    feed.id = snap.key();
-    _feeds[snap.key()] = feed;
+    _feeds[snap.key()] = Object.assign(
+        {id: snap.key()}, //default value
+        _feeds[snap.key()], //old value if exists
+        snap.val()); //new value
     emit();
 }
 
 function _removed(snap) {
-    _feedRefs[snap.key()].off();
-    delete _feedRefs[snap.key()];
-    delete _feeds[snap.key()];
+    const id = snap.key();
+    const feed = _feeds[id];
+
+    if (feed.selected)
+        selectFeed(null);
+
+    _feedRefs[id].off();
+    delete _feedRefs[id];
+    delete _feeds[id];
     emit();
 }
 
@@ -58,7 +66,11 @@ function _selected(snap) {
 }
 
 function addFeed(feedName) {
-    const feedRef = FEEDS_REF.push({'name': feedName});
+    const feedRef = FEEDS_REF.push({
+        'name': feedName,
+        'timestamp': Firebase.ServerValue.TIMESTAMP
+    });
+
     joinFeed(feedRef.key());
     selectFeed(feedRef.key());
 }

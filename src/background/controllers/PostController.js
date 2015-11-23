@@ -36,7 +36,7 @@ function login(user) {
 function _selected(snap) {
     const feedId = snap.val();
 
-    if (!feedId || feedId === _feedId)
+    if (feedId === _feedId)
         return;
 
     _feedId = feedId;
@@ -48,6 +48,9 @@ function _selected(snap) {
 
     _posts = {};
     emit();
+
+    if (!_feedId)
+        return;
 
     _postsRef = POSTS_REF.child(_feedId);
     _postsRef.on('child_added', _added);

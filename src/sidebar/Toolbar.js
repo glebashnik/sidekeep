@@ -34,11 +34,12 @@ export default class Toolbar extends React.Component {
             content: {
                 display: 'flex',
                 width: '100%',
+                zIndex: 7,
                 background: Theme.palette.accentBackground,
                 alignItems: 'center'
             },
             icon: {
-                color: 'white'
+                color: Colors.grey50
             },
             title: {
                 display: 'flex',
@@ -52,12 +53,12 @@ export default class Toolbar extends React.Component {
             titleText: {
                 flexGrow: 1,
                 font: '400 17px Roboto',
-                color: Theme.palette.accentForeground
+                color: Colors.grey50
             }
         };
 
-        const feedId = this.props.user.selectedFeed;
-        const name = feedId ? this.props.feeds[feedId].name : '';
+        const id = this.props.user.selectedFeed;
+        const name = id ? this.props.feeds[id].name : '';
 
         const feedMenuElem = this.props.ui.feedMenu
             ? <FeedMenu feeds={this.props.feeds}/>
@@ -77,10 +78,7 @@ export default class Toolbar extends React.Component {
                     <IconButton
                         onClick={Actions.toggleSidebar}
                         iconClassName="material-icons"
-                        iconStyle={styles.icon}
-                        tooltipPosition="bottom-left"
-                        touch={true}
-                        tooltip="Hide sidebar">
+                        iconStyle={styles.icon}>
                         close
                     </IconButton>
                 </div>
