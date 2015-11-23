@@ -52,7 +52,7 @@ export default class FeedAdd extends React.Component {
                     floatingLabelText="New topic name"
                     ref="name"/>
                 <div style={styles.buttons}>
-                    <RaisedButton style={styles.button} label="Save" onClick={this.save}/>
+                    <RaisedButton style={styles.button} label="Add" onClick={this.save}/>
                     <RaisedButton style={styles.button} label="Cancel" onClick={this.cancel}/>
                 </div>
             </div>

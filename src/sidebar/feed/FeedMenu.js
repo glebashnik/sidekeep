@@ -24,10 +24,10 @@ export default class FeedMenu extends React.Component {
             content: {
                 width: '100%',
                 background: Colors.grey50,
-                overflowY: 'scroll'
+                overflowY: 'scroll',
+                flexGrow: 1
             },
             overlay: {
-                flexGrow: 1,
                 background: Colors.lightBlack
             }
         };

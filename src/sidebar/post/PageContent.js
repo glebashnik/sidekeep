@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
+
 import Theme from '../Theme';
+import HoverBox from '../ui/HoverBox'
 import Actions from '../../shared/Actions';
 
 export default class PageContent extends React.Component {
@@ -35,8 +37,9 @@ export default class PageContent extends React.Component {
                 WebkitLineClamp: 3,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
-                color: Theme.palette.accentText,
-                font: '400 14px Roboto'
+                color: '#0066CC',
+                textDecoration: 'none',
+                font: '500 14px Roboto'
             }
         };
 
@@ -45,7 +48,11 @@ export default class PageContent extends React.Component {
         return (
             <div style={styles.container}>
                 <img src={page.favIconUrl} style={styles.icon}/>
-                <a href={page.url} style={styles.title} onClick={this.openPage}>{page.title}</a>
+                <a href={page.url} style={styles.title} onClick={this.openPage}>
+                    <HoverBox style={{textDecoration: 'none'}} hoverStyle={{textDecoration: 'underline'}}>
+                        {page.title}
+                    </HoverBox>
+                </a>
             </div>
         );
     }

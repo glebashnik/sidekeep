@@ -35,7 +35,7 @@ export default class CommentContent extends React.Component {
             },
             name: {
                 font: Theme.font.accent,
-                color: Theme.palette.accentText,
+                color: '#0066CC',
                 cursor: 'pointer'
             }
         };
