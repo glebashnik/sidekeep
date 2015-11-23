@@ -46,7 +46,7 @@ export default class FeedEdit extends React.Component {
             <div style={styles.container}>
                 <TextField
                     onChange={this.stopPropagation}
-                    floatingLabelText="Edit topic name"
+                    floatingLabelText="Change topic name"
                     defaultValue={this.props.feed.name}
                     ref="name"/>
                 <div style={styles.buttons}>

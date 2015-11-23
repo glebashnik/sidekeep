@@ -1,9 +1,8 @@
 import React from 'react';
 import Colors from 'material-ui/lib/styles/colors';
-import Paper from 'material-ui/lib/paper';
-import Post from './Post';
-
 import moment from 'moment';
+
+import Post from './Post';
 
 export default class Card extends React.Component {
     static propTypes = {

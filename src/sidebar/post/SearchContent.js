@@ -1,11 +1,19 @@
 import _ from 'lodash';
 import React from 'react';
 import FontIcon from 'material-ui/lib/font-icon';
+import Colors from 'material-ui/lib/styles/colors';
+
 import HoverBox from '../ui/HoverBox';
+import Actions from '../../shared/Actions';
 
 export default class SearchContent extends React.Component {
     static propTypes = {
         post: React.PropTypes.object.isRequired
+    };
+
+    openPage = (event) => {
+        event.preventDefault();
+        Actions.openPage(this.props.post.url);
     };
 
     render() {
@@ -17,7 +25,7 @@ export default class SearchContent extends React.Component {
             },
             query: {
                 marginLeft: 7,
-                font: '400 14px Roboto',
+                font: '500 14px Roboto',
                 color: '#0066CC',
                 cursor: 'pointer'
             }
@@ -27,12 +35,12 @@ export default class SearchContent extends React.Component {
             <div style={styles.container}>
                 <FontIcon
                     className="material-icons"
-                    color={'#0066CC'}>
+                    color={Colors.grey600}>
                     search
                 </FontIcon>
-                <div style={styles.query}>
+                <HoverBox style={styles.query} hoverStyle={{textDecoration: 'underline'}} onClick={this.openPage}>
                     {this.props.post.query}
-                </div>
+                </HoverBox>
             </div>
         );
     }

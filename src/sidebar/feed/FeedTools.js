@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FontIcon from 'material-ui/lib/font-icon';
+import IconButton from 'material-ui/lib/icon-button';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
 import Colors from 'material-ui/lib/styles/colors';
@@ -62,22 +63,24 @@ export default class FeedTools extends React.Component {
                   value={this.state.tab}
                   onChange={this.change}>
                 <Tab value="add"
-                     label={<FontIcon className="material-icons" color={styles.icon.color}>add</FontIcon>}>
+                     label={<IconButton iconClassName="material-icons" iconStyle={styles.icon}>add</IconButton>}>
                     <FeedAdd onClose={this.close}/>
                 </Tab>
                 <Tab value="edit"
-                     label={<FontIcon className="material-icons" color={styles.icon.color}>edit</FontIcon>}>
+                     label={<IconButton iconClassName="material-icons" iconStyle={styles.icon}>edit</IconButton>}>
                     {this.props.feed ? <FeedEdit feed={this.props.feed} onClose={this.close}/> : undefined}
                 </Tab>
                 <Tab value="group"
-                     label={<FontIcon className="material-icons" color={styles.icon.color}>group</FontIcon>}>
+                     label={
+                     <IconButton iconClassName="material-icons" iconStyle={styles.icon}>group</IconButton>}>
                     {this.props.feed ? <FeedShare feed={this.props.feed} onClose={this.close}/> : undefined}
                 </Tab>
-                <Tab value="export" label={<ExportIcon style={{fill: styles.icon.color}}/>}>
+                <Tab value="export"
+                     label={<IconButton><ExportIcon color={styles.icon.color}/></IconButton>}>
                     {this.props.feed ? <FeedExport onClose={this.close}/> : undefined}
                 </Tab>
                 <Tab value="remove"
-                     label={<FontIcon className="material-icons" color={styles.icon.color}>delete</FontIcon>}>
+                     label={<IconButton iconClassName="material-icons" iconStyle={styles.icon}>delete</IconButton>}>
                     {this.props.feed ? <FeedRemove feed={this.props.feed} onClose={this.close}/> : undefined}
                 </Tab>
             </Tabs>
