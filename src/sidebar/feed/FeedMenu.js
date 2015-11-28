@@ -19,7 +19,7 @@ export default class FeedMenu extends React.Component {
                 flexDirection: 'column',
                 width: '100%',
                 bottom: 0,
-                top: 48
+                top: 50
             },
             content: {
                 width: '100%',
