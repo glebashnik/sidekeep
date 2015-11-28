@@ -34,7 +34,7 @@ function _updated(snap) {
     });
 }
 
-export default Dispatcher.register((action) => {
+Dispatcher.register((action) => {
     switch (action.type) {
         case 'LOGIN':
             login(action.user);

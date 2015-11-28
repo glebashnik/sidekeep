@@ -79,7 +79,13 @@ export default class Post extends React.Component {
         if (post.selected)
             styles.content.background = Theme.palette.selectBackground;
 
-        const menuElem = this.state.hover ? <PostMenu post={post} style={{background: styles.content.background}}/> : undefined;
+        const menuElem = this.state.hover || (this.refs.menu && this.refs.menu.isOpen())
+            ? <PostMenu ref="menu"
+                        post={post}
+                        background={styles.content.background}
+                        onOpen={this.menuOpened}
+                        onClose={this.menuClosed}/>
+            : null;
         const commentAddElem = post.selected ? <CommentAdd post={post} user={user}/> : undefined;
 
         const clips = _.reject(post.children, {type: 'comment'});
@@ -95,8 +101,8 @@ export default class Post extends React.Component {
                     {contentElem}
                     {commentAddElem}
                 </div>
-                {clipElems}
                 {commentElems}
+                {clipElems}
             </div>
         );
     }

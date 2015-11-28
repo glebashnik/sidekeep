@@ -63,7 +63,7 @@ export default class Toolbar extends React.Component {
         const feedMenuElem = this.props.ui.feedMenu
             ? <FeedMenu feeds={this.props.feeds}/>
             : undefined;
-
+        
         return (
             <div style={styles.container}>
                 <div style={styles.content}>

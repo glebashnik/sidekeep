@@ -63,24 +63,24 @@ export default class FeedTools extends React.Component {
                   value={this.state.tab}
                   onChange={this.change}>
                 <Tab value="add"
-                     label={<IconButton iconClassName="material-icons" iconStyle={styles.icon}>add</IconButton>}>
+                     label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="New">add</IconButton>}>
                     <FeedAdd onClose={this.close}/>
                 </Tab>
                 <Tab value="edit"
-                     label={<IconButton iconClassName="material-icons" iconStyle={styles.icon}>edit</IconButton>}>
+                     label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Rename">edit</IconButton>}>
                     {this.props.feed ? <FeedEdit feed={this.props.feed} onClose={this.close}/> : undefined}
                 </Tab>
                 <Tab value="group"
                      label={
-                     <IconButton iconClassName="material-icons" iconStyle={styles.icon}>group</IconButton>}>
+                     <IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Collaborate">group</IconButton>}>
                     {this.props.feed ? <FeedShare feed={this.props.feed} onClose={this.close}/> : undefined}
                 </Tab>
                 <Tab value="export"
-                     label={<IconButton><ExportIcon color={styles.icon.color}/></IconButton>}>
+                     label={<IconButton tooltip="Export"><ExportIcon color={styles.icon.color}/></IconButton>}>
                     {this.props.feed ? <FeedExport onClose={this.close}/> : undefined}
                 </Tab>
                 <Tab value="remove"
-                     label={<IconButton iconClassName="material-icons" iconStyle={styles.icon}>delete</IconButton>}>
+                     label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Delete">delete</IconButton>}>
                     {this.props.feed ? <FeedRemove feed={this.props.feed} onClose={this.close}/> : undefined}
                 </Tab>
             </Tabs>

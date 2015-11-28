@@ -31,7 +31,7 @@ function exportToPowerpoint() {
     });
 }
 
-export default Dispatcher.register((action) => {
+Dispatcher.register((action) => {
     switch (action.type) {
         case 'EXPORT_TO_WORD':
             exportToWord();
@@ -40,4 +40,4 @@ export default Dispatcher.register((action) => {
             exportToPowerpoint();
             break;
     }
-})
+});
