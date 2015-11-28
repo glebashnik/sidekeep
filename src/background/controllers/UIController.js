@@ -2,27 +2,32 @@ import _ from 'lodash';
 import UIStore from '../../shared/stores/UIStore';
 import Dispatcher from '../../shared/Dispatcher';
 
+const _storage = chrome.storage.local;
+
+let _ui = {
+    sidebar: false,
+    feedMenu: false
+};
+
+_storage.get('ui', items => {
+    if (items.ui.sidebar)
+        _ui = items.ui;
+    emit();
+});
+
+function emit() {
+    _storage.set({ui: _ui});
+    UIStore.emitState(_ui);
+}
+
 function toggleSidebar() {
-    UIStore.emitUpdate({sidebar: !UIStore.state.sidebar});
+    _ui.sidebar = !_ui.sidebar;
+    emit();
 }
 
 function toggleFeedMenu() {
-    UIStore.update({feedMenu: !UIStore.state.feedMenu});
-
-    if (UIStore.state.feedMenu)
-        UIStore.update({actionsMenu: false});
-
-    UIStore.emit();
-}
-
-
-function toggleActionsMenu() {
-    UIStore.update({actionsMenu: !UIStore.state.actionsMenu});
-
-    if (UIStore.state.actionsMenu)
-        UIStore.update({feedMenu: false});
-
-    UIStore.emit();
+    _ui.feedMenu = !_ui.feedMenu;
+    emit();
 }
 
 chrome.browserAction.onClicked.addListener(() => {
@@ -42,7 +47,7 @@ function openPage(pageUrl, sourceTabId) {
     })
 }
 
-export default Dispatcher.register(action => {
+Dispatcher.register(action => {
     switch (action.type) {
         case 'TOGGLE_SIDEBAR':
             toggleSidebar();
@@ -50,10 +55,6 @@ export default Dispatcher.register(action => {
 
         case 'TOGGLE_FEED_MENU':
             toggleFeedMenu();
-            break;
-
-        case 'TOGGLE_ACTIONS_MENU':
-            toggleActionsMenu();
             break;
 
         case 'OPEN_PAGE':

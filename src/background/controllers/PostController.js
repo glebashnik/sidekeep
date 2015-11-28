@@ -169,7 +169,7 @@ function emit() {
     PostStore.emitState({root: _posts[0]});
 }
 
-export default Dispatcher.register(action => {
+Dispatcher.register(action => {
     switch (action.type) {
         case 'LOGIN':
             login(action.user);

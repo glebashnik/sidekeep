@@ -19,7 +19,7 @@ export default class TextContent extends React.Component {
                 display: '-webkit-box',
                 overflow: 'hidden',
                 wordWrap: 'break-word',
-                WebkitLineClamp: this.props.post.selected ? 100 : 4,
+                WebkitLineClamp: this.props.post.selected ? 30 : 4,
                 WebkitBoxOrient: 'vertical'
             },
             icon: {

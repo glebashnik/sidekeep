@@ -1,52 +1,46 @@
-import ActionRouter from './ActionRouter'
+import Dispatcher from './Dispatcher'
 
 export default {
     login(user) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'LOGIN',
             user: user
         });
     },
 
     toggleSidebar() {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'TOGGLE_SIDEBAR'
         });
     },
 
     toggleFeedMenu() {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'TOGGLE_FEED_MENU'
         })
     },
 
-    toggleActionsMenu() {
-        ActionRouter.send({
-            type: 'TOGGLE_ACTIONS_MENU'
-        })
-    },
-
     createFeed() {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'CREATE_FEED'
         })
     },
 
     exportToWord() {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'EXPORT_TO_WORD'
         });
     },
 
     addFeed(feedName) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'ADD_FEED',
             feedName: feedName
         })
     },
 
     renameFeed(feedId, feedName) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'RENAME_FEED',
             feedId: feedId,
             feedName: feedName
@@ -54,35 +48,35 @@ export default {
     },
 
     removeFeed(feedId) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'REMOVE_FEED',
             feedId: feedId
         })
     },
 
     joinFeed(feedId) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'JOIN_FEED',
             feedId: feedId
         })
     },
 
     leaveFeed(feedId) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'LEAVE_FEED',
             feedId: feedId
         })
     },
 
     selectFeed(feedId) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'SELECT_FEED',
             feedId: feedId
         })
     },
 
     addText(text, tabId) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'ADD_TEXT',
             text: text,
             tabId: tabId
@@ -90,14 +84,14 @@ export default {
     },
 
     addPage(tabId) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'ADD_PAGE',
             tabId: tabId
         });
     },
 
     addImage(imageUrl, tabId) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'ADD_IMAGE',
             imageUrl: imageUrl,
             tabId: tabId
@@ -105,29 +99,36 @@ export default {
     },
 
     addComment(postId, text) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'ADD_COMMENT',
             postId: postId,
             text: text
         });
     },
 
+    movePost(postId) {
+        Dispatcher.dispatch({
+            type: 'MOVE_POST',
+            postId: postId
+        });
+    },
+
     removePost(postId) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'REMOVE_POST',
             postId: postId
         });
     },
 
     openPage(url) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'OPEN_PAGE',
             url: url
         });
     },
 
     selectPost(postId) {
-        ActionRouter.send({
+        Dispatcher.dispatch({
             type: 'SELECT_POST',
             postId: postId
         });

@@ -21,7 +21,7 @@ export default class FeedExport extends React.Component {
             buttons: {
                 display: 'flex',
                 justifyContent: 'center',
-                marginTop: 20
+                marginTop: 40
             },
             button: {
                 margin: '0 10px 0 10px'

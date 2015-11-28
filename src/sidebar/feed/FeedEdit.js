@@ -11,9 +11,19 @@ export default class FeedEdit extends React.Component {
         onClose: React.PropTypes.func.isRequired
     };
 
+    isValid = () => {
+        return this.refs.name.getValue().trim().length > 0;
+    };
+
     save = () => {
-        Actions.renameFeed(this.props.feed.id, this.refs.name.getValue());
-        this.props.onClose();
+        const nameField = this.refs.name;
+
+        if (this.isValid()) {
+            Actions.renameFeed(this.props.feed.id, nameField.getValue());
+            nameField.clearValue();
+            this.props.onClose();
+        } else
+            nameField.setErrorText("Topic name can't be empty");
     };
 
     cancel = () => {
@@ -21,8 +31,10 @@ export default class FeedEdit extends React.Component {
         this.props.onClose();
     };
 
-    stopPropagation = (e) => {
+    change = (e) => {
         e.stopPropagation();
+        if (this.isValid())
+            this.refs.name.setErrorText('');
     };
 
     render() {
@@ -35,7 +47,7 @@ export default class FeedEdit extends React.Component {
             buttons: {
                 display: 'flex',
                 justifyContent: 'center',
-                marginTop: 20
+                marginTop: 40
             },
             button: {
                 margin: '0 10px 0 10px'
@@ -45,7 +57,7 @@ export default class FeedEdit extends React.Component {
         return (
             <div style={styles.container}>
                 <TextField
-                    onChange={this.stopPropagation}
+                    onChange={this.change}
                     floatingLabelText="Change topic name"
                     defaultValue={this.props.feed.name}
                     ref="name"/>

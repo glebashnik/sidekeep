@@ -12,41 +12,42 @@ import Actions from '../../shared/Actions';
 
 export default class PostMenu extends React.Component {
     static propTypes = {
-        style: React.PropTypes.object,
+        background: React.PropTypes.string,
         post: React.PropTypes.object.isRequired
     };
 
-    stopPropagation = (e) => {
-        e.stopPropagation();
-    };
-
     move = (e) => {
-        this.stopPropagation(e);
-        //todo implement
+        e.stopPropagation();
+        Actions.movePost(this.props.post.id)
     };
 
     remove = (e) => {
-        this.stopPropagation(e);
+        e.stopPropagation();
         Actions.removePost(this.props.post.id);
     };
 
+    isOpen = () => {
+        return this.refs.menu.isOpen();
+    };
+
     render() {
-        const style = {
-            position: 'absolute',
-            right: 0,
-            zIndex: 5
+        const styles = {
+            container: {
+                position: 'absolute',
+                right: 0
+            },
+            icon: {
+                zIndex: 5,
+                padding: 5,
+                color: Colors.grey600,
+                background: this.props.background
+            }
         };
 
-        const mergedStyle = Object.assign({}, style, this.props.style);
-
         return (
-            <IconMenu style={mergedStyle} iconButtonElement={
-                <FontIcon
-                    className="material-icons"
-                    style={{padding: 5}}
-                    color={Colors.grey600}
-                    hoverColor={Theme.palette.primary1Color}
-                    onClick={this.stopPropagation}>expand_more</FontIcon>}>
+            <IconMenu ref="menu"
+                      style={styles.container}
+                      iconButtonElement={<FontIcon style={styles.icon} className="material-icons">expand_more</FontIcon>}>
                 <MenuItem onClick={this.move} leftIcon={<FolderIcon/>} primaryText="Move to..."/>
                 <MenuItem onClick={this.remove} leftIcon={<DeleteIcon/>} primaryText="Remove"/>
             </IconMenu>

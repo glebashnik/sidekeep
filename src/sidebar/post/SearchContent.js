@@ -3,6 +3,7 @@ import React from 'react';
 import FontIcon from 'material-ui/lib/font-icon';
 import Colors from 'material-ui/lib/styles/colors';
 
+import Theme from '../Theme';
 import HoverBox from '../ui/HoverBox';
 import Actions from '../../shared/Actions';
 

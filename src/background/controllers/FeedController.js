@@ -9,6 +9,7 @@ const USERS_REF = FirebaseRef.child('users');
 const FEEDS_REF = FirebaseRef.child('feeds');
 
 let _userId = null;
+let _selectedFeedId = null;
 let _feeds = {};
 
 let _userFeedsRef = null;
@@ -32,16 +33,15 @@ function login(user) {
 }
 
 function _added(snap) {
-    const feedRef = FEEDS_REF.child(snap.key());
-    _feedRefs[snap.key()] = feedRef;
+    const id = snap.key();
+    const feedRef = FEEDS_REF.child(id);
+    _feedRefs[id] = feedRef;
     feedRef.on('value', _updated);
 }
 
 function _updated(snap) {
-    _feeds[snap.key()] = Object.assign(
-        {id: snap.key()}, //default value
-        _feeds[snap.key()], //old value if exists
-        snap.val()); //new value
+    const id = snap.key();
+    _feeds[id] = Object.assign({id: id, selected: id === _selectedFeedId}, snap.val());
     emit();
 }
 
@@ -59,9 +59,12 @@ function _removed(snap) {
 }
 
 function _selected(snap) {
+    _selectedFeedId = snap.val();
+
     _.forEach(_feeds, (feed, id) => {
-        feed.selected = snap.val() === id;
+        feed.selected = _selectedFeedId === id;
     });
+
     emit();
 }
 
@@ -97,7 +100,7 @@ function emit() {
     FeedStore.emitState(_feeds);
 }
 
-export default Dispatcher.register((action) => {
+Dispatcher.register((action) => {
     switch (action.type) {
         case 'LOGIN':
             login(action.user);

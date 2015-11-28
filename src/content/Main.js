@@ -1,9 +1,9 @@
 import $ from 'jquery';
-import ActionRouter from '../shared/ActionRouter'
+import Dispatcher from '../shared/Dispatcher'
 import UIStore from '../shared/stores/UIStore'
 import Actions from '../shared/Actions'
 
-ActionRouter.initContent();
+Dispatcher.initContent();
 UIStore.initContent();
 
 if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0) {
@@ -21,7 +21,13 @@ if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0)
 
     intervalId = setTimeout(checker, 1000);
 } else {
-    let iframe = document.createElement('iframe');
+    const id = 'sidekeep';
+    let iframe = document.getElementById(id);
+    if (iframe)
+        document.documentElement.removeChild(iframe);
+
+    iframe = document.createElement('iframe');
+    iframe.id = id;
     document.documentElement.appendChild(iframe);
     iframe.setAttribute('src', chrome.extension.getURL('sidebar.html'));
     iframe.setAttribute('seamless', 'seamless');

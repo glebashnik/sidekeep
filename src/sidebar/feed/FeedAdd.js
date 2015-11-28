@@ -10,22 +10,29 @@ export default class FeedAdd extends React.Component {
         onClose: React.PropTypes.func.isRequired
     };
 
-    save = () => {
-        const name = this.refs.name.getValue();
+    isValid = () => {
+        return this.refs.name.getValue().trim().length > 0;
+    };
 
-        if (name) {
-            this.refs.name.setValue('');
-            Actions.addFeed(name);
+    save = () => {
+        const nameField = this.refs.name;
+
+        if (this.isValid()) {
+            Actions.addFeed(nameField.getValue());
+            nameField.clearValue();
             this.props.onClose();
-        }
+        } else
+            nameField.setErrorText("Topic name can't be empty");
     };
 
     cancel = () => {
         this.props.onClose();
     };
 
-    stopPropagation = (e) => {
+    change = (e) => {
         e.stopPropagation();
+        if (this.isValid())
+            this.refs.name.setErrorText('');
     };
 
     render() {
@@ -38,7 +45,7 @@ export default class FeedAdd extends React.Component {
             buttons: {
                 display: 'flex',
                 justifyContent: 'center',
-                marginTop: 20
+                marginTop: 40
             },
             button: {
                 margin: '0 10px 0 10px'
@@ -48,7 +55,7 @@ export default class FeedAdd extends React.Component {
         return (
             <div style={styles.container}>
                 <TextField
-                    onChange={this.stopPropagation}
+                    onChange={this.change}
                     floatingLabelText="New topic name"
                     ref="name"/>
                 <div style={styles.buttons}>

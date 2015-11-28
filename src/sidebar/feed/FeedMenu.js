@@ -24,21 +24,23 @@ export default class FeedMenu extends React.Component {
             content: {
                 width: '100%',
                 background: Colors.grey50,
-                overflowY: 'scroll',
-                flexGrow: 1
+                overflowY: 'scroll'
             },
             overlay: {
+                width: '100%',
+                flexGrow: 1,
                 background: Colors.lightBlack
             }
         };
 
         const feed = _.find(this.props.feeds, {selected: true});
+        const feeds = _.sortBy(_.values(this.props.feeds), 'name');
 
         return (
             <div style={styles.container}>
                 <FeedTools feed={feed}/>
                 <div style={styles.content}>
-                    {_.map(this.props.feeds, (feed, id) => <FeedItem key={id} feed={feed}/>)}
+                    {feeds.map(feed => <FeedItem key={feed.id} feed={feed}/>)}
                 </div>
                 <div style={styles.overlay} onClick={Actions.toggleFeedMenu}/>
             </div>
