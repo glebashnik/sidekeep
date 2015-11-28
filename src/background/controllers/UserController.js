@@ -1,9 +1,7 @@
-import _ from 'lodash';
 import $ from 'jquery';
 import Dispatcher from '../../shared/Dispatcher';
+import Store from '../../shared/Store';
 import FirebaseRef from '../FirebaseRef';
-import UserStore from '../../shared/stores/UserStore';
-import UIStore from '../../shared/stores/UIStore';
 
 const USERS_REF = FirebaseRef.child('users');
 
@@ -26,11 +24,13 @@ function login(user) {
 function _updated(snap) {
     const val = snap.val();
 
-    UserStore.emitUpdate({
-        id: snap.key(),
-        name: val.name,
-        image: val.image,
-        selectedFeed: val.selectedFeed
+    Store.emitUpdate({
+        user: {
+            id: snap.key(),
+            name: val.name,
+            image: val.image,
+            selectedFeed: val.selectedFeed
+        }
     });
 }
 

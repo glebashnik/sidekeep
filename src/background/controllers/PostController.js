@@ -8,7 +8,7 @@ import * as UrlHelper from '../../shared/helpers/UrlHelper';
 import * as TraceHelper from '../../shared/helpers/TraceHelper';
 import * as Tracer from '../Tracer';
 
-import PostStore from '../../shared/stores/PostStore';
+import Store from '../../shared/Store';
 
 const USERS_REF = FirebaseRef.child('users');
 const POSTS_REF = FirebaseRef.child('posts');
@@ -166,7 +166,7 @@ function selectPost(postId) {
 }
 
 function emit() {
-    PostStore.emitState({root: _posts[0]});
+    Store.emitUpdate({posts: {root: _posts[0]}});
 }
 
 Dispatcher.register(action => {

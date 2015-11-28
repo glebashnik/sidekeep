@@ -3,8 +3,15 @@ import _ from 'lodash';
 const PORT_NAME = 'store';
 
 export default {
-    state: {},
+    state: {
+        user: {},
+        posts: {},
+        feeds: {},
+        ui: {}
+    },
+
     listeners: [],
+
     ports: [],
 
     initContent() {
@@ -14,8 +21,6 @@ export default {
             this.state = state;
             this.emit();
         });
-
-        this.port.postMessage({});
     },
 
     initBackground() {
@@ -49,10 +54,10 @@ export default {
     },
 
     emit() {
-        if (this.listeners)
+        if (this.listeners) //in the background page
             this.listeners.forEach(listener => listener());
 
-        if (this.ports)
+        if (this.ports) //in the content script
             this.ports.forEach(port => port.postMessage(this.state));
     },
 
