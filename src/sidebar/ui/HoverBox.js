@@ -1,14 +1,15 @@
 import React from 'react';
 
 export default class HoverBox extends React.Component {
-    state = {
-        hover: false
-    };
-
     static propTypes = {
         style: React.PropTypes.object,
         hoverStyle: React.PropTypes.object
     };
+
+    state = {
+        hover: false
+    };
+
 
     enter = () => {
         this.setState({hover: true});

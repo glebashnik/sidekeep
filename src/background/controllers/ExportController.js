@@ -1,15 +1,14 @@
 import Dispatcher from '../../shared/Dispatcher';
 import Firebase from '../FirebaseRef';
-import UserStore from '../../shared/stores/UserStore';
-import FeedStore from '../../shared/stores/FeedStore';
-import PostStore from '../../shared/stores/PostStore';
+import Store from '../../shared/Store';
 
 const url = 'https://aftersearchexport.dotcloudapp.com';
 //const url = 'http://localhost:9000';
 
 function getFeed() {
-    const feed = PostStore.state.root;
-    feed.name = FeedStore.state[UserStore.state.selectedFeed].name;
+    const state = Store.state;
+    const feed = state.posts.root;
+    feed.name = state.feeds[state.user.selectedFeed].name;
     return feed;
 }
 
