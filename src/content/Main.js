@@ -31,6 +31,7 @@ if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0)
     document.documentElement.appendChild(iframe);
     iframe.setAttribute('src', chrome.extension.getURL('sidebar.html'));
     iframe.setAttribute('seamless', 'seamless');
+
     $(iframe).css({
         position: 'fixed',
         top: '0',

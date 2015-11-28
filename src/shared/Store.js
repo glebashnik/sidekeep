@@ -14,6 +14,18 @@ export default {
 
     ports: [],
 
+
+    addListener(callback) {
+        this.listeners.push(callback);
+
+        if (this.port)
+            this.port.postMessage();
+    },
+
+    removeListener(callback) {
+        _.pull(this.listeners, callback);
+    },
+
     initContent() {
         this.port = chrome.runtime.connect({name: PORT_NAME});
 
@@ -34,7 +46,7 @@ export default {
 
                 port.onDisconnect.addListener(() => {
                     _.pull(this.ports, port);
-                })
+                });
             }
         });
     },
@@ -48,6 +60,10 @@ export default {
         this.emit();
     },
 
+    setState(state) {
+        this.state = state;
+    },
+
     emitState(state) {
         this.state = state;
         this.emit();
@@ -59,14 +75,5 @@ export default {
 
         if (this.ports) //in the content script
             this.ports.forEach(port => port.postMessage(this.state));
-    },
-
-    addListener(callback) {
-        this.listeners.push(callback);
-        callback();
-    },
-
-    removeListener(callback) {
-        _.pull(this.listeners, callback);
     }
 }
