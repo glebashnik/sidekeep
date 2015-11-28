@@ -1,19 +1,18 @@
 import React from 'react';
-import Radium from 'radium';
 
-@Radium class VBox extends React.Component {
+class VBox extends React.Component {
     static propTypes = {
         style: React.PropTypes.object
     };
 
     render() {
-        let style = {
+        let style = Object.assign({
             display: 'flex',
             flexDirection: 'column'
-        };
+        }, this.props.style);
 
         return (
-            <div style={[style, this.props.style]}>
+            <div style={style}>
                 {this.props.children}
             </div>
         );

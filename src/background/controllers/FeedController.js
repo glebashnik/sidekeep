@@ -3,7 +3,7 @@ import $ from 'jquery';
 import Firebase from 'Firebase';
 import FirebaseRef from '../FirebaseRef';
 import Dispatcher from '../../shared/Dispatcher';
-import FeedStore from '../../shared/stores/FeedStore';
+import Store from '../../shared/Store';
 
 const USERS_REF = FirebaseRef.child('users');
 const FEEDS_REF = FirebaseRef.child('feeds');
@@ -97,7 +97,7 @@ function selectFeed(feedId) {
 }
 
 function emit() {
-    FeedStore.emitState(_feeds);
+    Store.emitUpdate({feeds: _feeds});
 }
 
 Dispatcher.register((action) => {

@@ -1,20 +1,19 @@
 import React from 'react';
 let PropTypes = React.PropTypes;
-import Radium from 'radium';
 
-@Radium class HBox extends React.Component {
+class HBox extends React.Component {
     static propTypes = {
         style: PropTypes.object
     };
 
     render() {
-        let style = {
+        let style = Object.assign({
             display: 'flex',
             flexDirection: 'row'
-        };
+        }, this.props.style);
 
         return (
-            <div style={[style, this.props.style]}>
+            <div style={style}>
                 {this.props.children}
             </div>
         );

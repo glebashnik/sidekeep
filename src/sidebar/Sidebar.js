@@ -6,10 +6,7 @@ import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 import Theme from './Theme';
 import Colors from 'material-ui/lib/styles/colors';
 
-import UIStore from '../shared/stores/UIStore'
-import UserStore from '../shared/stores/UserStore'
-import FeedStore from '../shared/stores/FeedStore'
-import PostStore from '../shared/stores/PostStore'
+import Store from '../shared/Store'
 import Actions from '../shared/Actions';
 
 import Toolbar from './Toolbar';
@@ -17,35 +14,20 @@ import Card from './post/Card';
 
 injectTapEventPlugin();
 
-function getStateFromStores() {
-    return {
-        ui: UIStore.state,
-        user: UserStore.state,
-        feeds: FeedStore.state,
-        posts: PostStore.state
-    }
-}
-
 @ThemeDecorator(ThemeManager.getMuiTheme(Theme))
 class Sidebar extends React.Component {
-    state = getStateFromStores();
+    state = Store.state;
 
     onChange = () => {
-        this.setState(getStateFromStores());
+        this.setState(Store.state);
     };
 
     componentDidMount() {
-        UIStore.addListener(this.onChange);
-        UserStore.addListener(this.onChange);
-        FeedStore.addListener(this.onChange);
-        PostStore.addListener(this.onChange);
+        Store.addListener(this.onChange);
     }
 
     componentWillUnmount() {
-        UIStore.removeListener(this.onChange);
-        UserStore.removeListener(this.onChange);
-        FeedStore.removeListener(this.onChange);
-        PostStore.removeListener(this.onChange);
+        Store.removeListener(this.onChange);
     }
 
     render() {

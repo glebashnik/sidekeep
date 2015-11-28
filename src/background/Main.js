@@ -1,16 +1,10 @@
 function init() {
     const Dispatcher = require('../shared/Dispatcher');
-    const UIStore = require('../shared/stores/UIStore');
-    const UserStore = require('../shared/stores/UserStore');
-    const FeedStore = require('../shared/stores/FeedStore');
-    const PostStore = require('../shared/stores/PostStore');
+    const Store = require('../shared/Store');
     const Auth = require('./Auth');
 
     Dispatcher.initBackground();
-    UIStore.initBackground();
-    UserStore.initBackground();
-    FeedStore.initBackground();
-    PostStore.initBackground();
+    Store.initBackground();
 
     require('./controllers/UserController');
     require('./controllers/FeedController');

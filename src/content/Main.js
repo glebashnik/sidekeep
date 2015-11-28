@@ -1,10 +1,10 @@
 import $ from 'jquery';
-import Dispatcher from '../shared/Dispatcher'
-import UIStore from '../shared/stores/UIStore'
-import Actions from '../shared/Actions'
+import Dispatcher from '../shared/Dispatcher';
+import Store from '../shared/Store';
+import Actions from '../shared/Actions';
 
 Dispatcher.initContent();
-UIStore.initContent();
+Store.initContent();
 
 if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0) {
     var feedId = "";
@@ -42,9 +42,9 @@ if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0)
         boxShadow: 'rgba(0, 0, 0, 0.5) 0 0 20px 0'
     });
 
-    UIStore.addListener(() => {
+    Store.addListener(() => {
         $(iframe).css({
-            display: UIStore.state.sidebar ? 'block' : 'none'
+            display: Store.state.ui.sidebar ? 'block' : 'none'
         });
     });
 

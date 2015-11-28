@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import UIStore from '../../shared/stores/UIStore';
+import Store from '../../shared/Store';
 import Dispatcher from '../../shared/Dispatcher';
 
 const _storage = chrome.storage.local;
@@ -17,7 +17,7 @@ _storage.get('ui', items => {
 
 function emit() {
     _storage.set({ui: _ui});
-    UIStore.emitState(_ui);
+    Store.emitUpdate({ui: _ui});
 }
 
 function toggleSidebar() {
