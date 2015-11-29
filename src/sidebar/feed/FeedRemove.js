@@ -12,7 +12,8 @@ export default class FeedRemove extends React.Component {
 
     remove = () => {
         Actions.removeFeed(this.props.feed.id);
-        this.props.onClose();
+        Actions.toggleFeedMenu(); // Close and open again to get to the feed list.
+        Actions.toggleFeedMenu();
     };
 
     render() {

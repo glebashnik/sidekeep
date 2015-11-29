@@ -1,8 +1,8 @@
 {
-  "name": "Aftersearch",
+  "name": "Sidekeep",
   "version": "0.1.5.6",
   "manifest_version": 2,
-  "description": "Aftersearch - searching and collecting information together.",
+  "description": "Sidekeep is an easy to use sidebar for collecting pieces of information your find online.",
   "homepage_url": "https://github.com/firebase/firebase-chrome-extension",
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
   "icons": {
@@ -18,7 +18,7 @@
   },
   "browser_action": {
     "default_icon": "images/icon19.png",
-    "default_title": "Aftersearch"
+    "default_title": "Sidekeep"
   },
   "content_scripts": [
     {

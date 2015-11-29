@@ -1,9 +1,24 @@
 import $ from 'jquery';
 import Dispatcher from '../../shared/Dispatcher';
 import Store from '../../shared/Store';
+import Actions from '../../shared/Actions';
 import FirebaseRef from '../FirebaseRef';
 
 const USERS_REF = FirebaseRef.child('users');
+
+function addStarterFeed() {
+    const srcId = '-K4IdNPPD7IQyFj2C9N_';
+    const feedsRef =  FirebaseRef.child('feeds');
+    const postsRef =  FirebaseRef.child('posts');
+
+    feedsRef.child(srcId).once('value', snap => {
+        const destId = feedsRef.push(snap.val()).key();
+        postsRef.child(srcId).once('value', snap => {
+            postsRef.child(destId).set(snap.val());
+            Actions.joinFeed(destId);
+        });
+    });
+}
 
 let _userRef = null;
 
@@ -13,12 +28,17 @@ function login(user) {
 
     _userRef = USERS_REF.child(user.id);
 
-    _userRef.update({
-        name: user.name,
-        image: user.image
-    });
+    _userRef.once('value', snap => {
+        if (snap.val() === null)
+            addStarterFeed();
 
-    _userRef.on('value', _updated);
+        _userRef.update({
+            name: user.name,
+            image: user.image
+        });
+
+        _userRef.on('value', _updated);
+    });
 }
 
 function _updated(snap) {
