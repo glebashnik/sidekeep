@@ -78,7 +78,8 @@ export default class Toolbar extends React.Component {
                     <IconButton
                         onClick={Actions.toggleSidebar}
                         iconClassName="material-icons"
-                        iconStyle={styles.icon}>
+                        iconStyle={styles.icon}
+                        tooltip="Hide">
                         close
                     </IconButton>
                 </div>

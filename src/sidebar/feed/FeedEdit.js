@@ -7,8 +7,7 @@ import Actions from '../../shared/Actions';
 
 export default class FeedEdit extends React.Component {
     static propTypes = {
-        feed: React.PropTypes.object.isRequired,
-        onClose: React.PropTypes.func.isRequired
+        feed: React.PropTypes.object
     };
 
     isValid = () => {
@@ -19,16 +18,14 @@ export default class FeedEdit extends React.Component {
         const nameField = this.refs.name;
 
         if (this.isValid()) {
-            Actions.renameFeed(this.props.feed.id, nameField.getValue());
-            nameField.clearValue();
-            this.props.onClose();
+            if (this.props.feed)
+                Actions.renameFeed(this.props.feed.id, nameField.getValue());
+            else
+                Actions.addFeed(nameField.getValue());
+
+            Actions.toggleFeedMenu();
         } else
             nameField.setErrorText("Topic name can't be empty");
-    };
-
-    cancel = () => {
-        this.refs.name.setValue(this.props.feed.name);
-        this.props.onClose();
     };
 
     change = (e) => {
@@ -54,16 +51,21 @@ export default class FeedEdit extends React.Component {
             }
         };
 
+        const textLabel = this.props.feed ? 'Change topic name' : 'New topic name';
+        const buttonLabel = this.props.feed ? 'Save' : 'Add';
+        const textDefault = this.props.feed ? this.props.feed.name : '';
+
         return (
             <div style={styles.container}>
                 <TextField
                     onChange={this.change}
-                    floatingLabelText="Change topic name"
-                    defaultValue={this.props.feed.name}
+                    onEnterKeyDown={this.save}
+                    floatingLabelText={textLabel}
+                    defaultValue={textDefault}
                     ref="name"/>
                 <div style={styles.buttons}>
-                    <RaisedButton style={styles.button} label="Save" onClick={this.save}/>
-                    <RaisedButton style={styles.button} label="Cancel" onClick={this.cancel}/>
+                    <RaisedButton style={styles.button} label={buttonLabel} onClick={this.save}/>
+                    <RaisedButton style={styles.button} label="Cancel" onClick={Actions.toggleFeedMenu}/>
                 </div>
             </div>
         );

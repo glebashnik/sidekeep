@@ -1,9 +1,20 @@
 import _ from 'lodash';
 import React from 'react';
+
+import FontIcon from 'material-ui/lib/font-icon';
+import IconButton from 'material-ui/lib/icon-button';
+import Tabs from 'material-ui/lib/tabs/tabs';
+import Tab from 'material-ui/lib/tabs/tab';
 import Colors from 'material-ui/lib/styles/colors';
 
-import FeedItem from './FeedItem';
-import FeedTools from './FeedTools';
+import Theme from '../Theme';
+import FeedList from './FeedList';
+import FeedEdit from './FeedEdit';
+import FeedShare from './FeedShare';
+import FeedExport from './FeedExport';
+import FeedRemove from './FeedRemove';
+import ExportIcon from '../icons/ExportIcon';
+
 import Actions from '../../shared/Actions';
 
 export default class FeedMenu extends React.Component {
@@ -11,36 +22,82 @@ export default class FeedMenu extends React.Component {
         feeds: React.PropTypes.object.isRequired
     };
 
+    state = {
+        tab: 'list'
+    };
+
+    selectedFeed = () => {
+        return _.find(this.props.feeds, {selected: true})
+    };
+
+    componentWillReceiveProps(nextProps) {
+    };
+
+    change = (value) => {
+        this.setState({tab: value});
+    };
+
     render() {
         const styles = {
             container: {
                 position: 'absolute',
+                top: 48,
+                bottom: 0,
                 display: 'flex',
                 flexDirection: 'column',
-                width: '100%',
-                bottom: 0,
-                top: 48
+                width: '100%'
             },
             content: {
-                width: '100%',
-                background: Colors.grey50,
-                overflowY: 'scroll'
+                background: Colors.grey50
             },
             overlay: {
                 width: '100%',
                 flexGrow: 1,
                 background: Colors.lightBlack
+            },
+            inkBar: {
+                background: Colors.grey50,
+                marginTop: -5,
+                height: 5
+            },
+            icon: {
+                color: Colors.grey50
             }
         };
 
-        const feed = _.find(this.props.feeds, {selected: true});
-        const feeds = _.sortBy(_.values(this.props.feeds), 'name');
+        const feed = this.selectedFeed();
 
         return (
             <div style={styles.container}>
-                <FeedTools feed={feed}/>
                 <div style={styles.content}>
-                    {feeds.map(feed => <FeedItem key={feed.id} feed={feed}/>)}
+                    <Tabs inkBarStyle={styles.inkBar}
+                          value={this.state.tab}
+                          onChange={this.change}>
+                        <Tab value="list"
+                             label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Topics">folder</IconButton>}>
+                            <FeedList feeds={this.props.feeds}/>
+                        </Tab>
+                        <Tab value="add"
+                             label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="New">add</IconButton>}>
+                            <FeedEdit/>
+                        </Tab>
+                        <Tab value="edit"
+                             label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Rename">edit</IconButton>}>
+                            {feed ? <FeedEdit feed={feed}/> : null}
+                        </Tab>
+                        <Tab value="collaborate"
+                             label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Collaborate">group</IconButton>}>
+                            {feed ? <FeedShare feed={feed}/> : null}
+                        </Tab>
+                        <Tab value="export"
+                             label={<IconButton tooltip="Export"><ExportIcon color={styles.icon.color}/></IconButton>}>
+                            {feed ? <FeedExport/> : null}
+                        </Tab>
+                        <Tab value="remove"
+                             label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Delete">delete</IconButton>}>
+                            {feed ? <FeedRemove feed={feed}/> : null}
+                        </Tab>
+                    </Tabs>
                 </div>
                 <div style={styles.overlay} onClick={Actions.toggleFeedMenu}/>
             </div>
