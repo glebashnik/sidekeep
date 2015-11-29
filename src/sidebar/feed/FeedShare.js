@@ -2,13 +2,13 @@ import React from 'react';
 
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
-
 import copy from 'copy-to-clipboard';
+
+import Actions from '../../shared/Actions';
 
 export default class FeedShare extends React.Component {
     static propTypes = {
-        feed: React.PropTypes.object.isRequired,
-        onClose: React.PropTypes.func.isRequired
+        feed: React.PropTypes.object.isRequired
     };
 
     state = {
@@ -42,15 +42,15 @@ export default class FeedShare extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.text}>
-                    Collect information together with your friends.
-                    Copy this link and send it to them in email or chat.
+                    Collaborate when searching and collecting information.
+                    Copy this link and send it to your friends by email or chat.
                 </div>
                 <TextField
                     disabled={true}
                     defaultValue={this.state.url}/>
                 <div style={styles.buttons}>
                     <RaisedButton style={styles.button} label="Copy link" onClick={this.copy}/>
-                    <RaisedButton style={styles.button} label="Close" onClick={this.props.onClose}/>
+                    <RaisedButton style={styles.button} label="Close" onClick={Actions.toggleFeedMenu}/>
                 </div>
             </div>
         );

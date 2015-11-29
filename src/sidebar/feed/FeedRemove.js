@@ -7,8 +7,7 @@ import Actions from '../../shared/Actions';
 
 export default class FeedRemove extends React.Component {
     static propTypes = {
-        feed: React.PropTypes.object.isRequired,
-        onClose: React.PropTypes.func.isRequired
+        feed: React.PropTypes.object.isRequired
     };
 
     remove = () => {
@@ -41,7 +40,7 @@ export default class FeedRemove extends React.Component {
                 <div style={styles.text}>Everything collected in this topic will be lost. Do you want to proceed?</div>
                 <div style={styles.buttons}>
                     <RaisedButton style={styles.button} label="Delete" onClick={this.remove}/>
-                    <RaisedButton style={styles.button} label="Cancel" onClick={this.props.onClose}/>
+                    <RaisedButton style={styles.button} label="Cancel" onClick={Actions.toggleFeedMenu}/>
                 </div>
             </div>
         );
