@@ -81,6 +81,7 @@ function addFeed(feedName) {
 function joinFeed(feedId) {
     _userFeedsRef.child(feedId).set(true);
     FEEDS_REF.child(feedId + '/users/' + _userId).set(true);
+    selectFeed(feedId);
 }
 
 function removeFeed(feedId) {
