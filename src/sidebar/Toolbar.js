@@ -46,7 +46,6 @@ export default class Toolbar extends React.Component {
                 flexGrow: 1,
                 cursor: 'pointer',
                 alignItems: 'center',
-                paddingBottom: 3,
                 borderBottom: '1px solid ' + Colors.lightWhite,
                 marginLeft: 20
             },
