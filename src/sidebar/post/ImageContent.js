@@ -35,7 +35,8 @@ export default class ImageContent extends React.Component {
             image: {
                 maxHeight: 70,
                 width: '100%',
-                objectFit: 'cover'
+                objectFit: 'cover',
+                border: '1px solid ' + Colors.grey600
             },
             icon: {
                 position: 'absolute',

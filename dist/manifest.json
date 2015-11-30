@@ -1,6 +1,6 @@
 {
   "name": "Sidekeep",
-  "version": "0.1.5.6",
+  "version": "0.1.6",
   "manifest_version": 2,
   "description": "Sidekeep is an easy to use sidebar for collecting pieces of information your find online.",
   "homepage_url": "https://github.com/firebase/firebase-chrome-extension",

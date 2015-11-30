@@ -10,7 +10,7 @@ let _ui = {
 };
 
 _storage.get('ui', items => {
-    if (items.ui.sidebar)
+    if (items.ui && items.ui.sidebar)
         _ui = items.ui;
     emit();
 });
