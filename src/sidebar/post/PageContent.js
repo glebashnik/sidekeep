@@ -25,7 +25,7 @@ export default class PageContent extends React.Component {
             icon: {
                 width: 16,
                 height: 16,
-                marginRight: 11,
+                marginRight: 10,
                 flexShrink: 0
             },
             title: {
