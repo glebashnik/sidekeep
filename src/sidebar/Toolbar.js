@@ -6,6 +6,7 @@ import FontIcon from 'material-ui/lib/font-icon';
 import Colors from 'material-ui/lib/styles/colors';
 import TextField from 'material-ui/lib/text-field';
 
+import LogoIcon from './icons/LogoIcon';
 import Theme from './Theme';
 import FeedMenu from './feed/FeedMenu';
 import Actions from '../shared/Actions';
@@ -39,18 +40,13 @@ export default class Toolbar extends React.Component {
                 alignItems: 'center'
             },
             icon: {
-                color: Colors.grey50
+                color: Colors.darkWhite
             },
             title: {
                 display: 'flex',
                 flexGrow: 1,
                 cursor: 'pointer',
                 alignItems: 'center',
-                borderBottom: '1px solid ' + Colors.lightWhite,
-                marginLeft: 20
-            },
-            titleText: {
-                flexGrow: 1,
                 font: '400 16px Roboto',
                 color: Colors.grey50
             }
@@ -66,14 +62,14 @@ export default class Toolbar extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.content}>
-                    <div style={styles.title} onClick={Actions.toggleFeedMenu}>
-                        <div style={styles.titleText}>{name}</div>
-                        <FontIcon
-                            className="material-icons"
-                            color="white">
-                            {this.props.ui.feedMenu ? 'arrow_drop_up' : 'arrow_drop_down'}
-                        </FontIcon>
-                    </div>
+                    <IconButton
+                        onClick={Actions.toggleFeedMenu}
+                        iconClassName="material-icons"
+                        iconStyle={styles.icon}
+                        tooltip="Menu">
+                        menu
+                    </IconButton>
+                    <div style={styles.title} onClick={Actions.toggleFeedMenu}>{name}</div>
                     <IconButton
                         onClick={Actions.toggleSidebar}
                         iconClassName="material-icons"

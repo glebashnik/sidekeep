@@ -10,15 +10,10 @@ export default class FeedList extends React.Component {
     };
 
     render() {
-        const style = {
-            maxHeight: '75%',
-            overflowY: 'scroll'
-        };
-
         const feeds = _.sortBy(_.values(this.props.feeds), 'name');
 
         return (
-            <div style={style}>
+            <div>
                 {feeds.map(feed => <FeedItem key={feed.id} feed={feed}/>)}
             </div>
         );

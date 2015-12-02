@@ -42,7 +42,7 @@ export default class FeedItem extends React.Component {
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            font: '400 16px Roboto',
+            font: '400 15px Roboto',
             cursor: 'pointer',
             color: Colors.darkBlack
         };
