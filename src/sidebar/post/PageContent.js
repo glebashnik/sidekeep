@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+import Colors from 'material-ui/lib/styles/colors';
 
 import Theme from '../Theme';
 import HoverBox from '../ui/HoverBox'
@@ -25,7 +26,7 @@ export default class PageContent extends React.Component {
             icon: {
                 width: 16,
                 height: 16,
-                marginRight: 10,
+                marginRight: 15,
                 flexShrink: 0
             },
             title: {
@@ -37,7 +38,7 @@ export default class PageContent extends React.Component {
                 WebkitLineClamp: 3,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
-                color: '#0066CC',
+                color: Theme.palette.accentText,
                 textDecoration: 'none',
                 font: '500 14px Roboto'
             }

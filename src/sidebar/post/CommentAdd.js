@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import React from 'react';
-import TextField from 'material-ui/lib/text-field';
 import Avatar from 'material-ui/lib/avatar';
 import Actions from '../../shared/Actions';
+import Theme from '../Theme';
+import TextField from 'material-ui/lib/text-field';
 
 export default class CommentAdd extends React.Component {
     static propTypes = {
@@ -21,23 +22,19 @@ export default class CommentAdd extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: '5px 15px 10px 15px'
+                padding: '0 15px 10px 15px'
             },
             avatar: {
                 margin: 0,
-                flexShrink: 0
-            },
-            text: {
-                marginLeft: 10,
-                fontSize: 14
+                flexShrink: 0,
+                marginRight: 15
             }
         };
 
         return (
             <div style={styles.container}>
-                <Avatar style={styles.avatar} src={this.props.user.image}/>
+                <Avatar size="35" style={styles.avatar} src={this.props.user.image}/>
                 <TextField
-                    style={styles.text}
                     hintText="Comment"
                     multiLine={true}
                     ref="text"
