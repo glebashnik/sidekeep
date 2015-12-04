@@ -24,7 +24,7 @@ export default class TextContent extends React.Component {
             },
             icon: {
                 color: Colors.grey600,
-                width: 14,
+                width: 12,
                 height: 10,
                 marginRight: 5,
                 marginBottom: 2

@@ -23,7 +23,7 @@ export default {
         disabledColor: Colors.grey600,
         accentBackground: '#2285CF',
         accentForeground: 'white',
-        accentText: '#2285CF',
+        accentText: '#0066A5',
         background: '#EEF2F5',
         icon: Colors.grey600,
         selectBackground: '#FDE09D',
@@ -31,7 +31,7 @@ export default {
     },
     font: {
         primary: '400 13px Noto Sans',
-        accent: '400 14px Roboto',
+        accent: '500 14px Roboto',
         content: '400 13px Noto Sans'
     }
 };

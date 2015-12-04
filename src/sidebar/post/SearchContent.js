@@ -22,12 +22,12 @@ export default class SearchContent extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: '10px 15px 10px 13px'
+                padding: '10px 15px 10px 12px'
             },
             query: {
-                marginLeft: 7,
+                marginLeft: 12,
+                color: Theme.palette.accentText,
                 font: '500 14px Roboto',
-                color: '#0066CC',
                 cursor: 'pointer'
             }
         };
