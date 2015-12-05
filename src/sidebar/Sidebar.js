@@ -5,6 +5,7 @@ import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 import Theme from './Theme';
 import Colors from 'material-ui/lib/styles/colors';
+import Snackbar from 'material-ui/lib/snackbar';
 
 import Store from '../shared/Store'
 import Actions from '../shared/Actions';
@@ -44,6 +45,9 @@ class Sidebar extends React.Component {
                 flexDirection: 'column',
                 overflowY: 'scroll',
                 flexGrow: 1
+            },
+            entity: {
+                color: '#77CCFF'
             }
         };
 
@@ -55,12 +59,25 @@ class Sidebar extends React.Component {
             postElems = _.map(sorted, (post, id) => <Card user={this.state.user} post={post} key={id}/>);
         }
 
+        const snackbar = this.state.ui.notification ?
+            <Snackbar
+                message={
+                    <div>
+                        <span style={styles.entity}>{this.state.ui.notification.user}</span>
+                        &nbsp;{this.state.ui.notification.text}&nbsp;
+                        <span style={styles.entity}>{this.state.ui.notification.topic}</span>
+                    </div>
+                }
+                onDismiss={Actions.dismissNotification}
+                openOnMount/> : null;
+
         return (
             <div style={styles.container}>
                 <Toolbar ui={this.state.ui} user={this.state.user} feeds={this.state.feeds}/>
                 <div style={styles.feed}>
                     {postElems}
                 </div>
+                {snackbar}
             </div>
         );
     }

@@ -48,12 +48,12 @@ if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0)
             display: Store.state.ui.sidebar ? 'block' : 'none'
         });
     });
-
-    $(() => {
-        $('body').click(() => {
-            Actions.selectPost();
-        });
-    });
+    //
+    //$(() => {
+    //    $('body').click(() => {
+    //        Actions.selectPost();
+    //    });
+    //});
 }
 
 

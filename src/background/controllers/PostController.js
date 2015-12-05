@@ -62,7 +62,7 @@ function _added(snap) {
     Object.assign(post, snap.val());
     _posts[post.id] = post;
 
-    const parent =  _posts[post.parent] || {id: post.parent, children: {}};
+    const parent = _posts[post.parent] || {id: post.parent, children: {}};
     parent.children[post.id] = post;
     _posts[parent.id] = parent;
 
@@ -159,7 +159,7 @@ function removePost(postId) {
 
 function selectPost(postId) {
     _.forEach(_posts, (post, id) => {
-        post.selected = id === postId;
+        post.selected = id === postId ? !post.selected : false;
     });
 
     emit();

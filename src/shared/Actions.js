@@ -20,6 +20,12 @@ export default {
         })
     },
 
+    dismissNotification() {
+        Dispatcher.dispatch({
+            type: 'DISMISS_NOTIFICATION'
+        })
+    },
+
     createFeed() {
         Dispatcher.dispatch({
             type: 'CREATE_FEED'

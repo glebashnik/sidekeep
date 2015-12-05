@@ -82,10 +82,9 @@ export default class Post extends React.Component {
         const menuElem = this.state.hover || (this.refs.menu && this.refs.menu.isOpen())
             ? <PostMenu ref="menu"
                         post={post}
-                        background={styles.content.background}
-                        onOpen={this.menuOpened}
-                        onClose={this.menuClosed}/>
+                        background={styles.content.background}/>
             : null;
+
         const commentAddElem = post.selected ? <CommentAdd post={post} user={user}/> : undefined;
 
         const clips = _.reject(post.children, {type: 'comment'});
@@ -96,9 +95,9 @@ export default class Post extends React.Component {
 
         return (
             <div style={styles.container}>
-                <div style={styles.content} onMouseEnter={this.enter} onMouseLeave={this.leave} onClick={this.select}>
+                <div style={styles.content} onMouseEnter={this.enter} onMouseLeave={this.leave}>
                     {menuElem}
-                    {contentElem}
+                    <div onClick={this.select}>{contentElem}</div>
                     {commentAddElem}
                 </div>
                 {commentElems}
