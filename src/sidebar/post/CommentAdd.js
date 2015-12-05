@@ -22,7 +22,7 @@ export default class CommentAdd extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: '0 15px 10px 15px'
+                padding: '0 15px 5px 15px'
             },
             avatar: {
                 margin: 0,
@@ -33,7 +33,7 @@ export default class CommentAdd extends React.Component {
 
         return (
             <div style={styles.container}>
-                <Avatar size="35" style={styles.avatar} src={this.props.user.image}/>
+                <Avatar size={35} style={styles.avatar} src={this.props.user.image}/>
                 <TextField
                     hintText="Comment"
                     multiLine={true}

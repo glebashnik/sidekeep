@@ -16,13 +16,11 @@ export default class PostMenu extends React.Component {
         post: React.PropTypes.object.isRequired
     };
 
-    move = (e) => {
-        e.stopPropagation();
+    move = () => {
         Actions.movePost(this.props.post.id)
     };
 
-    remove = (e) => {
-        e.stopPropagation();
+    remove = () => {
         Actions.removePost(this.props.post.id);
     };
 
@@ -47,7 +45,12 @@ export default class PostMenu extends React.Component {
         return (
             <IconMenu ref="menu"
                       style={styles.container}
-                      iconButtonElement={<FontIcon style={styles.icon} className="material-icons">expand_more</FontIcon>}>
+                      iconButtonElement={
+                        <FontIcon
+                            style={styles.icon}
+                            className="material-icons">
+                            expand_more
+                        </FontIcon>}>
                 <MenuItem onClick={this.move} leftIcon={<FolderIcon/>} primaryText="Move to..."/>
                 <MenuItem onClick={this.remove} leftIcon={<DeleteIcon/>} primaryText="Remove"/>
             </IconMenu>

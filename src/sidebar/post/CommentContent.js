@@ -34,7 +34,7 @@ export default class CommentContent extends React.Component {
                 flexGrow: 1
             },
             name: {
-                font: Theme.font.accent,
+                font: '400 14px Roboto',
                 color: Theme.palette.accentText,
                 cursor: 'pointer'
             }
@@ -42,7 +42,7 @@ export default class CommentContent extends React.Component {
 
         return (
             <div style={styles.container}>
-                <Avatar size="35" style={styles.avatar} src={post.user.image}/>
+                <Avatar size={35} style={styles.avatar} src={post.user.image}/>
                 <div style={styles.text}>
                     <span style={styles.name}>{post.user.name}</span>
                     &nbsp;{post.text}

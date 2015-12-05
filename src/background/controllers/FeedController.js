@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Firebase from 'Firebase';
 import FirebaseRef from '../FirebaseRef';
 import Dispatcher from '../../shared/Dispatcher';
+import Actions from '../../shared/Actions';
 import Store from '../../shared/Store';
 
 const USERS_REF = FirebaseRef.child('users');
@@ -14,38 +15,69 @@ let _feeds = {};
 
 let _userFeedsRef = null;
 let _feedRefs = {};
+let _feedUsersRefs = {};
 let _selectedFeedRef = null;
 
 function login(user) {
     if (_userFeedsRef) {
-        _userFeedsRef.off('child_added', _added);
-        _userFeedsRef.off('child_removed', _removed);
-        _selectedFeedRef.off('value', _selected);
+        _userFeedsRef.off();
+        _userFeedsRef.off();
+        _selectedFeedRef.off();
     }
 
     _userId = user.id;
     _userFeedsRef = USERS_REF.child(_userId +  '/feeds');
-    _userFeedsRef.on('child_added', _added);
-    _userFeedsRef.on('child_removed', _removed);
+    _userFeedsRef.on('child_added', _userFeedAdded);
+    _userFeedsRef.on('child_removed', _userFeedRemoved);
 
     _selectedFeedRef = USERS_REF.child(_userId +  '/selectedFeed');
-    _selectedFeedRef.on('value', _selected);
+    _selectedFeedRef.on('value', _feedSelected);
 }
 
-function _added(snap) {
-    const id = snap.key();
-    const feedRef = FEEDS_REF.child(id);
-    _feedRefs[id] = feedRef;
-    feedRef.on('value', _updated);
+function _userFeedAdded(userFeedSnap) {
+    let newFeedUser = false;
+    const feedId = userFeedSnap.key();
+    const feedRef = FEEDS_REF.child(feedId);
+    _feedRefs[feedId] = feedRef;
+
+    feedRef.on('value', feedSnap => {
+        _feeds[feedId] = Object.assign({id: feedId, selected: feedId === _selectedFeedId}, feedSnap.val());
+        emit();
+        newFeedUser = true;
+    });
+
+    const feedUsers = feedRef.child('users');
+    _feedUsersRefs[feedId] = feedUsers;
+
+    feedUsers.on('child_added', feedUserSnap => {
+        if (newFeedUser)
+            FEEDS_REF.child(userFeedSnap.key() + '/name').once('value', feedNameSnap => {
+                USERS_REF.child(feedUserSnap.key() + '/name').once('value', userNameSnap => {
+                    Store.state.ui.notification = {
+                            text: 'joined',
+                            user: userNameSnap.val(),
+                            topic: feedNameSnap.val()
+                    };
+                    Store.emit();
+                });
+            });
+    });
+
+    feedUsers.on('child_removed', feedUserSnap => {
+        FEEDS_REF.child(userFeedSnap.key() + '/name').once('value', feedNameSnap => {
+            USERS_REF.child(feedUserSnap.key() + '/name').once('value', userNameSnap => {
+                Store.state.ui.notification = {
+                    text: 'left',
+                    user: userNameSnap.val(),
+                    topic: feedNameSnap.val()
+                };
+                Store.emit();
+            });
+        });
+    });
 }
 
-function _updated(snap) {
-    const id = snap.key();
-    _feeds[id] = Object.assign({id: id, selected: id === _selectedFeedId}, snap.val());
-    emit();
-}
-
-function _removed(snap) {
+function _userFeedRemoved(snap) {
     const id = snap.key();
     const feed = _feeds[id];
 
@@ -53,12 +85,14 @@ function _removed(snap) {
         selectFeed(null);
 
     _feedRefs[id].off();
+    _feedUsersRefs[id].off();
     delete _feedRefs[id];
+    delete _feedUsersRefs[id];
     delete _feeds[id];
     emit();
 }
 
-function _selected(snap) {
+function _feedSelected(snap) {
     _selectedFeedId = snap.val();
 
     _.forEach(_feeds, (feed, id) => {

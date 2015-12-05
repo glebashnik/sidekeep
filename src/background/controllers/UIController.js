@@ -60,5 +60,10 @@ Dispatcher.register(action => {
         case 'OPEN_PAGE':
             openPage(action.url, action.tabId);
             break;
+
+        case 'DISMISS_NOTIFICATION':
+            Store.state.ui.notification = undefined;
+            Store.emit();
+            break;
     }
 });
