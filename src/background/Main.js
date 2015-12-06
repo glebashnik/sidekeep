@@ -1,4 +1,11 @@
+let initialized = false;
+
 function init() {
+    if (initialized)
+        return;
+
+    initialized = true;
+
     const Dispatcher = require('../shared/Dispatcher');
     const Store = require('../shared/Store');
     const Auth = require('./Auth');

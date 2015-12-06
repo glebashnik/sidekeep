@@ -2,11 +2,8 @@ import _ from 'lodash';
 import React from 'react';
 
 import IconButton from 'material-ui/lib/icon-button';
-import FontIcon from 'material-ui/lib/font-icon';
 import Colors from 'material-ui/lib/styles/colors';
-import TextField from 'material-ui/lib/text-field';
 
-import LogoIcon from './icons/LogoIcon';
 import Theme from './Theme';
 import FeedMenu from './feed/FeedMenu';
 import Actions from '../shared/Actions';
@@ -47,7 +44,7 @@ export default class Toolbar extends React.Component {
                 flexGrow: 1,
                 cursor: 'pointer',
                 alignItems: 'center',
-                font: '400 17px Roboto',
+                font: '400 16px Roboto',
                 color: Colors.grey50
             }
         };

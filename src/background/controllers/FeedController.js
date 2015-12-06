@@ -26,11 +26,11 @@ function login(user) {
     }
 
     _userId = user.id;
-    _userFeedsRef = USERS_REF.child(_userId +  '/feeds');
+    _userFeedsRef = USERS_REF.child(_userId + '/feeds');
     _userFeedsRef.on('child_added', _userFeedAdded);
     _userFeedsRef.on('child_removed', _userFeedRemoved);
 
-    _selectedFeedRef = USERS_REF.child(_userId +  '/selectedFeed');
+    _selectedFeedRef = USERS_REF.child(_userId + '/selectedFeed');
     _selectedFeedRef.on('value', _feedSelected);
 }
 
@@ -50,13 +50,13 @@ function _userFeedAdded(userFeedSnap) {
     _feedUsersRefs[feedId] = feedUsers;
 
     feedUsers.on('child_added', feedUserSnap => {
-        if (newFeedUser)
+        if (newFeedUser && feedUserSnap.key() != _userId)
             FEEDS_REF.child(userFeedSnap.key() + '/name').once('value', feedNameSnap => {
                 USERS_REF.child(feedUserSnap.key() + '/name').once('value', userNameSnap => {
                     Store.state.ui.notification = {
-                            text: 'joined',
-                            user: userNameSnap.val(),
-                            topic: feedNameSnap.val()
+                        text: 'joined',
+                        user: userNameSnap.val(),
+                        topic: feedNameSnap.val()
                     };
                     Store.emit();
                 });
@@ -64,16 +64,17 @@ function _userFeedAdded(userFeedSnap) {
     });
 
     feedUsers.on('child_removed', feedUserSnap => {
-        FEEDS_REF.child(userFeedSnap.key() + '/name').once('value', feedNameSnap => {
-            USERS_REF.child(feedUserSnap.key() + '/name').once('value', userNameSnap => {
-                Store.state.ui.notification = {
-                    text: 'left',
-                    user: userNameSnap.val(),
-                    topic: feedNameSnap.val()
-                };
-                Store.emit();
+        if (newFeedUser && feedUserSnap.key() != _userId)
+            FEEDS_REF.child(userFeedSnap.key() + '/name').once('value', feedNameSnap => {
+                USERS_REF.child(feedUserSnap.key() + '/name').once('value', userNameSnap => {
+                    Store.state.ui.notification = {
+                        text: 'left',
+                        user: userNameSnap.val(),
+                        topic: feedNameSnap.val()
+                    };
+                    Store.emit();
+                });
             });
-        });
     });
 }
 
@@ -147,6 +148,7 @@ Dispatcher.register((action) => {
 
         case 'JOIN_FEED':
             joinFeed(action.feedId);
+            chrome.tabs.remove(action.tabId);
             break;
 
         case 'REMOVE_FEED':
