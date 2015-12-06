@@ -51,21 +51,21 @@ export default {
         });
     },
 
+    setState(state) {
+        this.state = state;
+    },
+
+    emitState(state) {
+        setState(state);
+        this.emit();
+    },
+
     update(state) {
         _.assign(this.state, state);
     },
 
     emitUpdate(state) {
         this.update(state);
-        this.emit();
-    },
-
-    setState(state) {
-        this.state = state;
-    },
-
-    emitState(state) {
-        this.state = state;
         this.emit();
     },
 

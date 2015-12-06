@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import $ from 'jquery';
 import Dispatcher from '../shared/Dispatcher';
 import Store from '../shared/Store';
@@ -12,14 +13,15 @@ if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0)
 
     function checker() {
         feedId = $('#feed').text();
+        console.log(Store.state.feeds);
 
-        if(feedId != '') {
+        if(feedId != '' && !_.isEmpty(Store.state.feeds)) { //to be sure that user is logged in and feeds are loaded
             Actions.joinFeed(feedId);
-            clearTimeout(intervalId);
+            clearInterval(intervalId);
         }
     }
 
-    intervalId = setTimeout(checker, 1000);
+    intervalId = setInterval(checker, 1000);
 } else {
     const id = 'sidekeep';
     let iframe = document.getElementById(id);

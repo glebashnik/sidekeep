@@ -15,6 +15,7 @@ export default {
     },
 
     initBackground() {
+        console.log('initBackground');
         chrome.runtime.onConnect.addListener(port => {
             if (port.name === PORT_NAME)
                 port.onMessage.addListener(action => {
