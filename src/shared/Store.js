@@ -71,7 +71,7 @@ export default {
 
     emit() {
         if (this.listeners) //in the background page
-            this.listeners.forEach(listener => listener());
+            this.listeners.forEach(listener => listener(this.state));
 
         if (this.ports) //in the content script
             this.ports.forEach(port => port.postMessage(this.state));

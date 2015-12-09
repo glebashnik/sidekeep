@@ -51,7 +51,7 @@ export default class PostMenu extends React.Component {
                             className="material-icons">
                             expand_more
                         </FontIcon>}>
-                <MenuItem onClick={this.move} leftIcon={<FolderIcon/>} primaryText="Move to..."/>
+                <MenuItem onClick={this.move} leftIcon={<FolderIcon/>} primaryText="Copy to..."/>
                 <MenuItem onClick={this.remove} leftIcon={<DeleteIcon/>} primaryText="Remove"/>
             </IconMenu>
         );

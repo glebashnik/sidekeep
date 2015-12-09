@@ -8,6 +8,7 @@ import * as UrlHelper from '../../shared/helpers/UrlHelper';
 import * as TraceHelper from '../../shared/helpers/TraceHelper';
 import * as Tracer from '../Tracer';
 
+import Actions from '../../shared/Actions';
 import Store from '../../shared/Store';
 
 const USERS_REF = FirebaseRef.child('users');
@@ -18,6 +19,8 @@ let _user = null;
 let _posts = null;
 let _selectedFeedRef = null;
 let _postsRef = null;
+
+let _movePostId = false;
 
 function login(user) {
     if (_selectedFeedRef)
@@ -36,8 +39,15 @@ function login(user) {
 function _selected(snap) {
     const feedId = snap.val();
 
-    if (feedId === _feedId)
+    if (feedId === _feedId) {
+        _movePostId = null;
         return;
+    }
+
+    if (_movePostId) {
+        movePost(_movePostId, _feedId, feedId);
+        _movePostId = null;
+    }
 
     _feedId = feedId;
 
@@ -169,6 +179,22 @@ function emit() {
     Store.emitUpdate({posts: {root: _posts[0]}});
 }
 
+function movePost(postId, fromFeedId, toFeedId, withParent = true, withChildren = true) {
+    if (!postId)
+        return;
+
+    POSTS_REF.child(fromFeedId + '/' + postId).once('value', snap => {
+        const post = snap.val();
+        POSTS_REF.child(toFeedId + '/' + postId).set(post);
+
+        if (withChildren)
+            _.forEach(_posts[postId].children, p => movePost(p.id, fromFeedId, toFeedId, withParent = false, withChildren = true));
+
+        if (withParent)
+            movePost(post.parent, fromFeedId, toFeedId, withParent = true, withChildren = false);
+    });
+}
+
 Dispatcher.register(action => {
     switch (action.type) {
         case 'LOGIN':
@@ -197,6 +223,11 @@ Dispatcher.register(action => {
 
         case 'SELECT_POST':
             selectPost(action.postId);
+            break;
+
+        case 'MOVE_POST':
+            _movePostId = action.postId;
+            Actions.toggleFeedMenu();
             break;
     }
 });
