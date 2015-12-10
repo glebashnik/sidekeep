@@ -32,13 +32,13 @@ export default class PostMenu extends React.Component {
         const styles = {
             container: {
                 position: 'absolute',
-                right: 0
+                right: 0,
+                background: this.props.background
             },
             icon: {
                 zIndex: 5,
                 padding: 5,
-                color: Colors.grey600,
-                background: this.props.background
+                color: Colors.grey600
             }
         };
 
