@@ -183,16 +183,16 @@ function movePost(postId, fromFeedId, toFeedId, withParent = true, withChildren 
     if (!postId)
         return;
 
-    POSTS_REF.child(fromFeedId + '/' + postId).once('value', snap => {
-        const post = snap.val();
-        POSTS_REF.child(toFeedId + '/' + postId).set(post);
+    POSTS_REF.child(fromFeedId + '/' + postId).once('value', snap =>
+        POSTS_REF.child(toFeedId + '/' + postId).set(snap.val()));
 
-        if (withChildren)
-            _.forEach(_posts[postId].children, p => movePost(p.id, fromFeedId, toFeedId, withParent = false, withChildren = true));
+    const post = _posts[postId];
 
-        if (withParent)
-            movePost(post.parent, fromFeedId, toFeedId, withParent = true, withChildren = false);
-    });
+    if (withChildren)
+        _.forEach(post.children, child => movePost(child.id, fromFeedId, toFeedId, withParent = false, withChildren = true));
+
+    if (withParent)
+        movePost(post.parent, fromFeedId, toFeedId, withParent = true, withChildren = false);
 }
 
 Dispatcher.register(action => {
