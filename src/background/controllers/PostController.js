@@ -65,6 +65,7 @@ function _selected(snap) {
     _postsRef = POSTS_REF.child(_feedId);
     _postsRef.on('child_added', _added);
     _postsRef.on('child_removed', _removed);
+    _postsRef.on('child_changed', _added);
 }
 
 function _added(snap) {
@@ -162,6 +163,13 @@ function addComment(postId, text) {
 }
 
 function removePost(postId) {
+    const post = _posts[postId];
+
+    if (post.type === 'search')
+        _.forEach(post.children, child => _postsRef.child(child.id + '/parent').set(post.parent));
+    else
+        _.forEach(post.children, child => removePost(child.id));
+
     _postsRef.child(postId).set(null);
     selectPost();
 }
