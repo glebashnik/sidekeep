@@ -51,10 +51,8 @@ function tasksFor(name) {
 
     function configure(b) {
         b.transform(babelify.configure({
-            optional: [
-                'es7.classProperties', //used for propTypes inside classes
-                'es7.decorators' //used for radium inline styling
-            ]
+            "presets": ["es2015", "react"],
+            "plugins": ["transform-class-properties", "transform-object-rest-spread"]
         }));
     }
 
