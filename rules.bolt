@@ -1,0 +1,79 @@
+path /users/$userId is User {
+	read() = isSignedUser();
+	write() = isCurrentUser($userId);
+}
+
+path /feeds/$feedId is Feed {
+	read() = isFeedUser($feedId);
+	write() = isNew(this) || isFeedUser($feedId);
+}
+
+path /users/$userId/feeds/$feedId is Boolean {
+	validate() = root.feeds[$feedId].users[$userId] != null;
+}
+
+path /feeds/$feedId/users/$userId is Secret {
+	write() = this == root.feeds[$feedId].secret;
+	validate() = root.users[$feedId].feeds[$userId] != null;
+}
+
+path /posts/$feedId is Search | Page {
+	read() = isFeedUser($feedId);
+	write() = isFeedUser($feedId);
+}
+
+type User {
+  	name: String,
+  	image: String,
+  	feed: String | Null
+}
+
+type Feed {
+	name: String,
+	secret: Secret
+}
+
+type Post {
+	user: String,
+	time: Number
+}
+
+type Search extends Post {
+	url: String,
+	query: String,
+	pages: String[]
+}
+
+type Page extends Post {
+	search: String | Null
+	clips: String[],
+	url: String,
+	title: String,
+}
+
+type Clip extends Post {
+	page: String
+}
+
+type TextClip extends Clip {
+	text: String
+}
+
+type ImageClip extends Clip {
+	image: String
+}
+
+type Comment extends Post {
+	post: String,
+	text: String
+}
+
+type Secret extends String;
+
+isSignedUser() = auth != null;
+
+isCurrentUser(userId) = isSignedUser() && auth.uid == userId;
+
+isFeedUser(feedId) = isSignedUser() && root.feeds[feedId].users[auth.uid] != null;
+
+isNew(ref) = prior(ref) == null;
