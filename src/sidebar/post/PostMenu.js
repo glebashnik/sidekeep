@@ -45,6 +45,8 @@ export default class PostMenu extends React.Component {
         return (
             <IconMenu ref="menu"
                       style={styles.container}
+                      anchorOrigin={{horizontal:'right', vertical:'bottom'}}
+                      targetOrigin={{horizontal:'right', vertical:'top'}}
                       iconButtonElement={
                         <FontIcon
                             style={styles.icon}
