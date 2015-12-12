@@ -31,7 +31,6 @@ export default {
 
         textDark: Colors.darkBlack,
         textLight: 'white',
-        textSnackbar: '#77CCFF',
 
         title: '#3A539B',
         border: Colors.grey400,
