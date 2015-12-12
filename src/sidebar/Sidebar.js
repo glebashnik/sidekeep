@@ -47,7 +47,7 @@ class Sidebar extends React.Component {
                 flexDirection: 'column',
                 height: '100%',
                 width: '100%',
-                background: '#EEEEEE'
+                background: Theme.palette.backgroundFeed
             },
             feed: {
                 display: 'flex',
@@ -56,7 +56,7 @@ class Sidebar extends React.Component {
                 flexGrow: 1
             },
             entity: {
-                color: '#77CCFF'
+                color: Theme.palette.textSnackbar
             }
         };
 

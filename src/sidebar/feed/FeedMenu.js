@@ -48,7 +48,7 @@ export default class FeedMenu extends React.Component {
                 width: '100%'
             },
             content: {
-                background: Colors.grey50,
+                background: 'white',
                 maxHeight: '75%',
                 overflowY: 'scroll'
             },
@@ -58,12 +58,12 @@ export default class FeedMenu extends React.Component {
                 background: Colors.lightBlack
             },
             inkBar: {
-                background: Colors.grey50,
+                background: 'white',
                 marginTop: -5,
                 height: 5
             },
             icon: {
-                color: Colors.grey50
+                color: Theme.palette.iconLight
             }
         };
 

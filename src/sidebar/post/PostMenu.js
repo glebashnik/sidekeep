@@ -5,7 +5,6 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import FolderIcon from 'material-ui/lib/svg-icons/file/folder';
 import DeleteIcon from 'material-ui/lib/svg-icons/action/delete';
 import FontIcon from 'material-ui/lib/font-icon';
-import Colors from 'material-ui/lib/styles/colors';
 
 import Theme from '../Theme';
 import Actions from '../../shared/Actions';
@@ -31,21 +30,21 @@ export default class PostMenu extends React.Component {
     render() {
         const styles = {
             container: {
+                zIndex: 10,
                 position: 'absolute',
                 right: 0,
                 background: this.props.background
             },
             icon: {
-                zIndex: 5,
                 padding: 5,
-                color: Colors.grey600
+                color: Theme.palette.iconDark
             }
         };
 
         return (
             <IconMenu ref="menu"
                       style={styles.container}
-                      anchorOrigin={{horizontal:'right', vertical:'bottom'}}
+                      anchorOrigin={{horizontal:'right', vertical:'top'}}
                       targetOrigin={{horizontal:'right', vertical:'top'}}
                       iconButtonElement={
                         <FontIcon

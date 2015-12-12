@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
+
 import Avatar from 'material-ui/lib/avatar';
 import Actions from '../../shared/Actions';
-import Theme from '../Theme';
 import TextField from 'material-ui/lib/text-field';
 
 export default class CommentAdd extends React.Component {

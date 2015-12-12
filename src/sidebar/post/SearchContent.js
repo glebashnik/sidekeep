@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import FontIcon from 'material-ui/lib/font-icon';
-import Colors from 'material-ui/lib/styles/colors';
 
 import Theme from '../Theme';
 import HoverBox from '../ui/HoverBox';
@@ -22,12 +21,12 @@ export default class SearchContent extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: '10px 15px 10px 12px'
+                padding: '15px 15px 15px 12px'
             },
             query: {
                 marginLeft: 12,
-                color: Theme.palette.accentText,
-                font: '500 14px Roboto',
+                color: Theme.palette.textDark,
+                font: Theme.font.title,
                 cursor: 'pointer'
             }
         };
@@ -36,7 +35,7 @@ export default class SearchContent extends React.Component {
             <div style={styles.container}>
                 <FontIcon
                     className="material-icons"
-                    color={Colors.grey600}>
+                    color={Theme.palette.iconDark}>
                     search
                 </FontIcon>
                 <HoverBox style={styles.query} hoverStyle={{textDecoration: 'underline'}} onClick={this.openPage}>

@@ -1,5 +1,5 @@
-//User name and avatar image could be accessed by anyone with uid (bad).
-//Accessing feed content requires feed secret (good).
+//Accessin user data requires uid (not good).
+//Accessing feed content requires password (good).
 
 path /users/$userId is User {
 	read() = isSignedUser();

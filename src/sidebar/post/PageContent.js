@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React from 'react';
-import Colors from 'material-ui/lib/styles/colors';
 
 import Theme from '../Theme';
 import HoverBox from '../ui/HoverBox'
@@ -21,7 +20,7 @@ export default class PageContent extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: '10px 15px 10px 15px'
+                padding: 15
             },
             icon: {
                 width: 16,
@@ -38,9 +37,9 @@ export default class PageContent extends React.Component {
                 WebkitLineClamp: 3,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
-                color: Theme.palette.accentText,
-                textDecoration: 'none',
-                font: '500 14px Roboto'
+                color: Theme.palette.textDark,
+                font: Theme.font.title,
+                textDecoration: 'none'
             }
         };
 

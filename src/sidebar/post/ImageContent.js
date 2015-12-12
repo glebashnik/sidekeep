@@ -52,12 +52,12 @@ export default class ImageContent extends React.Component {
             ? <FontIcon
             style={styles.icon}
             className="material-icons"
-            color={Theme.palette.icon}
+            color={Theme.palette.iconDark}
             onClick={this.openImage}>
             open_in_new</FontIcon>
             : null;
 
-        styles.icon.background = post.selected ? Theme.palette.selectBackground : Theme.palette.hoverBackground;
+        styles.icon.background = post.selected ? Theme.palette.backgroundSelect : Theme.palette.backgroundHover;
 
         return (
             <div
