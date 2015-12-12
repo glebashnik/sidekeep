@@ -1,5 +1,4 @@
 import React from 'react';
-import Colors from 'material-ui/lib/styles/colors';
 import QuoteIcon from '../icons/QuoteIcon';
 import Theme from '../Theme';
 
@@ -11,8 +10,8 @@ export default class TextContent extends React.Component {
     render() {
         let styles = {
             container: {
-                font: Theme.font.content,
-                color: Theme.palette.textColor,
+                font: Theme.font.snippet,
+                color: Theme.palette.textDark,
                 padding: '10px 15px 10px 15px'
             },
             content: {
@@ -23,7 +22,7 @@ export default class TextContent extends React.Component {
                 WebkitBoxOrient: 'vertical'
             },
             icon: {
-                color: Colors.grey600,
+                color: Theme.palette.iconDark,
                 width: 12,
                 height: 10,
                 marginRight: 5,

@@ -1,5 +1,4 @@
 import React from 'react';
-import Colors from 'material-ui/lib/styles/colors';
 import IconButton from 'material-ui/lib/icon-button';
 import Avatar from 'material-ui/lib/avatar';
 import Theme from '../Theme';
@@ -21,8 +20,8 @@ export default class CommentContent extends React.Component {
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                font: Theme.font.primary,
-                color: Theme.palette.textColor,
+                font: Theme.font.comment,
+                color: Theme.palette.textDark,
                 padding: '10px 15px 10px 15px'
             },
             avatar: {
@@ -34,8 +33,8 @@ export default class CommentContent extends React.Component {
                 flexGrow: 1
             },
             name: {
-                font: '400 14px Roboto',
-                color: Theme.palette.accentText,
+                font: Theme.font.user,
+                color: Theme.palette.textDark,
                 cursor: 'pointer'
             }
         };

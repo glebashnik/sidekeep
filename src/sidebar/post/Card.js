@@ -2,6 +2,7 @@ import React from 'react';
 import Colors from 'material-ui/lib/styles/colors';
 import moment from 'moment';
 
+import Theme from '../Theme';
 import Post from './Post';
 
 export default class Card extends React.Component {
@@ -13,13 +14,13 @@ export default class Card extends React.Component {
     render() {
         let styles = {
             card: {
-                background: Colors.grey50,
+                background: Theme.palette.backgroundCard,
                 boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
             },
             time: {
                 padding: '15px 15px 6px 10px',
-                font: '400 11px Noto Sans',
-                color: Colors.grey600
+                font: Theme.font.time,
+                color: Theme.palette.time
             }
         };
 

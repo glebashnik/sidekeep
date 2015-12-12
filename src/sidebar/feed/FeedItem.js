@@ -26,15 +26,6 @@ export default class FeedItem extends React.Component {
         Actions.toggleFeedMenu();
     };
 
-    toggleTools = (e) => {
-        if (e) {
-            e.stopPropagation();
-            Actions.selectFeed(this.props.feed.id);
-        }
-
-        this.setState({tools: !this.state.tools});
-    };
-
     render() {
         const style = {
             position: 'relative',
@@ -42,15 +33,15 @@ export default class FeedItem extends React.Component {
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            font: '400 15px Roboto',
+            font: Theme.font.topic,
             cursor: 'pointer',
-            color: Colors.darkBlack
+            color: Theme.palette.textDark
         };
 
         if (this.state.hover)
-            style.background = Theme.palette.hoverBackground;
+            style.background = Theme.palette.backgroundHover;
         if (this.props.feed.selected)
-            style.background = Theme.palette.selectBackground;
+            style.background = Theme.palette.backgroundSelect;
 
         return (
             <div style={style}

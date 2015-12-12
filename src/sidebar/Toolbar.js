@@ -33,19 +33,19 @@ export default class Toolbar extends React.Component {
                 display: 'flex',
                 zIndex: 7,
                 width: '100%',
-                background: Theme.palette.accentBackground,
+                background: Theme.palette.backgroundToolbar,
                 alignItems: 'center'
             },
             icon: {
-                color: Colors.darkWhite
+                color: Theme.palette.iconLight
             },
             title: {
                 display: 'flex',
                 flexGrow: 1,
                 cursor: 'pointer',
                 alignItems: 'center',
-                font: '400 16px Roboto',
-                color: Colors.grey50
+                font: Theme.font.toolbar,
+                color: Theme.palette.textLight
             }
         };
 
