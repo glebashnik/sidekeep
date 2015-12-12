@@ -56,7 +56,6 @@ class Sidebar extends React.Component {
                 flexGrow: 1
             },
             entity: {
-                color: Theme.palette.textSnackbar
             }
         };
 
