@@ -1,19 +1,22 @@
+//User name and avatar image could be accessed by anyone with uid (bad).
+//Accessing feed content requires feed secret (good).
+
 path /users/$userId is User {
 	read() = isSignedUser();
 	write() = isCurrentUser($userId);
 }
 
-path /feeds/$feedId is Feed {
-	read() = isFeedUser($feedId);
-	write() = isNew(this) || isFeedUser($feedId);
+path /feeds/$feed is Feed {
+	read() = isFeedUser($feed);
+	write() = isNew(this) || isFeedUser($feed);
 }
 
 path /users/$userId/feeds/$feedId is Boolean {
 	validate() = root.feeds[$feedId].users[$userId] != null;
 }
 
-path /feeds/$feedId/users/$userId is Secret {
-	write() = this == root.feeds[$feedId].secret;
+path /feeds/$feedId/users/$userId is Password {
+	write() = this == root.feeds[$feedId].password;
 	validate() = root.users[$feedId].feeds[$userId] != null;
 }
 
@@ -30,7 +33,7 @@ type User {
 
 type Feed {
 	name: String,
-	secret: Secret
+	password: Password
 }
 
 type Post {
@@ -68,12 +71,12 @@ type Comment extends Post {
 	text: String
 }
 
-type Secret extends String;
+type Password extends String;
 
 isSignedUser() = auth != null;
 
 isCurrentUser(userId) = isSignedUser() && auth.uid == userId;
 
-isFeedUser(feedId) = isSignedUser() && root.feeds[feedId].users[auth.uid] != null;
+isFeedUser(feedId) = isSignedUser() && root.feeds[feedId].users[auth.uid] == root.feeds[feedId].password;
 
 isNew(ref) = prior(ref) == null;
