@@ -33,12 +33,14 @@ export default {
         textLight: 'white',
         textSnackbar: '#77CCFF',
 
+        title: '#3A539B',
         border: Colors.grey400,
-        time: Colors.grey600
+        time: Colors.grey600,
+        user: '#3A539B'
     },
     font: {
-        toolbar: '500 16px Roboto',
-        title: '500 15px Roboto',
+        toolbar: '400 16px Roboto',
+        title: '500 14px Roboto',
         snippet: '400 13px Noto Sans',
         user: '500 14px Roboto',
         comment: '400 13px Noto Sans',

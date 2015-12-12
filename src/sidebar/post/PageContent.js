@@ -20,7 +20,7 @@ export default class PageContent extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: 15
+                padding: '10px 15px 10px 15px'
             },
             icon: {
                 width: 16,
@@ -37,7 +37,7 @@ export default class PageContent extends React.Component {
                 WebkitLineClamp: 3,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
-                color: Theme.palette.textDark,
+                color: Theme.palette.title,
                 font: Theme.font.title,
                 textDecoration: 'none'
             }
