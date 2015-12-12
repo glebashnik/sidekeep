@@ -21,11 +21,11 @@ export default class SearchContent extends React.Component {
             container: {
                 display: 'flex',
                 alignItems: 'center',
-                padding: '15px 15px 15px 12px'
+                padding: '10px 15px 10px 12px'
             },
             query: {
                 marginLeft: 12,
-                color: Theme.palette.textDark,
+                color: Theme.palette.title,
                 font: Theme.font.title,
                 cursor: 'pointer'
             }

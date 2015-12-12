@@ -29,7 +29,7 @@ export default class FeedItem extends React.Component {
     render() {
         const style = {
             position: 'relative',
-            padding: '15px 20px 15px 20px',
+            padding: 15,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
