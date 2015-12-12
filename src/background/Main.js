@@ -1,3 +1,7 @@
+import Dispatcher from '../shared/Dispatcher';
+import Store from '../shared/Store';
+import Auth from './Auth';
+
 let initialized = false;
 
 function init() {
@@ -5,11 +9,6 @@ function init() {
         return;
 
     initialized = true;
-
-    const Dispatcher = require('../shared/Dispatcher');
-    const Store = require('../shared/Store');
-    const Auth = require('./Auth');
-
     Dispatcher.initBackground();
     Store.initBackground();
 

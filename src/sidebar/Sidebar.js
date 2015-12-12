@@ -15,9 +15,18 @@ import Card from './post/Card';
 
 injectTapEventPlugin();
 
-@ThemeDecorator(ThemeManager.getMuiTheme(Theme))
 class Sidebar extends React.Component {
     state = Store.state;
+
+    static childContextTypes = {
+        muiTheme: React.PropTypes.object
+    };
+
+    getChildContext() {
+        return {
+            muiTheme: ThemeManager.getMuiTheme(Theme)
+        };
+    }
 
     onChange = () => {
         this.setState(Store.state);
