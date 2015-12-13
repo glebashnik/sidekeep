@@ -1,0 +1,83 @@
+{
+  "rules": {
+    "users": {
+      "$user": {
+        ".validate": "newData.hasChildren(['name', 'image'])",
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "image": {
+          ".validate": "newData.isString()"
+        },
+        "feed": {
+          ".validate": "newData.isString() && newData.parent().parent().parent().child('feeds').child(newData.val()).val() != null || newData.val() == null"
+        },
+        "$other": {
+          ".validate": "false"
+        },
+        ".read": "auth != null",
+        ".write": "auth != null && auth.uid == $user",
+        "feeds": {
+          "$feed": {
+            ".validate": "newData.isBoolean() && newData.parent().parent().parent().parent().child('feeds').child($feed).child('users').child($user).val() != null"
+          }
+        }
+      }
+    },
+    "feeds": {
+      "$feed": {
+        ".validate": "newData.hasChildren(['name', 'password'])",
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "password": {
+          ".validate": "newData.isString()"
+        },
+        "$other": {
+          ".validate": "false"
+        },
+        ".read": "auth != null && root.child('feeds').child($feed).child('users').child(auth.uid).val() == root.child('feeds').child($feed).child('password').val()",
+        ".write": "data.val() == null || auth != null && newData.parent().parent().child('feeds').child($feed).child('users').child(auth.uid).val() == newData.parent().parent().child('feeds').child($feed).child('password').val()",
+        "users": {
+          "$user": {
+            ".validate": "newData.isString() && newData.parent().parent().parent().parent().child('users').child($feed).child('feeds').child($user).val() != null",
+            ".write": "newData.val() == newData.parent().parent().parent().parent().child('feeds').child($feed).child('password').val()"
+          }
+        }
+      }
+    },
+    "posts": {
+      "$feed": {
+        ".read": "auth != null && root.child('feeds').child($feed).child('users').child(auth.uid).val() == root.child('feeds').child($feed).child('password').val()",
+        ".write": "auth != null && newData.parent().parent().child('feeds').child($feed).child('users').child(auth.uid).val() == newData.parent().parent().child('feeds').child($feed).child('password').val()",
+        "$post": {
+          ".validate": "newData.hasChildren() && newData.hasChildren(['kind', 'user', 'time']) && newData.hasChildren(['url', 'query']) && newData.child('kind').val() == 'search' && newData.parent().child('ancestor').child('kind').val() == null || newData.hasChildren() && newData.hasChildren(['kind', 'user', 'time']) && newData.hasChildren(['url', 'title']) && newData.child('kind').val() == 'page' && (newData.parent().child('ancestor').child('kind').val() == null || newData.parent().child('ancestor').child('kind').val() == 'search')",
+          "kind": {
+            ".validate": "newData.isString() || newData.isString()"
+          },
+          "user": {
+            ".validate": "newData.isString() && newData.parent().parent().parent().parent().child('users').child(newData.val()).val() != null || newData.isString() && newData.parent().parent().parent().parent().child('users').child(newData.val()).val() != null"
+          },
+          "time": {
+            ".validate": "newData.isNumber() || newData.isNumber()"
+          },
+          "ancestor": {
+            ".validate": "newData.isString() || newData.val() == null || newData.isString() || newData.val() == null"
+          },
+          "$other": {
+            ".validate": "false"
+          },
+          "url": {
+            ".validate": "newData.isString() || newData.isString()"
+          },
+          "query": {
+            ".validate": "newData.isString()"
+          },
+          "title": {
+            ".validate": "newData.isString()"
+          }
+        }
+      }
+    }
+  }
+}
