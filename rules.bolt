@@ -1,80 +1,71 @@
-//Accessin user data requires uid (not good).
-//Accessing feed content requires password (good).
-
-path /users/$user is User {
+path /users/$userId is User {
 	read() = isSignedUser();
-	write() = isCurrentUser($user);
+	write() = isCurrentUser($userId);
 }
 
-path /feeds/$feed is Feed {
-	read() = isFeedUser($feed);
-	write() = isNew(this) || isFeedUser($feed);
+path /feeds/$feedId is Feed {
+	read() = isFeedUser($feedId);
+	write() = isNew(this) || isFeedUser($feedId);
 }
 
-path /users/$user/feeds/$feed is Boolean {
-	validate() = root.feeds[$feed].users[$user] != null;
+path /feeds/$feedId/users/$userId is String {
+	write() = isCurrentUser($userId);
+	validate() = this == null || this == root.feeds[$feedId].password;
 }
 
-path /feeds/$feed/users/$user is Password {
-	write() = this == root.feeds[$feed].password;
-	validate() = root.users[$feed].feeds[$user] != null;
+path /posts/$feedId {
+	read() = isFeedUser($feedId);
+	write() = isFeedUser($feedId);
 }
 
-path /posts/$feed {
-	read() = isFeedUser($feed);
-	write() = isFeedUser($feed);
-}
-
-path /posts/$feed/$post is Search | Page;
+path /posts/$feedId/$postId is Search | Page | Text | Image | Comment;
 
 type User {
   	name: String,
   	image: String,
-  	feed: FeedId | Null
+  	selectedFeed: FeedId | Null,
+  	feeds: Boolean[]
 }
 
 type Feed {
 	name: String,
-	password: Password
+	timestamp: Number,
+	password: Immutable<String>
 }
 
 type Post {
-	kind: String,
+	type: String,
 	user: UserId,
-	time: Number,
-	ancestor: String | Null
+	timestamp: Number,
+	ancestor: AncestorId
 }
 
 type Search extends Post {
 	url: String,
 	query: String,
-
-	validate() = isKind(this, 'search') && isAncestorKind(this, null);
+	validate() = this.type == 'search' && isAncestorType(this, null);
 }
 
 type Page extends Post {
 	url: String,
 	title: String,
-
-	validate() = isKind(this, 'page') && (isAncestorKind(this, null) || isAncestorKind(this, 'search'));
+	favIconUrl: String,
+	validate() = this.type == 'page' && (isAncestorType(this, null) || isAncestorType(this, 'search'));
 }
 
 type Text extends Post {
 	text: String,
-
-	validate() = isKind(this, 'text') && isAncestorKind(this, 'page');
+	validate() = this.type == 'text' && isAncestorType(this, 'page');
 }
 
 type Image extends Post {
 	image: String,
-
-	validate() = isKind(this, 'text') && isAncestorKind(this, 'page');
+	validate() = this.type == 'image' && isAncestorType(this, 'page');
 }
 
 type Comment extends Post {
 	text: String,
-
-	validate() = isKind(this, 'comment') && !isAncestorKind(this, null) && !isAncestorKind(this, 'comment');
+	validate() = this.type == 'comment' && !isAncestorType(this, null) && !isAncestorType(this, 'comment');
 }
 
 type UserId extends String {
@@ -85,20 +76,20 @@ type FeedId extends String {
 	validate() = root.feeds[this] != null;
 }
 
-type Password extends String;
+type AncestorId extends String {
+	validate() = this == 'root' || this.parent().parent()[this] != null;
+}
 
+type Immutable<T> {
+	validate() = isNew(this) || this == prior(this);
+}
 
-isKind(post, kind) = post.kind == kind;
-
-getAncestorKind(post) = post.parent().ancestor.kind;
-
-isAncestorKind(post, kind) = getAncestorKind(post) == kind;
-
+isAncestorType(post, type) = type == null && post.ancestor == null || post.parent()[post.ancestor].type == type;
 
 isSignedUser() = auth != null;
 
-isCurrentUser(user) = isSignedUser() && auth.uid == user;
+isCurrentUser(userId) = isSignedUser() && auth.uid == userId;
 
-isFeedUser(feed) = isSignedUser() && root.feeds[feed].users[auth.uid] == root.feeds[feed].password;
+isFeedUser(feedId) = isSignedUser() && root.feeds[feedId].users[auth.uid] == root.feeds[feedId].password;
 
 isNew(ref) = prior(ref) == null;

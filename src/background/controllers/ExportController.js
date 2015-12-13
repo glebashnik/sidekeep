@@ -7,7 +7,7 @@ const url = 'https://aftersearchexport.dotcloudapp.com';
 
 function getFeed() {
     const state = Store.state;
-    const feed = state.posts.root;
+    const feed = state.posts;
     feed.name = state.feeds[state.user.selectedFeed].name;
     return feed;
 }

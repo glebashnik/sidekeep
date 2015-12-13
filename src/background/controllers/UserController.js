@@ -7,17 +7,17 @@ import FirebaseRef from '../FirebaseRef';
 const USERS_REF = FirebaseRef.child('users');
 
 function addStarterFeed() {
-    const srcId = '-K4IdNPPD7IQyFj2C9N_';
-    const feedsRef =  FirebaseRef.child('feeds');
-    const postsRef =  FirebaseRef.child('posts');
-
-    feedsRef.child(srcId).once('value', snap => {
-        const destId = feedsRef.push(snap.val()).key();
-        postsRef.child(srcId).once('value', snap => {
-            postsRef.child(destId).set(snap.val());
-            Actions.joinFeed(destId);
-        });
-    });
+    //const srcId = '-K4IdNPPD7IQyFj2C9N_';
+    //const feedsRef =  FirebaseRef.child('feeds');
+    //const postsRef =  FirebaseRef.child('posts');
+    //
+    //feedsRef.child(srcId).once('value', snap => {
+    //    const destId = feedsRef.push(snap.val()).key();
+    //    postsRef.child(srcId).once('value', snap => {
+    //        postsRef.child(destId).set(snap.val());
+    //        Actions.joinFeed(destId);
+    //    });
+    //});
 }
 
 let _userRef = null;

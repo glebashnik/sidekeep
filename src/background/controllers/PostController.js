@@ -15,24 +15,39 @@ const USERS_REF = FirebaseRef.child('users');
 const POSTS_REF = FirebaseRef.child('posts');
 
 let _feedId = null;
-let _user = null;
+let _userId = null;
 let _posts = null;
 let _selectedFeedRef = null;
 let _postsRef = null;
 
 let _movePostId = false;
 
+class UserCache {
+    constructor(ref) {
+        this.ref = ref;
+        this.promises = {};
+    }
+
+    load(id) {
+        if(!this.promises[id])
+            this.promises[id] = new Promise(resolve => {
+                this.ref.child(id).once('value', snap => {
+                    resolve(snap.val());
+                });
+            });
+
+        return this.promises[id];
+    };
+}
+
+const _userCache = new UserCache(USERS_REF);
+
 function login(user) {
     if (_selectedFeedRef)
         _selectedFeedRef.off('value', _selected);
 
-    _user = {
-        id: user.id,
-        name: user.name,
-        image: user.image
-    };
-
-    _selectedFeedRef = USERS_REF.child(user.id + '/selectedFeed');
+    _userId = user.id;
+    _selectedFeedRef = USERS_REF.child(_userId + '/selectedFeed');
     _selectedFeedRef.on('value', _selected);
 }
 
@@ -73,23 +88,26 @@ function _added(snap) {
     Object.assign(post, snap.val());
     _posts[post.id] = post;
 
-    const parent = _posts[post.parent] || {id: post.parent, children: {}};
-    parent.children[post.id] = post;
-    _posts[parent.id] = parent;
+    const ancestor = _posts[post.ancestor] || {id: post.ancestor, children: {}};
+    ancestor.children[post.id] = post;
+    _posts[ancestor.id] = ancestor;
 
-    emit();
+    _userCache.load(post.user).then(user => {
+        post.user = user;
+        emit();
+    });
 }
 
 function _removed(snap) {
     const post = snap.val();
     post.id = snap.key();
-    delete _posts[post.parent].children[post.id];
+    delete _posts[post.ancestor].children[post.id];
     delete _posts[post.id];
     emit();
 }
 
 function addPost(post) {
-    post.user = _user;
+    post.user = _userId;
     post.timestamp = Firebase.ServerValue.TIMESTAMP;
     return _postsRef.push(post).key();
 }
@@ -99,11 +117,11 @@ function addPage(tabId) {
     const first = _.first(trace);
     const search = first && first.query ? first : null;
 
-    let parentId = 0;
+    let ancestorId = 'root';
 
     if (search)
-        parentId = _.findKey(_posts, {query: search.query}) || addPost({
-                parent: parentId,
+        ancestorId = _.findKey(_posts, {query: search.query}) || addPost({
+                ancestor: ancestorId,
                 type: 'search',
                 url: search.url,
                 query: search.query
@@ -112,7 +130,7 @@ function addPage(tabId) {
     return new Promise(resolve => {
         chrome.tabs.get(tabId, tab => {
             const pageId = _.findKey(_posts, {url: tab.url}) || addPost({
-                    parent: parentId,
+                    ancestor: ancestorId,
                     type: 'page',
                     title: tab.title,
                     url: tab.url,
@@ -125,9 +143,9 @@ function addPage(tabId) {
 }
 
 function addText(text, tabId) {
-    addPage(tabId).then(parentId => {
+    addPage(tabId).then(ancestorId => {
         const clipId = addPost({
-            parent: parentId,
+            ancestor: ancestorId,
             type: 'text',
             text: text
         });
@@ -137,11 +155,11 @@ function addText(text, tabId) {
 }
 
 function addImage(imageUrl, tabId) {
-    addPage(tabId).then(parentId => {
+    addPage(tabId).then(ancestorId => {
         const clipId = addPost({
-            parent: parentId,
+            ancestor: ancestorId,
             type: 'image',
-            imageUrl: imageUrl
+            image: imageUrl
         });
 
         selectPost(clipId);
@@ -149,12 +167,12 @@ function addImage(imageUrl, tabId) {
 }
 
 function addComment(postId, text) {
-    const parentId = _posts[postId].type === 'comment'
-        ? _posts[postId].parent
+    const ancestorId = _posts[postId].type === 'comment'
+        ? _posts[postId].ancestor
         : postId;
 
     const commentId = addPost({
-        parent: parentId,
+        ancestor: ancestorId,
         type: 'comment',
         text: text
     });
@@ -166,7 +184,7 @@ function removePost(postId) {
     const post = _posts[postId];
 
     if (post.type === 'search')
-        _.forEach(post.children, child => _postsRef.child(child.id + '/parent').set(post.parent));
+        _.forEach(post.children, child => _postsRef.child(child.id + '/ancestor').set(post.ancestor));
     else
         _.forEach(post.children, child => removePost(child.id));
 
@@ -184,7 +202,7 @@ function selectPost(postId) {
 }
 
 function emit() {
-    Store.emitUpdate({posts: {root: _posts[0]}});
+    Store.emitUpdate({posts: _posts.root});
 }
 
 function movePost(postId, fromFeedId, toFeedId, withParent = true, withChildren = true) {
@@ -200,7 +218,7 @@ function movePost(postId, fromFeedId, toFeedId, withParent = true, withChildren 
         _.forEach(post.children, child => movePost(child.id, fromFeedId, toFeedId, withParent = false, withChildren = true));
 
     if (withParent)
-        movePost(post.parent, fromFeedId, toFeedId, withParent = true, withChildren = false);
+        movePost(post.ancestor, fromFeedId, toFeedId, withParent = true, withChildren = false);
 }
 
 Dispatcher.register(action => {
