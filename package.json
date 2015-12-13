@@ -10,7 +10,8 @@
     "firebase": "*",
     "query-string": "*",
     "copy-to-clipboard": "*",
-    "moment": "*"
+    "moment": "*",
+    "crypto-js": "*"
   },
   "devDependencies": {
     "babelify": "*",

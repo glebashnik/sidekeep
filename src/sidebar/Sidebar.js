@@ -59,7 +59,7 @@ class Sidebar extends React.Component {
             }
         };
 
-        const root = this.state.posts.root;
+        const root = this.state.posts;
         let postElems;
 
         if (root) {

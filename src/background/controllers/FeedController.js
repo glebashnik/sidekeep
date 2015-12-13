@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import $ from 'jquery';
 import Firebase from 'Firebase';
+import CryptoJS from 'crypto-js';
+
 import FirebaseRef from '../FirebaseRef';
 import Dispatcher from '../../shared/Dispatcher';
 import Actions from '../../shared/Actions';
@@ -13,8 +15,8 @@ let _userId = null;
 let _selectedFeedId = null;
 let _feeds = {};
 
-let _userFeedsRef = null;
 let _feedRefs = {};
+let _userFeedsRef = null;
 let _feedUsersRefs = {};
 let _selectedFeedRef = null;
 
@@ -104,24 +106,31 @@ function _feedSelected(snap) {
 }
 
 function addFeed(feedName) {
-    const feedRef = FEEDS_REF.push({
-        'name': feedName,
-        'timestamp': Firebase.ServerValue.TIMESTAMP
-    });
+    const feedPassword = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(feedName)).toString();
 
-    joinFeed(feedRef.key());
-    selectFeed(feedRef.key());
+    const feedId = FEEDS_REF.push({
+        name: feedName,
+        timestamp: Firebase.ServerValue.TIMESTAMP,
+        password: feedPassword
+    }).key();
+
+    joinFeed(feedId, feedPassword);
 }
 
-function joinFeed(feedId) {
-    _userFeedsRef.child(feedId).set(true);
-    FEEDS_REF.child(feedId + '/users/' + _userId).set(true);
+function joinFeed(feedId, feedPassword) {
+    const updates = {};
+    updates[`users/${_userId}/feeds/${feedId}`] = true;
+    updates[`feeds/${feedId}/users/${_userId}`] = feedPassword;
+    FirebaseRef.update(updates);
+
     selectFeed(feedId);
 }
 
 function removeFeed(feedId) {
-    _userFeedsRef.child(feedId).set(null);
-    FEEDS_REF.child(feedId + '/users/' + _userId).set(null);
+    const updates = {};
+    updates[`users/${_userId}/feeds/${feedId}`] = null;
+    updates[`feeds/${feedId}/users/${_userId}`] = null;
+    FirebaseRef.update(updates)
 }
 
 function renameFeed(feedId, feedName) {
@@ -147,7 +156,7 @@ Dispatcher.register((action) => {
             break;
 
         case 'JOIN_FEED':
-            joinFeed(action.feedId);
+            joinFeed(action.feedId, action.feedPassword);
             chrome.tabs.remove(action.tabId);
             break;
 

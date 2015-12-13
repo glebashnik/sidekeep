@@ -60,10 +60,11 @@ export default {
         })
     },
 
-    joinFeed(feedId) {
+    joinFeed(feedId, feedPassword) {
         Dispatcher.dispatch({
             type: 'JOIN_FEED',
-            feedId: feedId
+            feedId: feedId,
+            feedPassword: feedPassword
         })
     },
 

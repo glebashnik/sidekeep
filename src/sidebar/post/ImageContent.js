@@ -64,7 +64,7 @@ export default class ImageContent extends React.Component {
                 style={styles.container}
                 onMouseEnter={this.showIcon}
                 onMouseLeave={this.hideIcon}>
-                <img style={styles.image} src={post.imageUrl}/>
+                <img style={styles.image} src={post.image}/>
                 {icon}
             </div>
         );

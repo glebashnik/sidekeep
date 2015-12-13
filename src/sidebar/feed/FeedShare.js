@@ -12,7 +12,7 @@ export default class FeedShare extends React.Component {
     };
 
     state = {
-        url: 'https://aftersearch.firebaseapp.com/join.html?feed=' + encodeURIComponent(this.props.feed.id)
+        url: `https://aftersearch-dev.firebaseapp.com/join.html?id=${encodeURIComponent(this.props.feed.id)}&password=${encodeURIComponent(this.props.feed.password)}`
     };
 
     copy = () => {
