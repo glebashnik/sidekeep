@@ -20,15 +20,17 @@ path /feeds/$feedId/users/$userId is Password {
 	validate() = root.users[$feedId].feeds[$userId] != null;
 }
 
-path /posts/$feedId is Search | Page {
+path /posts/$feedId {
 	read() = isFeedUser($feedId);
 	write() = isFeedUser($feedId);
 }
 
+path /posts/$feedId/$postId is Search | Page;
+
 type User {
   	name: String,
   	image: String,
-  	feed: String | Null
+  	feed: FeedId | Null
 }
 
 type Feed {
@@ -37,41 +39,63 @@ type Feed {
 }
 
 type Post {
-	user: String,
-	time: Number
+	kind: String,
+	user: UserId,
+	time: Number,
+	parent: String | Null
 }
 
 type Search extends Post {
 	url: String,
-	query: String,
-	pages: String[]
+	query: String
+
+	validate() = isMyAndParentKind(this, 'search', null);
 }
 
 type Page extends Post {
-	search: String | Null
-	clips: String[],
 	url: String,
 	title: String,
+
+	validate() = isMyKind(this, 'page') && (isParentKind(this, null) || isParentKind(this, 'search'));
 }
 
-type Clip extends Post {
-	page: String
+type Text extends Content {
+	text: String,
+
+	validate() = isMyAndParentKind(this, 'text', 'page');
 }
 
-type TextClip extends Clip {
-	text: String
-}
-
-type ImageClip extends Clip {
+type Image extends Content {
 	image: String
+
+	validate() = isMyAndParentKind(this, 'text', 'page');
 }
 
-type Comment extends Post {
-	post: String,
-	text: String
+type Comment extends Content {
+	text: String,
+
+	validate() = this.text.isMyKind(this, 'comment') && !isParentKind(this, null) && !isParentKind(this, 'comment');
+}
+
+type UserId extends String {
+	validate() = root.users[this] != null;
+}
+
+type FeedId extends String {
+	validate() = root.feeds[this] != null;
 }
 
 type Password extends String;
+
+
+getParentKind(this) = this.parent()[this.parent].kind;
+
+isMyKind(this, kind) = this.kind == kind;
+
+isParentKind(this, parentKind) = getParentKind(this) == parentKind;
+
+isMyAndParentKind(this, myKind, parentKind) = isMyKind(this, myKind) && isParentKind(this, parentKind); 
+
 
 isSignedUser() = auth != null;
 

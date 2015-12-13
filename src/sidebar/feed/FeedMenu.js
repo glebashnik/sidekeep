@@ -1,13 +1,12 @@
 import _ from 'lodash';
 import React from 'react';
 
-import FontIcon from 'material-ui/lib/font-icon';
-import IconButton from 'material-ui/lib/icon-button';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
 import Colors from 'material-ui/lib/styles/colors';
 
 import Theme from '../Theme';
+import HoverIconButton from '../ui/HoverIconButton';
 import FeedList from './FeedList';
 import FeedEdit from './FeedEdit';
 import FeedShare from './FeedShare';
@@ -77,27 +76,63 @@ export default class FeedMenu extends React.Component {
                     value={this.state.tab}
                     onChange={this.change}>
                     <Tab value="list"
-                         label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Topics">folder</IconButton>}>
+                         label={<HoverIconButton
+                                    iconClassName="material-icons"
+                                    color={Theme.palette.iconLight}
+                                    hoverColor="white"
+                                    tooltip="Topics">
+                                    folder
+                                </HoverIconButton>}>
                         <FeedList feeds={this.props.feeds}/>
                     </Tab>
                     <Tab value="add"
-                         label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="New">add</IconButton>}>
+                         label={<HoverIconButton
+                                    iconClassName="material-icons"
+                                    color={Theme.palette.iconLight}
+                                    hoverColor="white"
+                                    tooltip="New">
+                                    add
+                                </HoverIconButton>}>
                         <FeedEdit/>
                     </Tab>
                     <Tab value="edit"
-                         label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Rename">edit</IconButton>}>
+                         label={<HoverIconButton
+                                    iconClassName="material-icons"
+                                    color={Theme.palette.iconLight}
+                                    hoverColor="white"
+                                    tooltip="Rename">
+                                    edit
+                                </HoverIconButton>}>
                         {feed ? <FeedEdit feed={feed}/> : null}
                     </Tab>
                     <Tab value="collaborate"
-                         label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Collaborate">group</IconButton>}>
+                         label={<HoverIconButton
+                                    iconClassName="material-icons"
+                                    color={Theme.palette.iconLight}
+                                    hoverColor="white"
+                                    tooltip="Collaborate">
+                                    group
+                                </HoverIconButton>}>
                         {feed ? <FeedShare feed={feed}/> : null}
                     </Tab>
                     <Tab value="export"
-                         label={<IconButton tooltip="Export"><ExportIcon color={styles.icon.color}/></IconButton>}>
+                         label={<HoverIconButton
+                                    iconClassName="material-icons"
+                                    color={Theme.palette.iconLight}
+                                    hoverColor="white"
+                                    tooltip="Export">
+                                    file_download
+                                </HoverIconButton>}>
                         {feed ? <FeedExport/> : null}
                     </Tab>
                     <Tab value="remove"
-                         label={<IconButton iconClassName="material-icons" iconStyle={styles.icon} tooltip="Delete">delete</IconButton>}>
+                         label={<HoverIconButton
+                                    iconClassName="material-icons"
+                                    color={Theme.palette.iconLight}
+                                    hoverColor="white"
+                                    tooltip="Delete">
+                                    delete
+                                </HoverIconButton>}>
                         {feed ? <FeedRemove feed={feed}/> : null}
                     </Tab>
                 </Tabs>

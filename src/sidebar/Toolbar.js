@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 
-import IconButton from 'material-ui/lib/icon-button';
+import HoverIconButton from './ui/HoverIconButton';
 import Colors from 'material-ui/lib/styles/colors';
 
 import Theme from './Theme';
@@ -40,12 +40,15 @@ export default class Toolbar extends React.Component {
                 color: Theme.palette.iconLight
             },
             title: {
-                display: 'flex',
+                font: Theme.font.toolbar,
+                color: Theme.palette.textLight,
                 flexGrow: 1,
                 cursor: 'pointer',
-                alignItems: 'center',
-                font: Theme.font.toolbar,
-                color: Theme.palette.textLight
+                display: '-webkit-box',
+                overflow: 'hidden',
+                wordWrap: 'break-word',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical'
             }
         };
 
@@ -59,21 +62,21 @@ export default class Toolbar extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.content}>
-                    <IconButton
+                    <HoverIconButton
                         onClick={Actions.toggleFeedMenu}
                         iconClassName="material-icons"
-                        iconStyle={styles.icon}
-                        tooltip="Menu">
+                        color={Theme.palette.iconLight}
+                        hoverColor="white">
                         menu
-                    </IconButton>
+                    </HoverIconButton>
                     <div style={styles.title} onClick={Actions.toggleFeedMenu}>{name}</div>
-                    <IconButton
+                    <HoverIconButton
                         onClick={Actions.toggleSidebar}
                         iconClassName="material-icons"
-                        iconStyle={styles.icon}
-                        tooltip="Hide">
+                        color={Theme.palette.iconLight}
+                        hoverColor="white">
                         close
-                    </IconButton>
+                    </HoverIconButton>
                 </div>
                 {feedMenuElem}
             </div>

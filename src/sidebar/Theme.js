@@ -27,7 +27,7 @@ export default {
         backgroundHover: '#FEF3DA',
 
         iconDark: Colors.grey600,
-        iconLight: 'white',
+        iconLight: 'rgba(255, 255, 255, 0.65)',
 
         textDark: Colors.darkBlack,
         textLight: 'white',
@@ -39,11 +39,12 @@ export default {
     },
     font: {
         toolbar: '400 16px Roboto',
-        title: '500 14px Roboto',
-        snippet: '400 13px Noto Sans',
-        user: '500 14px Roboto',
-        comment: '400 13px Noto Sans',
         topic: '400 15px Roboto',
+        title: '500 14px Roboto',
+        user: '500 14px Roboto',
+
+        snippet: '400 13px Noto Sans',
+        comment: '400 13px Noto Sans',
         time: '400 11px Noto Sans'
     }
 };
