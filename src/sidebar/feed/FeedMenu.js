@@ -29,9 +29,6 @@ export default class FeedMenu extends React.Component {
         return _.find(this.props.feeds, {selected: true})
     };
 
-    componentWillReceiveProps(nextProps) {
-    };
-
     change = (value) => {
         this.setState({tab: value});
     };
@@ -80,6 +77,8 @@ export default class FeedMenu extends React.Component {
                                     iconClassName="material-icons"
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
+                                    selectColor="white"
+                                    selected={this.state.tab === 'list'}
                                     tooltip="Topics">
                                     folder
                                 </HoverIconButton>}>
@@ -90,6 +89,8 @@ export default class FeedMenu extends React.Component {
                                     iconClassName="material-icons"
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
+                                    selectColor="white"
+                                    selected={this.state.tab === 'add'}
                                     tooltip="New">
                                     add
                                 </HoverIconButton>}>
@@ -100,6 +101,8 @@ export default class FeedMenu extends React.Component {
                                     iconClassName="material-icons"
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
+                                    selectColor="white"
+                                    selected={this.state.tab === 'edit'}
                                     tooltip="Rename">
                                     edit
                                 </HoverIconButton>}>
@@ -110,6 +113,8 @@ export default class FeedMenu extends React.Component {
                                     iconClassName="material-icons"
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
+                                    selectColor="white"
+                                    selected={this.state.tab === 'collaborate'}
                                     tooltip="Collaborate">
                                     group
                                 </HoverIconButton>}>
@@ -120,6 +125,8 @@ export default class FeedMenu extends React.Component {
                                     iconClassName="material-icons"
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
+                                    selectColor="white"
+                                    selected={this.state.tab === 'export'}
                                     tooltip="Export">
                                     file_download
                                 </HoverIconButton>}>
@@ -130,6 +137,8 @@ export default class FeedMenu extends React.Component {
                                     iconClassName="material-icons"
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
+                                    selectColor="white"
+                                    selected={this.state.tab === 'remove'}
                                     tooltip="Delete">
                                     delete
                                 </HoverIconButton>}>

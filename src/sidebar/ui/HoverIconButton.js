@@ -4,7 +4,9 @@ import IconButton from 'material-ui/lib/icon-button';
 export default class HoverIconButton extends React.Component {
     static propTypes = {
         color: React.PropTypes.string,
-        hoverColor: React.PropTypes.string
+        hoverColor: React.PropTypes.string,
+        selectColor: React.PropTypes.string,
+        selected: React.PropTypes.bool
     };
 
     state = {
@@ -20,7 +22,7 @@ export default class HoverIconButton extends React.Component {
     };
 
     render() {
-        const {color, hoverColor, iconStyle, ...other} = this.props;
+        const {color, hoverColor, selectColor, selected, iconStyle, ...other} = this.props;
         const style = Object.assign({}, iconStyle);
 
         if (color)
@@ -28,6 +30,9 @@ export default class HoverIconButton extends React.Component {
 
         if (hoverColor && this.state.hover)
             style.color = hoverColor;
+
+        if (selectColor && selected)
+            style.color = selectColor;
 
         return (
             <IconButton

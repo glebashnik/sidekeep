@@ -11,6 +11,10 @@ export default class CommentAdd extends React.Component {
         post: React.PropTypes.object.isRequired
     };
 
+    componentDidMount() {
+        this.refs.text.focus();
+    }
+
     add = (event) => {
         event.preventDefault();
         Actions.addComment(this.props.post.id, this.refs.text.getValue());

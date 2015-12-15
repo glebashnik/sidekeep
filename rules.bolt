@@ -10,7 +10,7 @@ path /feeds/$feedId is Feed {
 
 path /feeds/$feedId/users/$userId is String {
 	write() = isCurrentUser($userId);
-	validate() = this == null || this == root.feeds[$feedId].password;
+	validate() = this == root.feeds[$feedId].password;
 }
 
 path /posts/$feedId {
@@ -23,7 +23,7 @@ path /posts/$feedId/$postId is Search | Page | Text | Image | Comment;
 type User {
   	name: String,
   	image: String,
-  	selectedFeed: FeedId | Null,
+  	selectedFeed: String | Null,
   	feeds: Boolean[]
 }
 
@@ -43,14 +43,14 @@ type Post {
 type Search extends Post {
 	url: String,
 	query: String,
-	validate() = this.type == 'search' && isAncestorType(this, null);
+	validate() = this.type == 'search' && isAncestorType(this, 'root');
 }
 
 type Page extends Post {
 	url: String,
 	title: String,
 	favIconUrl: String,
-	validate() = this.type == 'page' && (isAncestorType(this, null) || isAncestorType(this, 'search'));
+	validate() = this.type == 'page' && (isAncestorType(this, 'root') || isAncestorType(this, 'search'));
 }
 
 type Text extends Post {
@@ -65,7 +65,7 @@ type Image extends Post {
 
 type Comment extends Post {
 	text: String,
-	validate() = this.type == 'comment' && !isAncestorType(this, null) && !isAncestorType(this, 'comment');
+	validate() = this.type == 'comment';
 }
 
 type UserId extends String {
@@ -84,7 +84,7 @@ type Immutable<T> {
 	validate() = isNew(this) || this == prior(this);
 }
 
-isAncestorType(post, type) = type == null && post.ancestor == null || post.parent()[post.ancestor].type == type;
+isAncestorType(post, type) = type == 'root' || post.parent()[post.ancestor].type == type;
 
 isSignedUser() = auth != null;
 

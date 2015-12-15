@@ -22,7 +22,7 @@ let _postsRef = null;
 
 let _movePostId = false;
 
-class UserCache {
+class Cache {
     constructor(ref) {
         this.ref = ref;
         this.promises = {};
@@ -30,17 +30,19 @@ class UserCache {
 
     load(id) {
         if(!this.promises[id])
-            this.promises[id] = new Promise(resolve => {
-                this.ref.child(id).once('value', snap => {
-                    resolve(snap.val());
-                });
-            });
+            this.promises[id] = new Promise(resolve =>
+                this.ref.child(id).once('value', snap =>
+                    resolve(snap.val())));
 
         return this.promises[id];
-    };
+    }
+
+    ready() {
+        return Promise.all(_.values(this.promises));
+    }
 }
 
-const _userCache = new UserCache(USERS_REF);
+const _userCache = new Cache(USERS_REF);
 
 function login(user) {
     if (_selectedFeedRef)
@@ -66,21 +68,19 @@ function _selected(snap) {
 
     _feedId = feedId;
 
-    if (_postsRef) {
-        _postsRef.off('child_added', _added);
-        _postsRef.off('child_removed', _removed);
-    }
+    if (_postsRef)
+        _postsRef.off();
 
     _posts = {};
-    emit();
 
-    if (!_feedId)
-        return;
-
-    _postsRef = POSTS_REF.child(_feedId);
-    _postsRef.on('child_added', _added);
-    _postsRef.on('child_removed', _removed);
-    _postsRef.on('child_changed', _added);
+    if (_feedId) {
+        _postsRef = POSTS_REF.child(_feedId);
+        _postsRef.on('child_added', _added);
+        _postsRef.on('child_removed', _removed);
+        _postsRef.on('child_changed', _added);
+        _postsRef.on('value', () => _userCache.ready().then(emit));
+    } else
+        emit();
 }
 
 function _added(snap) {
@@ -92,10 +92,7 @@ function _added(snap) {
     ancestor.children[post.id] = post;
     _posts[ancestor.id] = ancestor;
 
-    _userCache.load(post.user).then(user => {
-        post.user = user;
-        emit();
-    });
+    _userCache.load(post.user).then(user => post.user = user);
 }
 
 function _removed(snap) {
@@ -103,7 +100,6 @@ function _removed(snap) {
     post.id = snap.key();
     delete _posts[post.ancestor].children[post.id];
     delete _posts[post.id];
-    emit();
 }
 
 function addPost(post) {
@@ -167,12 +163,8 @@ function addImage(imageUrl, tabId) {
 }
 
 function addComment(postId, text) {
-    const ancestorId = _posts[postId].type === 'comment'
-        ? _posts[postId].ancestor
-        : postId;
-
     const commentId = addPost({
-        ancestor: ancestorId,
+        ancestor: postId,
         type: 'comment',
         text: text
     });
@@ -202,23 +194,27 @@ function selectPost(postId) {
 }
 
 function emit() {
-    Store.emitUpdate({posts: _posts.root});
+    console.log('post emit');
+    Store.emitUpdate({posts: _posts.root || {}});
 }
 
-function movePost(postId, fromFeedId, toFeedId, withParent = true, withChildren = true) {
+function movePost(postId, fromFeedId, toFeedId, withAncestor = true, withChildren = true) {
     if (!postId)
         return;
+
+    const post = _posts[postId];
+    const ancestor = post.ancestor;
+    const children = _.map(post.children, 'id');
+
+    if (withAncestor)
+        movePost(ancestor, fromFeedId, toFeedId, true, false);
 
     POSTS_REF.child(fromFeedId + '/' + postId).once('value', snap =>
         POSTS_REF.child(toFeedId + '/' + postId).set(snap.val()));
 
-    const post = _posts[postId];
-
-    if (withChildren)
-        _.forEach(post.children, child => movePost(child.id, fromFeedId, toFeedId, withParent = false, withChildren = true));
-
-    if (withParent)
-        movePost(post.ancestor, fromFeedId, toFeedId, withParent = true, withChildren = false);
+    if (withChildren) //it's not working for unknown reason
+        _.forEach(children, child =>
+            movePost(child, fromFeedId, toFeedId, false, true));
 }
 
 Dispatcher.register(action => {
