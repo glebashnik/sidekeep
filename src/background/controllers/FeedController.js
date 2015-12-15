@@ -21,11 +21,11 @@ let _feedUsersRefs = {};
 let _selectedFeedRef = null;
 
 function login(user) {
-    if (_userFeedsRef) {
+    if (_userFeedsRef)
         _userFeedsRef.off();
-        _userFeedsRef.off();
+
+    if (_selectedFeedRef)
         _selectedFeedRef.off();
-    }
 
     _userId = user.id;
     _userFeedsRef = USERS_REF.child(_userId + '/feeds');
@@ -119,10 +119,9 @@ function addFeed(feedName) {
 
 function joinFeed(feedId, feedPassword) {
     const updates = {};
-    updates[`users/${_userId}/feeds/${feedId}`] = true;
     updates[`feeds/${feedId}/users/${_userId}`] = feedPassword;
+    updates[`users/${_userId}/feeds/${feedId}`] = true;
     FirebaseRef.update(updates);
-
     selectFeed(feedId);
 }
 
@@ -142,6 +141,7 @@ function selectFeed(feedId) {
 }
 
 function emit() {
+    console.log('feed emit');
     Store.emitUpdate({feeds: _feeds});
 }
 

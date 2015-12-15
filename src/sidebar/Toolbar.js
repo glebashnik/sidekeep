@@ -33,7 +33,7 @@ export default class Toolbar extends React.Component {
                 display: 'flex',
                 zIndex: 7,
                 width: '100%',
-                background: Theme.palette.backgroundToolbar,
+                background: Theme.palette.primary1Color,
                 alignItems: 'center'
             },
             icon: {
@@ -66,7 +66,9 @@ export default class Toolbar extends React.Component {
                         onClick={Actions.toggleFeedMenu}
                         iconClassName="material-icons"
                         color={Theme.palette.iconLight}
-                        hoverColor="white">
+                        hoverColor="white"
+                        selectColor="white"
+                        selected={this.props.ui.feedMenu}>
                         menu
                     </HoverIconButton>
                     <div style={styles.title} onClick={Actions.toggleFeedMenu}>{name}</div>

@@ -10,7 +10,7 @@
           ".validate": "newData.isString()"
         },
         "selectedFeed": {
-          ".validate": "newData.isString() && newData.parent().parent().parent().child('feeds').child(newData.val()).val() != null || newData.val() == null"
+          ".validate": "newData.isString() || newData.val() == null"
         },
         "feeds": {
           "$key1": {
@@ -43,7 +43,7 @@
         ".write": "data.val() == null || auth != null && newData.parent().parent().child('feeds').child($feedId).child('users').child(auth.uid).val() == newData.parent().parent().child('feeds').child($feedId).child('password').val()",
         "users": {
           "$userId": {
-            ".validate": "newData.isString() && (newData.val() == null || newData.val() == newData.parent().parent().parent().parent().child('feeds').child($feedId).child('password').val())",
+            ".validate": "newData.isString() && newData.val() == newData.parent().parent().parent().parent().child('feeds').child($feedId).child('password').val()",
             ".write": "auth != null && auth.uid == $userId"
           }
         }
@@ -54,7 +54,7 @@
         ".read": "auth != null && root.child('feeds').child($feedId).child('users').child(auth.uid).val() == root.child('feeds').child($feedId).child('password').val()",
         ".write": "auth != null && newData.parent().parent().child('feeds').child($feedId).child('users').child(auth.uid).val() == newData.parent().parent().child('feeds').child($feedId).child('password').val()",
         "$postId": {
-          ".validate": "newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['url', 'query']) && newData.child('type').val() == 'search' && (null == null && newData.child('ancestor').val() == null || newData.parent().child(newData.child('ancestor').val()).child('type').val() == null) || newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['url', 'title', 'favIconUrl']) && newData.child('type').val() == 'page' && (null == null && newData.child('ancestor').val() == null || newData.parent().child(newData.child('ancestor').val()).child('type').val() == null || ('search' == null && newData.child('ancestor').val() == null || newData.parent().child(newData.child('ancestor').val()).child('type').val() == 'search')) || newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['text']) && newData.child('type').val() == 'text' && ('page' == null && newData.child('ancestor').val() == null || newData.parent().child(newData.child('ancestor').val()).child('type').val() == 'page') || newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['image']) && newData.child('type').val() == 'image' && ('page' == null && newData.child('ancestor').val() == null || newData.parent().child(newData.child('ancestor').val()).child('type').val() == 'page') || newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['text']) && newData.child('type').val() == 'comment' && !(null == null && newData.child('ancestor').val() == null || newData.parent().child(newData.child('ancestor').val()).child('type').val() == null) && !('comment' == null && newData.child('ancestor').val() == null || newData.parent().child(newData.child('ancestor').val()).child('type').val() == 'comment')",
+          ".validate": "newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['url', 'query']) && newData.child('type').val() == 'search' && ('root' == 'root' || newData.parent().child(newData.child('ancestor').val()).child('type').val() == 'root') || newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['url', 'title', 'favIconUrl']) && newData.child('type').val() == 'page' && ('root' == 'root' || newData.parent().child(newData.child('ancestor').val()).child('type').val() == 'root' || ('search' == 'root' || newData.parent().child(newData.child('ancestor').val()).child('type').val() == 'search')) || newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['text']) && newData.child('type').val() == 'text' && ('page' == 'root' || newData.parent().child(newData.child('ancestor').val()).child('type').val() == 'page') || newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['image']) && newData.child('type').val() == 'image' && ('page' == 'root' || newData.parent().child(newData.child('ancestor').val()).child('type').val() == 'page') || newData.hasChildren() && newData.hasChildren(['type', 'user', 'timestamp', 'ancestor']) && newData.hasChildren(['text']) && newData.child('type').val() == 'comment'",
           "type": {
             ".validate": "newData.isString() || newData.isString() || newData.isString() || newData.isString() || newData.isString()"
           },

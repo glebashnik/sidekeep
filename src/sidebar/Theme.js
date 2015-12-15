@@ -6,8 +6,8 @@ export default {
     spacing: Spacing,
     fontFamily: 'Roboto, sans-serif',
     palette: {
-        primary1Color: '#3A539B',
-        primary2Color: '#3A539B',
+        primary1Color: Colors.indigo500,
+        primary2Color: Colors.indigo500,
         primary3Color: Colors.grey600,
         accent1Color: Colors.pinkA200,
         accent2Color: Colors.grey100,
@@ -22,7 +22,6 @@ export default {
 
         backgroundCard: 'white',
         backgroundFeed: '#EEEEEE',
-        backgroundToolbar: '#3A539B',
         backgroundSelect: '#FDE09D',
         backgroundHover: '#FEF3DA',
 
@@ -32,10 +31,10 @@ export default {
         textDark: Colors.darkBlack,
         textLight: 'white',
 
-        title: '#3A539B',
-        border: Colors.grey400,
+        title: Colors.indigo700,
+        border: Colors.grey300,
         time: Colors.grey600,
-        user: '#3A539B'
+        user: Colors.indigo800
     },
     font: {
         toolbar: '400 16px Roboto',
