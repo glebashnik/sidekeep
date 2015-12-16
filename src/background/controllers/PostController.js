@@ -175,10 +175,13 @@ function addComment(postId, text) {
 function removePost(postId) {
     const post = _posts[postId];
 
-    if (post.type === 'search')
-        _.forEach(post.children, child => _postsRef.child(child.id + '/ancestor').set(post.ancestor));
-    else
-        _.forEach(post.children, child => removePost(child.id));
+    switch(post.type) {
+        case 'page':
+            _.forEach(post.children, child => removePost(child.id));
+            break;
+        default:
+            _.forEach(post.children, child => _postsRef.child(child.id + '/ancestor').set(post.ancestor));
+    }
 
     _postsRef.child(postId).set(null);
     selectPost();
@@ -194,7 +197,6 @@ function selectPost(postId) {
 }
 
 function emit() {
-    console.log('post emit');
     Store.emitUpdate({posts: _posts.root || {}});
 }
 
