@@ -23,7 +23,7 @@ export default class ImageContent extends React.Component {
     };
 
     openImage = () => {
-        Actions.openPage(this.props.post.imageUrl);
+        Actions.openPage(this.props.post.image);
     };
 
     render() {
