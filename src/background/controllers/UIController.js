@@ -22,6 +22,7 @@ function emit() {
 
 function toggleSidebar() {
     _ui.sidebar = !_ui.sidebar;
+    chrome.browserAction.setIcon({path: _ui.sidebar ? 'images/icon19active.png' : 'images/icon19.png'});
     emit();
 }
 
@@ -29,10 +30,6 @@ function toggleFeedMenu() {
     _ui.feedMenu = !_ui.feedMenu;
     emit();
 }
-
-chrome.browserAction.onClicked.addListener(() => {
-    toggleSidebar();
-});
 
 function openPage(pageUrl, sourceTabId) {
     chrome.tabs.get(sourceTabId, sourceTab => {
@@ -64,6 +61,10 @@ Dispatcher.register(action => {
         case 'DISMISS_NOTIFICATION':
             Store.state.ui.notification = undefined;
             Store.emit();
+            break;
+
+        case 'CLOSE_TAB':
+            chrome.tabs.remove(action.tabId);
             break;
     }
 });

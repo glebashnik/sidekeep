@@ -1,5 +1,6 @@
 import Dispatcher from '../shared/Dispatcher';
 import Store from '../shared/Store';
+import Actions from '../shared/Actions';
 import Auth from './Auth';
 
 let initialized = false;
@@ -26,6 +27,11 @@ function init() {
 
 chrome.runtime.onStartup.addListener(() => {
     init();
+});
+
+
+chrome.browserAction.onClicked.addListener(() => {
+    Actions.toggleSidebar();
 });
 
 

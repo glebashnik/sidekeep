@@ -9,6 +9,7 @@ function getFeed() {
     const state = Store.state;
     const feed = state.posts;
     feed.name = state.feeds[state.user.selectedFeed].name;
+    feed.id = state.user.selectedFeed;
     return feed;
 }
 

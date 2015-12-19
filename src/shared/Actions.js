@@ -139,5 +139,17 @@ export default {
             type: 'SELECT_POST',
             postId: postId
         });
+    },
+
+    closeTab() {
+        Dispatcher.dispatch({
+            type: 'CLOSE_TAB'
+        });
+    },
+
+    addStartFeed() {
+        Dispatcher.dispatch({
+            type: 'ADD_START_FEED'
+        });
     }
 }
