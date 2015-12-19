@@ -17,37 +17,11 @@ chrome.webNavigation.onCommitted.addListener(details => {
     });
 });
 
-//todo It doesn't seem to fire at all.
-// Fired when any HTTP request is made (used to detect AJAX searches)
-chrome.webRequest.onSendHeaders.addListener(details => {
-        if (details.method != 'GET' || !UrlHelper.isSearch(details.url)) return;
-
-        addEvent(details.tabId, {
-            type: 'ajax',
-            qualifiers: [],
-            timestamp: details.timeStamp,
-            url: details.url
-        });
-    },
-    {urls: ['<all_urls>'], types: ['xmlhttprequest']});
-
 // Fired when using "Open in new Tab/Window"
 chrome.webNavigation.onCreatedNavigationTarget.addListener(details => {
     // Continue trace from original tab
     traces[details.tabId] = (traces[details.sourceTabId] || []).slice(0);
 });
-
-//chrome.webRequest.onCompleted.addListener(details => {
-//        if (details.method != 'GET' || !UrlHelper.isSearch(details.url)) return;
-//
-//        addEvent(details.tabId, {
-//            type: 'ajax',
-//            qualifiers: [],
-//            timestamp: details.timeStamp,
-//            url: details.url
-//        });
-//    },
-//    {urls: ['<all_urls>'], types: ['xmlhttprequest']});
 
 // Fired when using "Open in new Tab/Window"
 chrome.webNavigation.onCreatedNavigationTarget.addListener(details => {

@@ -1,8 +1,8 @@
 {
-  "name": "Sidekeep",
-  "version": "0.1.6.8",
+  "name": "Sidekeep Beta",
+  "version": "0.1.7.1",
   "manifest_version": 2,
-  "description": "Sidekeep is an easy to use sidebar for collecting pieces of information your find online.",
+  "description": "Research sidebar for collecting and organizing information.",
   "homepage_url": "https://aftersearch.firebaseapp.com/tutorial/tutorial.html",
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
   "icons": {
@@ -42,7 +42,6 @@
     "activeTab",
     "contextMenus",
     "webNavigation",
-    "webRequest",
     "downloads",
     "identity"
   ],

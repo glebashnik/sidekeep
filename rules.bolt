@@ -14,7 +14,7 @@ path /feeds/$feedId/users/$userId is String {
 }
 
 path /posts/$feedId {
-	read() = isFeedUser($feedId);
+	read() = isFeedUser($feedId) || $feedId == 'start';
 	write() = isFeedUser($feedId);
 }
 
@@ -35,9 +35,9 @@ type Feed {
 
 type Post {
 	type: String,
-	user: UserId,
+	user: String,
 	timestamp: Number,
-	ancestor: AncestorId
+	ancestor: String
 }
 
 type Search extends Post {
@@ -84,7 +84,8 @@ type Immutable<T> {
 	validate() = isNew(this) || this == prior(this);
 }
 
-isAncestorType(post, type) = type == 'root' || post.parent()[post.ancestor].type == type;
+isAncestorType(post, type) = true;
+//type == 'root' || post.parent()[post.ancestor].type == type;
 
 isSignedUser() = auth != null;
 

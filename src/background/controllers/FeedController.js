@@ -29,21 +29,24 @@ function login(user) {
 
     _userId = user.id;
     _userFeedsRef = USERS_REF.child(_userId + '/feeds');
-    _userFeedsRef.on('child_added', _userFeedAdded);
-    _userFeedsRef.on('child_removed', _userFeedRemoved);
+    _userFeedsRef.on('child_added', _feedAdded);
+    _userFeedsRef.on('child_removed', _feedRemoved);
 
     _selectedFeedRef = USERS_REF.child(_userId + '/selectedFeed');
     _selectedFeedRef.on('value', _feedSelected);
 }
 
-function _userFeedAdded(userFeedSnap) {
+function _feedAdded(userFeedSnap) {
     let newFeedUser = false;
     const feedId = userFeedSnap.key();
     const feedRef = FEEDS_REF.child(feedId);
     _feedRefs[feedId] = feedRef;
 
     feedRef.on('value', feedSnap => {
-        _feeds[feedId] = Object.assign({id: feedId, selected: feedId === _selectedFeedId}, feedSnap.val());
+        _feeds[feedId] = Object.assign(
+            {id: feedId, selected: feedId === _selectedFeedId},
+            feedSnap.val());
+
         emit();
         newFeedUser = true;
     });
@@ -80,7 +83,7 @@ function _userFeedAdded(userFeedSnap) {
     });
 }
 
-function _userFeedRemoved(snap) {
+function _feedRemoved(snap) {
     const id = snap.key();
     const feed = _feeds[id];
 
@@ -106,23 +109,35 @@ function _feedSelected(snap) {
 }
 
 function addFeed(feedName) {
-    const feedPassword = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(feedName)).toString();
+    return new Promise(resolve => {
+        const feed = {
+            name: feedName,
+            timestamp: Firebase.ServerValue.TIMESTAMP,
+            password: CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(feedName)).toString()
+        };
 
-    const feedId = FEEDS_REF.push({
-        name: feedName,
-        timestamp: Firebase.ServerValue.TIMESTAMP,
-        password: feedPassword
-    }).key();
+        const feedRef = FEEDS_REF.push();
+        const feedId = feedRef.key();
+        feedRef.set(feed, () => joinFeed(feedId, feed.password).then(() => resolve(feedId)));
+    })
+}
 
-    joinFeed(feedId, feedPassword);
+function addStartFeed() {
+    addFeed('Getting Started').then(feedId => {
+        FirebaseRef.child(`posts/start`).once('value', snap => {
+            FirebaseRef.child(`posts/${feedId}`).set(snap.val())
+        })
+    });
 }
 
 function joinFeed(feedId, feedPassword) {
-    const updates = {};
-    updates[`feeds/${feedId}/users/${_userId}`] = feedPassword;
-    updates[`users/${_userId}/feeds/${feedId}`] = true;
-    FirebaseRef.update(updates);
-    selectFeed(feedId);
+    return new Promise(resolve => {
+        const updates = {};
+        updates[`feeds/${feedId}/users/${_userId}`] = feedPassword;
+        updates[`users/${_userId}/feeds/${feedId}`] = true;
+        updates[`users/${_userId}/selectedFeed`] = feedId;
+        FirebaseRef.update(updates, resolve);
+    });
 }
 
 function removeFeed(feedId) {
@@ -155,9 +170,12 @@ Dispatcher.register((action) => {
             addFeed(action.feedName);
             break;
 
+        case 'ADD_START_FEED':
+            addStartFeed();
+            break;
+
         case 'JOIN_FEED':
             joinFeed(action.feedId, action.feedPassword);
-            chrome.tabs.remove(action.tabId);
             break;
 
         case 'REMOVE_FEED':

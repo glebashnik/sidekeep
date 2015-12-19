@@ -16,6 +16,7 @@ if (document.URL.indexOf('https://aftersearch-dev.firebaseapp.com/join.html') ==
 
         if (id && password) {
             Actions.joinFeed(id, password);
+            Actions.closeTab();
             clearInterval(interval);
         }
     }
