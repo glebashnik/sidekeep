@@ -35,7 +35,7 @@ function exportToPowerpoint() {
 
 function exportToGoogleDoc() {
     const feed = getFeed();
-    GoogleDriveAPI.exportFeedToGoogleDoc(feed, link => chrome.tabs.create({url: link}));
+    GoogleDriveAPI.exportFeedToGoogleDoc(feed).then(link => chrome.tabs.create({url: link}));
 }
 
 Dispatcher.register((action) => {
