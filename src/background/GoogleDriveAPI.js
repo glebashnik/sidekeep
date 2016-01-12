@@ -50,47 +50,45 @@ function authorizeGapi(callback) {
 }
 
 function generateGoogleDoc(title, html, callback) {
-    new Promise(resolve => {
-        const boundary = '-------314159265358979323846';
-        const delimiter = "\r\n--" + boundary + "\r\n";
-        const close_delim = "\r\n--" + boundary + "--";
+    const boundary = '-------314159265358979323846';
+    const delimiter = "\r\n--" + boundary + "\r\n";
+    const close_delim = "\r\n--" + boundary + "--";
 
-        const params = {
-            'uploadType': 'multipart',
-            'convert': true
-        };
+    const params = {
+        'uploadType': 'multipart',
+        'convert': true
+    };
 
-        const headers = {
-            'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-        };
+    const headers = {
+        'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+    };
 
-        const contentType = 'text/html';
+    const contentType = 'text/html';
 
-        const metadata = {
-            'title': title,
-            'mimeType': contentType
-        };
+    const metadata = {
+        'title': title,
+        'mimeType': contentType
+    };
 
-        const body =
-            delimiter +
-            'Content-Type: application/json\r\n\r\n' +
-            JSON.stringify(metadata) +
-            delimiter +
-            'Content-Type: ' + contentType + '\r\n' +
-            '\r\n' +
-            html +
-            close_delim;
+    const body =
+        delimiter +
+        'Content-Type: application/json\r\n\r\n' +
+        JSON.stringify(metadata) +
+        delimiter +
+        'Content-Type: ' + contentType + '\r\n' +
+        '\r\n' +
+        html +
+        close_delim;
 
-        const request = gapi.client.request({
-            'path': '/upload/drive/v2/files',
-            'method': 'POST',
-            'params': params,
-            'headers': headers,
-            'body': body
-        });
-
-        request.execute(response => callback(response.alternateLink));
+    const request = gapi.client.request({
+        'path': '/upload/drive/v2/files',
+        'method': 'POST',
+        'params': params,
+        'headers': headers,
+        'body': body
     });
+
+    request.execute(response => callback(response.alternateLink));
 }
 
 export default {
