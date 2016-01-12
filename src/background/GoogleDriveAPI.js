@@ -35,65 +35,68 @@ function toHTML(feed) {
     return html;
 }
 
-let authorized = false;
+let authorized;
 
-function authorizeGapi(callback) {
-    if (authorized)
-        callback();
-    else
-        gapi.auth.authorize(
-            {
-                'client_id': '845684901574-p8j67pm2h7l30qb1esii9ultirs1cm54.apps.googleusercontent.com',
-                'scope': 'https://www.googleapis.com/auth/drive.file',
-                'immediate': true
-            }, callback);
+function authorize() {
+    if (!authorized)
+        authorized = new Promise(resolve =>
+            gapi.auth.authorize(
+                {
+                    'client_id': '845684901574-p8j67pm2h7l30qb1esii9ultirs1cm54.apps.googleusercontent.com',
+                    'scope': 'https://www.googleapis.com/auth/drive.file',
+                    'immediate': true
+                }, resolve));
+
+    return authorized;
 }
 
-function generateGoogleDoc(title, html, callback) {
-    const boundary = '-------314159265358979323846';
-    const delimiter = "\r\n--" + boundary + "\r\n";
-    const close_delim = "\r\n--" + boundary + "--";
+function generateGoogleDoc(title, html) {
+    return new Promise(resolve => {
+        const boundary = '-------314159265358979323846';
+        const delimiter = "\r\n--" + boundary + "\r\n";
+        const close_delim = "\r\n--" + boundary + "--";
 
-    const params = {
-        'uploadType': 'multipart',
-        'convert': true
-    };
+        const params = {
+            'uploadType': 'multipart',
+            'convert': true
+        };
 
-    const headers = {
-        'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-    };
+        const headers = {
+            'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+        };
 
-    const contentType = 'text/html';
+        const contentType = 'text/html';
 
-    const metadata = {
-        'title': title,
-        'mimeType': contentType
-    };
+        const metadata = {
+            'title': title,
+            'mimeType': contentType
+        };
 
-    const body =
-        delimiter +
-        'Content-Type: application/json\r\n\r\n' +
-        JSON.stringify(metadata) +
-        delimiter +
-        'Content-Type: ' + contentType + '\r\n' +
-        '\r\n' +
-        html +
-        close_delim;
+        const body =
+            delimiter +
+            'Content-Type: application/json\r\n\r\n' +
+            JSON.stringify(metadata) +
+            delimiter +
+            'Content-Type: ' + contentType + '\r\n' +
+            '\r\n' +
+            html +
+            close_delim;
 
-    const request = gapi.client.request({
-        'path': '/upload/drive/v2/files',
-        'method': 'POST',
-        'params': params,
-        'headers': headers,
-        'body': body
+        const request = gapi.client.request({
+            'path': '/upload/drive/v2/files',
+            'method': 'POST',
+            'params': params,
+            'headers': headers,
+            'body': body
+        });
+
+        request.execute(response => resolve(response.alternateLink));
     });
-
-    request.execute(response => callback(response.alternateLink));
 }
 
 export default {
-    exportFeedToGoogleDoc(feed, callback) {
+    exportFeedToGoogleDoc(feed) {
         const html = toHTML(feed);
-        return authorizeGapi(() => generateGoogleDoc(feed.name, html, callback));
+        return authorize().then(() => generateGoogleDoc(feed.name, html));
     }
 }
