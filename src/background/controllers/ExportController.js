@@ -1,6 +1,8 @@
 import Dispatcher from '../../shared/Dispatcher';
 import Firebase from '../FirebaseRef';
 import Store from '../../shared/Store';
+import GoogleDriveAPI from '../GoogleDriveAPI';
+import Actions from '../../shared/Actions'
 
 const url = 'https://aftersearchexport.dotcloudapp.com';
 //const url = 'http://localhost:9000';
@@ -31,10 +33,18 @@ function exportToPowerpoint() {
     });
 }
 
+function exportToGoogleDoc() {
+    const feed = getFeed();
+    GoogleDriveAPI.exportFeedToGoogleDoc(feed, link => chrome.tabs.create({url: link}));
+}
+
 Dispatcher.register((action) => {
     switch (action.type) {
         case 'EXPORT_TO_WORD':
             exportToWord();
+            break;
+        case 'EXPORT_TO_GOOGLE_DOC':
+            exportToGoogleDoc();
             break;
         case 'EXPORT_TO_POWERPOINT':
             exportToPowerpoint();

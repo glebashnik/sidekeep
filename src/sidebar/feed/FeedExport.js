@@ -17,7 +17,7 @@ export default class FeedExport extends React.Component {
             buttons: {
                 display: 'flex',
                 justifyContent: 'center',
-                marginTop: 30
+                marginTop: 40
             },
             button: {
                 margin: '0 10px 0 10px'
@@ -27,11 +27,11 @@ export default class FeedExport extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.text}>
-                    Download collected information as a Word document. Click Export button and wait for download to start.
+                    Export collected information to a document.
                 </div>
                 <div style={styles.buttons}>
-                    <RaisedButton style={styles.button} label="Export" onClick={Actions.exportToWord}/>
-                    <RaisedButton style={styles.button} label="Close" onClick={Actions.toggleFeedMenu}/>
+                    <RaisedButton style={styles.button} label="Google Doc" onClick={Actions.exportToGoogleDoc}/>
+                    <RaisedButton style={styles.button} label="Word" onClick={Actions.exportToWord}/>
                 </div>
             </div>
         );

@@ -1,18 +1,20 @@
 {
-  "name": "Sidekeep Beta",
-  "version": "0.1.7.1",
+  "name": "Sidekeep - Collect information with ease!",
+  "short_name": "Sidekeep",
+  "version": "0.1.7.9",
   "manifest_version": 2,
-  "description": "Research sidebar for collecting and organizing information.",
+  "description": "Collect, organize and export information in the browser.",
   "homepage_url": "https://aftersearch.firebaseapp.com/tutorial/tutorial.html",
-  "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
   "icons": {
-    "16": "images/icon16.png",
+    "128": "images/icon128.png",
     "48": "images/icon48.png",
-    "128": "images/icon128.png"
+    "16": "images/icon16.png"
   },
   "background": {
     "scripts": [
-      "src/background.js"
+      "src/background.js",
+      "src/gapi.js"
     ],
     "persistent": true
   },
@@ -48,7 +50,8 @@
   "oauth2": {
     "client_id": "845684901574-p8j67pm2h7l30qb1esii9ultirs1cm54.apps.googleusercontent.com",
     "scopes": [
-      "profile"
+      "profile",
+      "https://www.googleapis.com/auth/drive.file"
     ]
   },
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkvRR+4gWrpZx2wZfulvB7OkYti5v5RRKeLVU1i7wunlkFqhamZfNqiy1sbjIzuX5GkC/KqJ80aoNnG6sPpjK69EvU8X5J5zkk0qjOG/MY0Cvjhd1oVkFTXk6WJSklwAVniv5/jOCE1pRoVZBBqr3z8Yc6oKqg2JoW7ADK0mTpX7oydZFQF7qvni71ykv2NQ0TBa+3LOTrbzkw+3hD9uM79j+nCMhdKDxYg5TiJEpaDaD5OtpSkjhJumIytk04+9+5yCjDY5TEX9NZhZCMp88ekvrJeocjgRBsvX2wdYUFPYLYN/9VeMZ9gw4Ru0S3OihgOxpNbrYdkXrzBejsprA3QIDAQAB"

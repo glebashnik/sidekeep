@@ -38,6 +38,13 @@ export default {
         });
     },
 
+    exportToGoogleDoc() {
+        Dispatcher.dispatch({
+            type: 'EXPORT_TO_GOOGLE_DOC'
+        });
+    },
+
+
     addFeed(feedName) {
         Dispatcher.dispatch({
             type: 'ADD_FEED',
