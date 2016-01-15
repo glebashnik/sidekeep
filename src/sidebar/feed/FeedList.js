@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import Colors from 'material-ui/lib/styles/colors';
 
+import NewFeed from './NewFeed';
 import FeedItem from './FeedItem';
 
 export default class FeedList extends React.Component {
@@ -14,6 +15,7 @@ export default class FeedList extends React.Component {
 
         return (
             <div>
+                <NewFeed/>
                 {feeds.map(feed => <FeedItem key={feed.id} feed={feed}/>)}
             </div>
         );

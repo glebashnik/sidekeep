@@ -1,7 +1,7 @@
 {
-  "name": "Sidekeep Beta - Collect information with ease!",
+  "name": "Sidekeep - Collect information with ease!",
   "short_name": "Sidekeep",
-  "version": "0.1.8.0",
+  "version": "0.1.8.1",
   "manifest_version": 2,
   "description": "Collect, organize and export information in the browser.",
   "homepage_url": "https://aftersearch.firebaseapp.com/tutorial/tutorial.html",

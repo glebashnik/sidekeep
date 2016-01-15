@@ -2,7 +2,7 @@ import _ from 'lodash';
 import * as UrlHelper from './UrlHelper';
 
 function removeChrome(trace) {
-    return _.filter(trace, t => !_.include(t.url, '/_/chrome/newtab?'))
+    return _.filter(trace, t => !_.includes(t.url, '/_/chrome/newtab?'))
 }
 
 function removeLoops(trace) {

@@ -47,7 +47,7 @@ export default class Toolbar extends React.Component {
 
         const state = this.props.state;
         const selectedFeedId = state.user.selectedFeed;
-        const selectedFeedName = selectedFeedId ? state.feeds[selectedFeedId].name : '';
+        const selectedFeedName = selectedFeedId ? state.feeds[selectedFeedId].name : 'Create or select a topic';
         const feedMenuElem = state.ui.feedMenu ? <FeedMenu state={state}/> : null;
 
         return (

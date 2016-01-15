@@ -1,8 +1,6 @@
 import React from 'react';
 import RaisedButton from 'material-ui/lib/raised-button';
 import LinearProgress from 'material-ui/lib/linear-progress';
-import DriveIcon from '../icons/DriveIcon';
-import WordIcon from '../icons/WordIcon';
 
 import Actions from '../../shared/Actions';
 

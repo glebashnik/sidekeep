@@ -1,7 +1,7 @@
 import React from 'react';
 import SvgIcon from 'material-ui/lib/svg-icon';
 
-export default class ExportIcon extends React.Component {
+export default class extends React.Component {
     render() {
         return (
             <SvgIcon {...this.props}>
