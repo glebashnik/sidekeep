@@ -11,7 +11,8 @@
     "query-string": "*",
     "copy-to-clipboard": "*",
     "moment": "*",
-    "crypto-js": "*"
+    "crypto-js": "*",
+    "react-addons-pure-render-mixin": "*"
   },
   "devDependencies": {
     "babelify": "*",
