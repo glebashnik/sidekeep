@@ -15,27 +15,44 @@ function getFeed() {
     return feed;
 }
 
+function startExporting() {
+    Store.emitUpdate({isExporting: true});
+}
+
+function endExporting() {
+    Store.emitUpdate({isExporting: false});
+}
+
 function exportToWord() {
+    startExporting();
+
     chrome.downloads.download({
         url: url + '/docx',
         method: 'POST',
         headers: [{name: 'content-type', value: 'application/json'}],
         body: JSON.stringify(getFeed())
-    });
+    }, endExporting);
 }
 
 function exportToPowerpoint() {
+    startExporting();
+
     chrome.downloads.download({
         url: url + '/pptx',
         method: 'POST',
         headers: [{name: 'content-type', value: 'application/json'}],
         body: JSON.stringify(getFeed())
-    });
+    }, endExporting);
 }
 
 function exportToGoogleDoc() {
+    startExporting();
+
     const feed = getFeed();
-    GoogleDriveAPI.exportFeedToGoogleDoc(feed).then(link => chrome.tabs.create({url: link}));
+    GoogleDriveAPI.exportFeedToGoogleDoc(feed).then(link => {
+        endExporting();
+        chrome.tabs.create({url: link})
+    });
 }
 
 Dispatcher.register((action) => {

@@ -10,14 +10,7 @@ import Actions from '../shared/Actions';
 
 export default class Toolbar extends React.Component {
     static propTypes = {
-        ui: React.PropTypes.object.isRequired,
-        user: React.PropTypes.object.isRequired,
-        feeds: React.PropTypes.object.isRequired
-    };
-
-    renameFeed = (e) => {
-        Actions.renameFeed(this.props.user.selectedFeed, e.target.value);
-        e.target.blur();
+        state: React.PropTypes.object
     };
 
     render() {
@@ -52,12 +45,10 @@ export default class Toolbar extends React.Component {
             }
         };
 
-        const id = this.props.user.selectedFeed;
-        const name = id ? this.props.feeds[id].name : '';
-
-        const feedMenuElem = this.props.ui.feedMenu
-            ? <FeedMenu feeds={this.props.feeds}/>
-            : undefined;
+        const state = this.props.state;
+        const selectedFeedId = state.user.selectedFeed;
+        const selectedFeedName = selectedFeedId ? state.feeds[selectedFeedId].name : '';
+        const feedMenuElem = state.ui.feedMenu ? <FeedMenu state={state}/> : null;
 
         return (
             <div style={styles.container}>
@@ -68,10 +59,10 @@ export default class Toolbar extends React.Component {
                         color={Theme.palette.iconLight}
                         hoverColor="white"
                         selectColor="white"
-                        selected={this.props.ui.feedMenu}>
+                        selected={state.ui.feedMenu}>
                         menu
                     </HoverIconButton>
-                    <div style={styles.title} onClick={Actions.toggleFeedMenu}>{name}</div>
+                    <div style={styles.title} onClick={Actions.toggleFeedMenu}>{selectedFeedName}</div>
                     <HoverIconButton
                         onClick={Actions.toggleSidebar}
                         iconClassName="material-icons"

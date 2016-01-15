@@ -44,7 +44,7 @@ class Cache {
 
 const _userCache = new Cache(USERS_REF);
 
-function login(user) {
+function endLogin(user) {
     if (_selectedFeedRef)
         _selectedFeedRef.off('value', _selected);
 
@@ -221,8 +221,8 @@ function movePost(postId, fromFeedId, toFeedId, withAncestor = true, withChildre
 
 Dispatcher.register(action => {
     switch (action.type) {
-        case 'LOGIN':
-            login(action.user);
+        case 'END_LOGIN':
+            endLogin(action.user);
             break;
 
         case 'ADD_TEXT':

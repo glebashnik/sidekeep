@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import Dispatcher from '../../shared/Dispatcher';
 import Store from '../../shared/Store';
 import Actions from '../../shared/Actions';
@@ -7,7 +6,29 @@ import FirebaseRef from '../FirebaseRef';
 const USERS_REF = FirebaseRef.child('users');
 let _userRef = null;
 
-function login(user) {
+function startLogin() {
+    FirebaseRef.onAuth(auth => {
+        if (auth)
+            Actions.endLogin({
+                id: auth.uid,
+                name: auth.google.displayName,
+                image: auth.google.profileImageURL
+            });
+        else
+            chrome.identity.getAuthToken({interactive: true}, token => {
+                if (token)
+                    FirebaseRef.authWithOAuthToken('google', token, error => {
+                        if (error)
+                            console.log(error);
+                    });
+                else
+                    console.log(chrome.runtime.lastError)
+            });
+    });
+}
+
+
+function endLogin(user) {
     if (_userRef)
         _userRef.off('value', _updated);
 
@@ -41,8 +62,12 @@ function _updated(snap) {
 
 Dispatcher.register((action) => {
     switch (action.type) {
-        case 'LOGIN':
-            login(action.user);
+        case 'START_LOGIN':
+            startLogin();
+            break;
+
+        case 'END_LOGIN':
+            endLogin(action.user);
             break;
     }
 });

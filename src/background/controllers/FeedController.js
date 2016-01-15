@@ -20,7 +20,7 @@ let _userFeedsRef = null;
 let _feedUsersRefs = {};
 let _selectedFeedRef = null;
 
-function login(user) {
+function endLogin(user) {
     if (_userFeedsRef)
         _userFeedsRef.off();
 
@@ -156,14 +156,13 @@ function selectFeed(feedId) {
 }
 
 function emit() {
-    console.log('feed emit');
     Store.emitUpdate({feeds: _feeds});
 }
 
 Dispatcher.register((action) => {
     switch (action.type) {
-        case 'LOGIN':
-            login(action.user);
+        case 'END_LOGIN':
+            endLogin(action.user);
             break;
 
         case 'ADD_FEED':

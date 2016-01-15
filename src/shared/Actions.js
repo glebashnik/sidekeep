@@ -1,9 +1,15 @@
 import Dispatcher from './Dispatcher'
 
 export default {
-    login(user) {
+    startLogin() {
         Dispatcher.dispatch({
-            type: 'LOGIN',
+            type: 'START_LOGIN'
+        });
+    },
+
+    endLogin(user) {
+        Dispatcher.dispatch({
+            type: 'END_LOGIN',
             user: user
         });
     },
@@ -157,6 +163,13 @@ export default {
     addStartFeed() {
         Dispatcher.dispatch({
             type: 'ADD_START_FEED'
+        });
+    },
+
+    changeTab(tab) {
+        Dispatcher.dispatch({
+            type: 'CHANGE_TAB',
+            tab: tab
         });
     }
 }
