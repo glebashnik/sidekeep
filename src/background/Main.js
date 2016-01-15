@@ -1,7 +1,6 @@
 import Dispatcher from '../shared/Dispatcher';
 import Store from '../shared/Store';
 import Actions from '../shared/Actions';
-import Auth from './Auth';
 
 let initialized = false;
 
@@ -22,7 +21,7 @@ function init() {
     require('./Tracer');
     require('./ContextMenu');
 
-    Auth.login();
+    Actions.startLogin();
 }
 
 chrome.runtime.onStartup.addListener(() => {

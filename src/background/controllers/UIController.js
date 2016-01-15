@@ -66,5 +66,9 @@ Dispatcher.register(action => {
         case 'CLOSE_TAB':
             chrome.tabs.remove(action.tabId);
             break;
+
+        case 'CHANGE_TAB':
+            Store.emitUpdate({tab: action.tab});
+            break;
     }
 });

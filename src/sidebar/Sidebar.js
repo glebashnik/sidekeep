@@ -81,7 +81,7 @@ class Sidebar extends React.Component {
 
         return (
             <div style={styles.container}>
-                <Toolbar ui={this.state.ui} user={this.state.user} feeds={this.state.feeds}/>
+                <Toolbar state={this.state}/>
                 <div style={styles.feed}>
                     {postElems}
                 </div>

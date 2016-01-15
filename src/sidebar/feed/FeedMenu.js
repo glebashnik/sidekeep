@@ -12,25 +12,12 @@ import FeedEdit from './FeedEdit';
 import FeedShare from './FeedShare';
 import FeedExport from './FeedExport';
 import FeedRemove from './FeedRemove';
-import ExportIcon from '../icons/ExportIcon';
 
 import Actions from '../../shared/Actions';
 
 export default class FeedMenu extends React.Component {
     static propTypes = {
-        feeds: React.PropTypes.object.isRequired
-    };
-
-    state = {
-        tab: 'list'
-    };
-
-    selectedFeed = () => {
-        return _.find(this.props.feeds, {selected: true})
-    };
-
-    change = (value) => {
-        this.setState({tab: value});
+        state: React.PropTypes.object.isRequired
     };
 
     render() {
@@ -63,26 +50,27 @@ export default class FeedMenu extends React.Component {
             }
         };
 
-        const feed = this.selectedFeed();
+        const state = this.props.state;
+        const selectedFeed = _.find(this.props.state.feeds, {selected: true});
 
         return (
             <div style={styles.container}>
                 <Tabs
                     inkBarStyle={styles.inkBar}
                     contentContainerStyle={styles.content}
-                    value={this.state.tab}
-                    onChange={this.change}>
+                    value={state.tab}
+                    onChange={Actions.changeTab}>
                     <Tab value="list"
                          label={<HoverIconButton
                                     iconClassName="material-icons"
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={this.state.tab === 'list'}
+                                    selected={state.tab === 'list'}
                                     tooltip="Topics">
                                     folder
                                 </HoverIconButton>}>
-                        <FeedList feeds={this.props.feeds}/>
+                        <FeedList feeds={state.feeds}/>
                     </Tab>
                     <Tab value="add"
                          label={<HoverIconButton
@@ -90,7 +78,7 @@ export default class FeedMenu extends React.Component {
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={this.state.tab === 'add'}
+                                    selected={state.tab === 'add'}
                                     tooltip="New">
                                     add
                                 </HoverIconButton>}>
@@ -102,11 +90,11 @@ export default class FeedMenu extends React.Component {
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={this.state.tab === 'edit'}
+                                    selected={state.tab === 'edit'}
                                     tooltip="Rename">
                                     edit
                                 </HoverIconButton>}>
-                        {feed ? <FeedEdit feed={feed}/> : null}
+                        {selectedFeed ? <FeedEdit feed={selectedFeed}/> : null}
                     </Tab>
                     <Tab value="collaborate"
                          label={<HoverIconButton
@@ -114,11 +102,11 @@ export default class FeedMenu extends React.Component {
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={this.state.tab === 'collaborate'}
+                                    selected={state.tab === 'collaborate'}
                                     tooltip="Collaborate">
                                     group
                                 </HoverIconButton>}>
-                        {feed ? <FeedShare feed={feed}/> : null}
+                        {selectedFeed ? <FeedShare feed={selectedFeed}/> : null}
                     </Tab>
                     <Tab value="export"
                          label={<HoverIconButton
@@ -126,11 +114,11 @@ export default class FeedMenu extends React.Component {
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={this.state.tab === 'export'}
+                                    selected={state.tab === 'export'}
                                     tooltip="Export">
                                     file_download
                                 </HoverIconButton>}>
-                        {feed ? <FeedExport/> : null}
+                        {selectedFeed ? <FeedExport state={state}/> : null}
                     </Tab>
                     <Tab value="remove"
                          label={<HoverIconButton
@@ -138,11 +126,11 @@ export default class FeedMenu extends React.Component {
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={this.state.tab === 'remove'}
+                                    selected={state.tab === 'remove'}
                                     tooltip="Delete">
                                     delete
                                 </HoverIconButton>}>
-                        {feed ? <FeedRemove feed={feed}/> : null}
+                        {selectedFeed ? <FeedRemove feed={selectedFeed}/> : null}
                     </Tab>
                 </Tabs>
                 <div style={styles.overlay} onClick={Actions.toggleFeedMenu}/>

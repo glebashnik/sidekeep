@@ -7,7 +7,9 @@ export default {
         user: {},
         posts: {},
         feeds: {},
-        ui: {}
+        ui: {},
+        tab: 'list',
+        isExporting: false
     },
 
     listeners: [],
