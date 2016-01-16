@@ -4,8 +4,8 @@ import Store from '../../shared/Store';
 import GoogleDriveAPI from '../GoogleDriveAPI';
 import Actions from '../../shared/Actions'
 
-const url = 'https://aftersearchexport.dotcloudapp.com';
-//const url = 'http://localhost:9000';
+//const url = 'https://aftersearchexport.dotcloudapp.com';
+const url = 'http://localhost:9000';
 
 function getFeed() {
     const state = Store.state;
