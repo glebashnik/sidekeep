@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Colors from 'material-ui/lib/styles/colors';
 import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import copy from 'copy-to-clipboard';
@@ -12,7 +13,7 @@ export default class FeedShare extends React.Component {
     };
 
     state = {
-        url: `https://aftersearch-dev.firebaseapp.com/join.html?id=${encodeURIComponent(this.props.feed.id)}&password=${encodeURIComponent(this.props.feed.password)}`
+        url: `https://aftersearch.firebaseapp.com/join.html?id=${encodeURIComponent(this.props.feed.id)}&password=${encodeURIComponent(this.props.feed.password)}`
     };
 
     copy = () => {
@@ -42,15 +43,14 @@ export default class FeedShare extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.text}>
-                    Collaborate when searching and collecting information.
-                    Copy this link and send it to your friends by email or chat.
+                    Collaborate with friends. Copy the link below and send it to your friends by email or chat.
                 </div>
                 <TextField
                     disabled={true}
                     defaultValue={this.state.url}/>
                 <div style={styles.buttons}>
-                    <RaisedButton style={styles.button} label="Copy link" onClick={this.copy}/>
-                    <RaisedButton style={styles.button} label="Close" onClick={Actions.toggleFeedMenu}/>
+                    <RaisedButton style={styles.button} backgroundColor={Colors.greenA700} labelColor="white" label="Copy link" onClick={this.copy}/>
+                    <RaisedButton style={styles.button} label="Close" onClick={Actions.toggleMenu}/>
                 </div>
             </div>
         );

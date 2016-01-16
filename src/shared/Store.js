@@ -7,15 +7,18 @@ export default {
         user: {},
         posts: {},
         feeds: {},
-        ui: {},
-        tab: 'list',
-        isExporting: false
+        ui: {
+            sidebar: false,
+            menu: false,
+            tab: 'list',
+            exporting: false,
+            notification: null
+        }
     },
 
     listeners: [],
 
     ports: [],
-
 
     addListener(callback) {
         this.listeners.push(callback);

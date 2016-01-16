@@ -24,7 +24,7 @@ export default class EditFeed extends React.Component {
 
         if (this.isValid()) {
             Actions.renameFeed(this.props.feed.id, nameField.getValue());
-            Actions.toggleFeedMenu();
+            Actions.toggleMenu();
         } else
             nameField.setErrorText("Topic name can't be empty");
     };
@@ -103,7 +103,7 @@ export default class EditFeed extends React.Component {
                     <RaisedButton
                         style={styles.button}
                         label="Cancel"
-                        onClick={Actions.toggleFeedMenu}/>
+                        onClick={Actions.toggleMenu}/>
                 </div>
             </div>
         );

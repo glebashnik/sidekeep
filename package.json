@@ -25,6 +25,7 @@
     "gulp": "*",
     "gulp-sourcemaps": "*",
     "gulp-util": "*",
+    "gulp-uglify": "*",
     "reactify": "*",
     "vinyl-buffer": "*",
     "vinyl-source-stream": "*",

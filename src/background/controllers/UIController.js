@@ -2,35 +2,6 @@ import _ from 'lodash';
 import Store from '../../shared/Store';
 import Dispatcher from '../../shared/Dispatcher';
 
-const _storage = chrome.storage.local;
-
-let _ui = {
-    sidebar: false,
-    feedMenu: false
-};
-
-_storage.get('ui', items => {
-    if (items.ui && items.ui.sidebar)
-        _ui = items.ui;
-    emit();
-});
-
-function emit() {
-    _storage.set({ui: _ui});
-    Store.emitUpdate({ui: _ui});
-}
-
-function toggleSidebar() {
-    _ui.sidebar = !_ui.sidebar;
-    chrome.browserAction.setIcon({path: _ui.sidebar ? 'images/icon19active.png' : 'images/icon19.png'});
-    emit();
-}
-
-function toggleFeedMenu() {
-    _ui.feedMenu = !_ui.feedMenu;
-    emit();
-}
-
 function openPage(pageUrl, sourceTabId) {
     chrome.tabs.get(sourceTabId, sourceTab => {
         chrome.tabs.getAllInWindow(sourceTab.windowId, tabs => {
@@ -47,11 +18,15 @@ function openPage(pageUrl, sourceTabId) {
 Dispatcher.register(action => {
     switch (action.type) {
         case 'TOGGLE_SIDEBAR':
-            toggleSidebar();
+            Store.state.ui.sidebar = !Store.state.ui.sidebar;
+            const iconPath = Store.state.ui.sidebar ? 'images/icon19active.png' : 'images/icon19.png';
+            chrome.browserAction.setIcon({path: iconPath});
+            Store.emit();
             break;
 
-        case 'TOGGLE_FEED_MENU':
-            toggleFeedMenu();
+        case 'TOGGLE_MENU':
+            Store.state.ui.menu = !Store.state.ui.menu;
+            Store.emit();
             break;
 
         case 'OPEN_PAGE':
@@ -68,7 +43,14 @@ Dispatcher.register(action => {
             break;
 
         case 'CHANGE_TAB':
-            Store.emitUpdate({tab: action.tab});
+            Store.state.ui.tab = action.tab;
+            Store.emit();
+            break;
+
+        case 'OPEN_HELP':
+            Store.state.ui.menu = true;
+            Store.state.ui.tab = 'help';
+            Store.emit();
             break;
     }
 });

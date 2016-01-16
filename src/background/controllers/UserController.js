@@ -36,7 +36,7 @@ function endLogin(user) {
 
     _userRef.once('value', snap => {
         if (snap.val() === null)
-            Actions.addStartFeed();
+            Actions.openHelp();
 
         _userRef.update({
             name: user.name,

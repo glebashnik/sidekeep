@@ -29,32 +29,30 @@ export default class ExportFeed extends React.Component {
             }
         };
 
-        const isExporting = this.props.state.isExporting;
-        const progress = isExporting
-            ? <LinearProgress style={styles.progress} mode="indeterminate"/>
-            : null;
+        const exporting = this.props.state.ui.exporting;
+        const progress = exporting ? <LinearProgress style={styles.progress} mode="indeterminate"/> : null;
 
         return (
             <div style={styles.container}>
                 <div style={styles.text}>
-                    Export collected information to a document.
+                    Export collected information to a document or a presentation.
                 </div>
                 <div style={styles.buttons}>
                     <RaisedButton
                         style={styles.button}
                         label="Google Doc"
                         onClick={Actions.exportToGoogleDoc}
-                        disabled={isExporting}/>
+                        disabled={exporting}/>
                     <RaisedButton
                         style={styles.button}
                         label="MS Word"
                         onClick={Actions.exportToWord}
-                        disabled={isExporting}/>
+                        disabled={exporting}/>
                     <RaisedButton
                         style={styles.button}
                         label="MS PowerPoint"
                         onClick={Actions.exportToPowerPoint}
-                        disabled={isExporting}/>
+                        disabled={exporting}/>
                 </div>
                 {progress}
             </div>

@@ -20,9 +20,9 @@ export default {
         });
     },
 
-    toggleFeedMenu() {
+    toggleMenu() {
         Dispatcher.dispatch({
-            type: 'TOGGLE_FEED_MENU'
+            type: 'TOGGLE_MENU'
         })
     },
 
@@ -166,16 +166,16 @@ export default {
         });
     },
 
-    addStartFeed() {
-        Dispatcher.dispatch({
-            type: 'ADD_START_FEED'
-        });
-    },
-
     changeTab(tab) {
         Dispatcher.dispatch({
             type: 'CHANGE_TAB',
             tab: tab
+        });
+    },
+
+    openHelp() {
+        Dispatcher.dispatch({
+            type: 'OPEN_HELP'
         });
     }
 }

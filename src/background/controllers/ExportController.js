@@ -4,8 +4,8 @@ import Store from '../../shared/Store';
 import GoogleDriveAPI from '../GoogleDriveAPI';
 import Actions from '../../shared/Actions'
 
-//const url = 'https://aftersearchexport.dotcloudapp.com';
-const url = 'http://localhost:9000';
+const url = 'https://aftersearchexport.dotcloudapp.com';
+//const url = 'http://localhost:9000';
 
 function getFeed() {
     const state = Store.state;
@@ -16,11 +16,13 @@ function getFeed() {
 }
 
 function startExporting() {
-    Store.emitUpdate({isExporting: true});
+    Store.state.ui.exporting = true;
+    Store.emit();
 }
 
 function endExporting() {
-    Store.emitUpdate({isExporting: false});
+    Store.state.ui.exporting = false;
+    Store.emit();
 }
 
 function exportToWord() {

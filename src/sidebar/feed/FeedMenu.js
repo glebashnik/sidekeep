@@ -12,6 +12,8 @@ import FeedList from './FeedList';
 import EditFeed from './EditFeed';
 import FeedShare from './FeedShare';
 import ExportFeed from './ExportFeed';
+import Help from './Help';
+
 import ExportIcon from '../icons/ExportIcon';
 
 import Actions from '../../shared/Actions';
@@ -33,7 +35,7 @@ export default class FeedMenu extends React.Component {
             },
             content: {
                 background: 'white',
-                maxHeight: '75%',
+                maxHeight: '85%',
                 overflowY: 'scroll'
             },
             overlay: {
@@ -49,14 +51,15 @@ export default class FeedMenu extends React.Component {
         };
 
         const state = this.props.state;
-        const selectedFeed = _.find(this.props.state.feeds, {selected: true});
+        const tab = state.ui.tab;
+        const selectedFeed = _.find(state.feeds, {selected: true});
 
         return (
             <div style={styles.container}>
                 <Tabs
                     inkBarStyle={styles.inkBar}
                     contentContainerStyle={styles.content}
-                    value={state.tab}
+                    value={tab}
                     onChange={Actions.changeTab}>
                     <Tab value="list"
                          label={<HoverIconButton
@@ -64,7 +67,7 @@ export default class FeedMenu extends React.Component {
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={state.tab === 'list'}
+                                    selected={tab === 'list'}
                                     tooltip="Topics">
                                     folder
                                 </HoverIconButton>}>
@@ -76,7 +79,7 @@ export default class FeedMenu extends React.Component {
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={state.tab === 'edit'}
+                                    selected={tab === 'edit'}
                                     tooltip="Edit">
                                     edit
                                 </HoverIconButton>}>
@@ -88,7 +91,7 @@ export default class FeedMenu extends React.Component {
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={state.tab === 'collaborate'}
+                                    selected={tab === 'collaborate'}
                                     tooltip="Collaborate">
                                     group
                                 </HoverIconButton>}>
@@ -97,7 +100,7 @@ export default class FeedMenu extends React.Component {
                     <Tab value="export"
                          label={<IconButton tooltip="Export">
                                     <ExportIcon
-                                        color={state.tab === 'export' ? 'white' : Theme.palette.iconLight}
+                                        color={tab === 'export' ? 'white' : Theme.palette.iconLight}
                                         hoverColor="white"/>
                                 </IconButton>}>
                         {selectedFeed ? <ExportFeed state={state}/> : null}
@@ -108,13 +111,14 @@ export default class FeedMenu extends React.Component {
                                     color={Theme.palette.iconLight}
                                     hoverColor="white"
                                     selectColor="white"
-                                    selected={state.tab === 'help'}
+                                    selected={tab === 'help'}
                                     tooltip="Help">
                                     help
                                 </HoverIconButton>}>
+                        <Help/>
                     </Tab>
                 </Tabs>
-                <div style={styles.overlay} onClick={Actions.toggleFeedMenu}/>
+                <div style={styles.overlay} onClick={Actions.toggleMenu}/>
             </div>
         );
     }
