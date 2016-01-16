@@ -23,7 +23,7 @@ export default class FeedItem extends React.Component {
 
     select = () => {
         Actions.selectFeed(this.props.feed.id);
-        Actions.toggleFeedMenu();
+        Actions.toggleMenu();
     };
 
     render() {

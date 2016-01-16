@@ -48,21 +48,21 @@ export default class Toolbar extends React.Component {
         const state = this.props.state;
         const selectedFeedId = state.user.selectedFeed;
         const selectedFeedName = selectedFeedId ? state.feeds[selectedFeedId].name : 'Create or select a topic';
-        const feedMenuElem = state.ui.feedMenu ? <FeedMenu state={state}/> : null;
+        const menuElem = state.ui.menu ? <FeedMenu state={state}/> : null;
 
         return (
             <div style={styles.container}>
                 <div style={styles.content}>
                     <HoverIconButton
-                        onClick={Actions.toggleFeedMenu}
+                        onClick={Actions.toggleMenu}
                         iconClassName="material-icons"
                         color={Theme.palette.iconLight}
                         hoverColor="white"
                         selectColor="white"
-                        selected={state.ui.feedMenu}>
+                        selected={state.ui.menu}>
                         menu
                     </HoverIconButton>
-                    <div style={styles.title} onClick={Actions.toggleFeedMenu}>{selectedFeedName}</div>
+                    <div style={styles.title} onClick={Actions.toggleMenu}>{selectedFeedName}</div>
                     <HoverIconButton
                         onClick={Actions.toggleSidebar}
                         iconClassName="material-icons"
@@ -71,7 +71,7 @@ export default class Toolbar extends React.Component {
                         close
                     </HoverIconButton>
                 </div>
-                {feedMenuElem}
+                {menuElem}
             </div>
 
         );

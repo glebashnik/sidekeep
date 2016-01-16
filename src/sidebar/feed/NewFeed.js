@@ -8,7 +8,6 @@ import Theme from '../Theme';
 import Actions from '../../shared/Actions';
 
 export default class NewFeed extends React.Component {
-
     isValid = () => {
         return this.refs.name.getValue().trim().length > 0;
     };
@@ -18,7 +17,7 @@ export default class NewFeed extends React.Component {
 
         if (name.length > 0) {
             Actions.addFeed(name);
-            Actions.toggleFeedMenu();
+            Actions.toggleMenu();
         }
     };
 

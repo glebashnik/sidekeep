@@ -251,7 +251,7 @@ Dispatcher.register(action => {
 
         case 'MOVE_POST':
             _movePostId = action.postId;
-            Actions.toggleFeedMenu();
+            Actions.toggleMenu();
             break;
     }
 });
