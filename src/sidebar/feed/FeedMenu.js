@@ -11,7 +11,7 @@ import HoverIconButton from '../ui/HoverIconButton';
 import FeedList from './FeedList';
 import EditFeed from './EditFeed';
 import FeedShare from './FeedShare';
-import FeedExport from './FeedExport';
+import ExportFeed from './ExportFeed';
 import ExportIcon from '../icons/ExportIcon';
 
 import Actions from '../../shared/Actions';
@@ -100,7 +100,7 @@ export default class FeedMenu extends React.Component {
                                         color={state.tab === 'export' ? 'white' : Theme.palette.iconLight}
                                         hoverColor="white"/>
                                 </IconButton>}>
-                        {selectedFeed ? <FeedExport state={state}/> : null}
+                        {selectedFeed ? <ExportFeed state={state}/> : null}
                     </Tab>
                     <Tab value="help"
                          label={<HoverIconButton

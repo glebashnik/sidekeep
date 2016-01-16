@@ -4,7 +4,7 @@ import LinearProgress from 'material-ui/lib/linear-progress';
 
 import Actions from '../../shared/Actions';
 
-export default class FeedExport extends React.Component {
+export default class ExportFeed extends React.Component {
     static propTypes = {
         state: React.PropTypes.object.isRequired
     };
@@ -17,10 +17,12 @@ export default class FeedExport extends React.Component {
             },
             buttons: {
                 display: 'flex',
-                justifyContent: 'center'
+                flexDirection: 'column',
+                alignItems: 'center'
             },
             button: {
-                margin: '10px 10px 20px 10px'
+                width: 180,
+                marginBottom: 20
             },
             progress: {
                 background: 'white'
@@ -47,6 +49,11 @@ export default class FeedExport extends React.Component {
                         style={styles.button}
                         label="MS Word"
                         onClick={Actions.exportToWord}
+                        disabled={isExporting}/>
+                    <RaisedButton
+                        style={styles.button}
+                        label="MS PowerPoint"
+                        onClick={Actions.exportToPowerPoint}
                         disabled={isExporting}/>
                 </div>
                 {progress}
