@@ -44,6 +44,12 @@ export default {
         });
     },
 
+    exportToPowerPoint() {
+        Dispatcher.dispatch({
+            type: 'EXPORT_TO_POWERPOINT'
+        });
+    },
+
     exportToGoogleDoc() {
         Dispatcher.dispatch({
             type: 'EXPORT_TO_GOOGLE_DOC'
