@@ -29,7 +29,7 @@ class Cache {
     }
 
     load(id) {
-        if(!this.promises[id])
+        if (!this.promises[id])
             this.promises[id] = new Promise(resolve =>
                 this.ref.child(id).once('value', snap =>
                     resolve(snap.val())));
@@ -108,74 +108,62 @@ function addPost(post) {
     return _postsRef.push(post).key();
 }
 
-function addPage(tabId) {
+function addSearch(tabId) {
     const trace = TraceHelper.fixTrace(Tracer.getTrace(tabId));
     const first = _.first(trace);
     const search = first && first.query ? first : null;
 
-    let ancestorId = 'root';
-
     if (search)
-        ancestorId = _.findKey(_posts, {query: search.query}) || addPost({
-                ancestor: ancestorId,
-                type: 'search',
-                url: search.url,
-                query: search.query
+        _.findKey(_posts, {query: search.query}) || addPost({
+            ancestor: 'root',
+            type: 'search',
+            url: search.url,
+            query: search.query
+        });
+}
+
+function addClip(clip, tabId) {
+    addSearch(tabId);
+
+    chrome.tabs.get(tabId, tab => {
+        clip.ancestor = _.findKey(_posts, {url: tab.url}) || addPost({
+                ancestor: 'root',
+                type: 'page',
+                title: tab.title,
+                url: tab.url,
+                favIconUrl: tab.favIconUrl || 'https://aftersearch.firebaseapp.com/img/pdf.png'
             });
 
-    return new Promise(resolve => {
-        chrome.tabs.get(tabId, tab => {
-            const pageId = _.findKey(_posts, {url: tab.url}) || addPost({
-                    ancestor: ancestorId,
-                    type: 'page',
-                    title: tab.title,
-                    url: tab.url,
-                    favIconUrl: tab.favIconUrl || 'https://aftersearch.firebaseapp.com/img/pdf.png'
-                });
-
-            resolve(pageId);
-        });
+        addPost(clip);
     });
 }
 
 function addText(text, tabId) {
-    addPage(tabId).then(ancestorId => {
-        const clipId = addPost({
-            ancestor: ancestorId,
-            type: 'text',
-            text: text
-        });
-
-        selectPost(clipId);
-    });
+    selectPost(addClip({
+        type: 'text',
+        text: text
+    }, tabId));
 }
 
 function addImage(imageUrl, tabId) {
-    addPage(tabId).then(ancestorId => {
-        const clipId = addPost({
-            ancestor: ancestorId,
-            type: 'image',
-            image: imageUrl
-        });
-
-        selectPost(clipId);
-    });
+    selectPost(addClip({
+        type: 'image',
+        image: imageUrl
+    }, tabId));
 }
 
-function addComment(postId, text) {
-    const commentId = addPost({
-        ancestor: postId,
+function addComment(ancestor, text) {
+    selectPost(addPost({
+        ancestor: ancestor,
         type: 'comment',
         text: text
-    });
-
-    selectPost(commentId);
+    }));
 }
 
 function removePost(postId) {
     const post = _posts[postId];
 
-    switch(post.type) {
+    switch (post.type) {
         case 'page':
             _.forEach(post.children, child => removePost(child.id));
             break;

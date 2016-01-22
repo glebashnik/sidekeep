@@ -7,7 +7,7 @@ import Actions from '../shared/Actions';
 Dispatcher.initContent();
 Store.initContent();
 
-if (document.URL.indexOf('https://aftersearch-dev.firebaseapp.com/join.html') === 0) {
+if (document.URL.indexOf('https://aftersearch.firebaseapp.com/join.html') === 0) {
     let interval = null;
 
     function checker() {

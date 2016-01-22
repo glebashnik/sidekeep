@@ -6,13 +6,15 @@ export default class Help extends React.Component {
     render() {
         const styles = {
             container: {
-                padding: '20px 15px 20px 15px'
+                padding: '25px 15px 20px 15px'
             },
             header: {
-                font: '400 16px Roboto'
+                font: '400 17px Roboto',
+                color: Colors.grey700,
+                marginBottom: 20
             },
             step: {
-                marginTop: 30
+                marginBottom: 30
             },
             text: {
                 display: 'flex',

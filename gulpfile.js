@@ -64,7 +64,6 @@ function tasksFor(name) {
             })
             .pipe(source(name + '.js'))
             .pipe(buffer())
-            .pipe(uglify()) //not working with source maps
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(BUILD_DIR + '/src'));

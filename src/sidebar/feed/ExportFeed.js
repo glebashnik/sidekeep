@@ -31,7 +31,7 @@ export default class ExportFeed extends React.Component {
 
         const exporting = this.props.state.ui.exporting;
         const progress = exporting ? <LinearProgress style={styles.progress} mode="indeterminate"/> : null;
-
+        
         return (
             <div style={styles.container}>
                 <div style={styles.text}>
