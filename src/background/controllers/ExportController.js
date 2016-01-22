@@ -18,7 +18,7 @@ function getFeed() {
 function startExport() {
     Store.state.ui.exporting = true;
     Store.emit();
-    setTimeout(endExport, 10000);
+    setTimeout(endExport, 15000);
 }
 
 function endExport() {
