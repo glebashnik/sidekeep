@@ -24,20 +24,14 @@ function init() {
     Actions.startLogin();
 }
 
-chrome.runtime.onStartup.addListener(() => {
-    init();
-});
+chrome.runtime.onStartup.addListener(init);
 
-
-chrome.browserAction.onClicked.addListener(() => {
-    Actions.toggleSidebar();
-});
-
+chrome.browserAction.onClicked.addListener(Actions.toggleSidebar);
 
 chrome.runtime.onInstalled.addListener(() => {
     init();
 
-    chrome.tabs.query({}, (tabs) => {
+    chrome.tabs.query({}, tabs => {
         tabs.forEach(tab => chrome.tabs.executeScript(tab.id, {file: 'src/content.js'}, () => {
             if (chrome.runtime.lastError)
                 console.log(chrome.runtime.lastError.message);

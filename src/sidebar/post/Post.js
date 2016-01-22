@@ -16,8 +16,7 @@ import Actions from '../../shared/Actions';
 export default class Post extends React.Component {
     static propTypes = {
         user: React.PropTypes.object.isRequired,
-        post: React.PropTypes.object.isRequired,
-        border: React.PropTypes.bool
+        post: React.PropTypes.object.isRequired
     };
 
     state = {
@@ -47,8 +46,7 @@ export default class Post extends React.Component {
             content: {
                 display: 'flex',
                 flexDirection: 'column'
-            },
-            border: this.props.border ? '1px solid ' + Theme.palette.border : '0'
+            }
         };
 
         const {user, post} = this.props;
@@ -56,11 +54,9 @@ export default class Post extends React.Component {
 
         switch (post.type) {
             case 'search':
-                styles.container.borderTop = styles.border;
                 contentElem = <SearchContent post={post}/>;
                 break;
             case 'page':
-                styles.container.borderTop = styles.border;
                 contentElem = <PageContent post={post}/>;
                 break;
             case 'text':
@@ -80,18 +76,16 @@ export default class Post extends React.Component {
             styles.content.background = Theme.palette.backgroundSelect;
 
         const menuElem = this.state.hover || (this.refs.menu && this.refs.menu.isOpen())
-            ? <PostMenu ref="menu"
-                        post={post}
-                        background={styles.content.background}/>
+            ? <PostMenu ref="menu" post={post} background={styles.content.background}/>
             : null;
 
         const commentAddElem = post.selected ? <CommentAdd post={post} user={user}/> : undefined;
 
         const clips = _.reject(post.children, {type: 'comment'});
-        const clipElems = _.map(clips, (clip, id) => <Post key={id} post={clip} user={user} border/>);
+        const clipsElems = _.map(clips, (clip, id) => <Post key={id} post={clip} user={user}/>);
 
         const comments = _.filter(post.children, {type: 'comment'});
-        const commentElems = _.map(comments, (comment, id) => <Post key={id} post={comment} user={user}/>);
+        const commentsElems = _.map(comments, (comment, id) => <Post key={id} post={comment} user={user}/>);
 
         return (
             <div style={styles.container}>
@@ -100,8 +94,8 @@ export default class Post extends React.Component {
                     <div onClick={this.select}>{contentElem}</div>
                     {commentAddElem}
                 </div>
-                {commentElems}
-                {clipElems}
+                {commentsElems}
+                {clipsElems}
             </div>
         );
     }

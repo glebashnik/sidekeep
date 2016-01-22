@@ -15,7 +15,7 @@ import Card from './post/Card';
 
 injectTapEventPlugin();
 
-class Sidebar extends React.Component {
+export default class Sidebar extends React.Component {
     state = Store.state;
 
     static childContextTypes = {
@@ -90,5 +90,3 @@ class Sidebar extends React.Component {
         );
     }
 }
-
-export default Sidebar;

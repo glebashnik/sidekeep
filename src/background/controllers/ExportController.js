@@ -15,44 +15,45 @@ function getFeed() {
     return feed;
 }
 
-function startExporting() {
+function startExport() {
     Store.state.ui.exporting = true;
     Store.emit();
+    setTimeout(endExport, 10000);
 }
 
-function endExporting() {
+function endExport() {
     Store.state.ui.exporting = false;
     Store.emit();
 }
 
 function exportToWord() {
-    startExporting();
-
+    startExport();
+    
     chrome.downloads.download({
         url: url + '/docx',
         method: 'POST',
         headers: [{name: 'content-type', value: 'application/json'}],
         body: JSON.stringify(getFeed())
-    }, endExporting);
+    }, endExport);
 }
 
 function exportToPowerpoint() {
-    startExporting();
+    startExport();
 
     chrome.downloads.download({
         url: url + '/pptx',
         method: 'POST',
         headers: [{name: 'content-type', value: 'application/json'}],
         body: JSON.stringify(getFeed())
-    }, endExporting);
+    }, endExport);
 }
 
 function exportToGoogleDoc() {
-    startExporting();
+    startExport();
 
     const feed = getFeed();
     GoogleDriveAPI.exportFeedToGoogleDoc(feed).then(link => {
-        endExporting();
+        endExport();
         chrome.tabs.create({url: link})
     });
 }
