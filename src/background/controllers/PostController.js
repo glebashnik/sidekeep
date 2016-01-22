@@ -114,50 +114,53 @@ function addSearch(tabId) {
     const search = first && first.query ? first : null;
 
     if (search)
-        _.findKey(_posts, {query: search.query}) || addPost({
-            ancestor: 'root',
-            type: 'search',
-            url: search.url,
-            query: search.query
-        });
+        return _.findKey(_posts, {query: search.query}) || addPost({
+                ancestor: 'root',
+                type: 'search',
+                url: search.url,
+                query: search.query
+            });
+    else
+        return 'root';
 }
 
-function addClip(clip, tabId) {
-    addSearch(tabId);
+function addPage(tabId) {
+    return () => new Promise(resolve =>
+        chrome.tabs.get(tabId, tab => {
+            const key = _.findKey(_posts, {url: tab.url}) || addPost({
+                    ancestor: 'root',
+                    type: 'page',
+                    title: tab.title,
+                    url: tab.url,
+                    favIconUrl: tab.favIconUrl || 'https://aftersearch.firebaseapp.com/img/pdf.png'
+                });
 
-    chrome.tabs.get(tabId, tab => {
-        clip.ancestor = _.findKey(_posts, {url: tab.url}) || addPost({
-                ancestor: 'root',
-                type: 'page',
-                title: tab.title,
-                url: tab.url,
-                favIconUrl: tab.favIconUrl || 'https://aftersearch.firebaseapp.com/img/pdf.png'
-            });
+            resolve(key);
+        }));
+}
 
-        addPost(clip);
+function addText(text) {
+    return ancestor => addPost({
+        ancestor: ancestor,
+        type: 'text',
+        text: text
     });
 }
 
-function addText(text, tabId) {
-    selectPost(addClip({
-        type: 'text',
-        text: text
-    }, tabId));
-}
-
-function addImage(imageUrl, tabId) {
-    selectPost(addClip({
+function addImage(imageUrl) {
+    return ancestor => addPost({
+        ancestor: ancestor,
         type: 'image',
         image: imageUrl
-    }, tabId));
+    });
 }
 
-function addComment(ancestor, text) {
-    selectPost(addPost({
+function addComment(text) {
+    return ancestor => addPost({
         ancestor: ancestor,
         type: 'comment',
         text: text
-    }));
+    });
 }
 
 function removePost(postId) {
@@ -213,20 +216,29 @@ Dispatcher.register(action => {
             endLogin(action.user);
             break;
 
+        case 'ADD_PAGE':
+            Promise.resolve(addSearch(action.tabId))
+                .then(addPage(action.tabId))
+                .then(selectPost);
+            break;
+
         case 'ADD_TEXT':
-            addText(action.text, action.tabId);
+            Promise.resolve(addSearch(action.tabId))
+                .then(addPage(action.tabId))
+                .then(addText(action.text))
+                .then(selectPost);
             break;
 
         case 'ADD_IMAGE':
-            addImage(action.imageUrl, action.tabId);
-            break;
-
-        case 'ADD_PAGE':
-            addPage(action.tabId);
+            Promise.resolve(addSearch(action.tabId))
+                .then(addPage(action.tabId))
+                .then(addImage(action.imageUrl))
+                .then(selectPost);
             break;
 
         case 'ADD_COMMENT':
-            addComment(action.postId, action.text);
+            Promise.resolve(addComment(action.text)(action.postId))
+                .then(selectPost);
             break;
 
         case 'REMOVE_POST':
