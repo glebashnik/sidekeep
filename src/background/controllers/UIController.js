@@ -52,5 +52,15 @@ Dispatcher.register(action => {
             Store.state.ui.tab = 'help';
             Store.emit();
             break;
+
+        case 'OPEN_SEARCH':
+            Store.state.ui.search = true;
+            Store.emit();
+            break;
+
+        case 'CLOSE_SEARCH':
+            Store.state.ui.search = false;
+            Store.emit();
+            break;
     }
 });

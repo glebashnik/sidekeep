@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var util = require('gulp-util');
-var uglify = require('gulp-uglify');
 
 var watchify = require('watchify');
 var browserify = require('browserify');
@@ -9,8 +8,6 @@ var sourcemaps = require('gulp-sourcemaps');
 
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-
-var _ = require('lodash');
 
 var BUILD_DIR = './dist';
 
@@ -34,7 +31,7 @@ function tasksFor(name) {
     });
 
     gulp.task('watch-' + name, function () {
-        var watchifyOptions = _.assign({}, options, {
+        var watchifyOptions = Object.assign({}, options, {
             cache: {},
             packageCache: {}
         });
@@ -64,8 +61,6 @@ function tasksFor(name) {
             })
             .pipe(source(name + '.js'))
             .pipe(buffer())
-            .pipe(sourcemaps.init({loadMaps: true}))
-            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(BUILD_DIR + '/src'));
     }
 }
