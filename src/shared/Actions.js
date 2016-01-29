@@ -177,5 +177,24 @@ export default {
         Dispatcher.dispatch({
             type: 'OPEN_HELP'
         });
+    },
+
+    openSearch() {
+        Dispatcher.dispatch({
+            type: 'OPEN_SEARCH'
+        });
+    },
+
+    closeSearch() {
+        Dispatcher.dispatch({
+            type: 'CLOSE_SEARCH'
+        });
+    },
+
+    search(query) {
+        Dispatcher.dispatch({
+            type: 'SEARCH',
+            query: query
+        });
     }
 }

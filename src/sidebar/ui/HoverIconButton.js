@@ -23,20 +23,20 @@ export default class HoverIconButton extends React.Component {
 
     render() {
         const {color, hoverColor, selectColor, selected, iconStyle, ...other} = this.props;
-        const style = Object.assign({}, iconStyle);
+        const mergedIconStyle = Object.assign({}, iconStyle);
 
         if (color)
-            style.color = color;
+            mergedIconStyle.color = color;
 
         if (hoverColor && this.state.hover)
-            style.color = hoverColor;
+            mergedIconStyle.color = hoverColor;
 
         if (selectColor && selected)
-            style.color = selectColor;
+            mergedIconStyle.color = selectColor;
 
         return (
             <IconButton
-                iconStyle={style}
+                iconStyle={mergedIconStyle}
                 onMouseEnter={this.enter}
                 onMouseLeave={this.leave}
                 {...other}>
