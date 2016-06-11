@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Store from '../../shared/Store';
 import Dispatcher from '../../shared/Dispatcher';
 

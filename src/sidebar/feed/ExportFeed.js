@@ -35,23 +35,13 @@ export default class ExportFeed extends React.Component {
         return (
             <div style={styles.container}>
                 <div style={styles.text}>
-                    Export collected information to a document or a presentation.
+                    Export information to Google Doc:
                 </div>
                 <div style={styles.buttons}>
                     <RaisedButton
                         style={styles.button}
-                        label="Google Doc"
+                        label="Export"
                         onClick={Actions.exportToGoogleDoc}
-                        disabled={exporting}/>
-                    <RaisedButton
-                        style={styles.button}
-                        label="MS Word"
-                        onClick={Actions.exportToWord}
-                        disabled={exporting}/>
-                    <RaisedButton
-                        style={styles.button}
-                        label="MS PowerPoint"
-                        onClick={Actions.exportToPowerPoint}
                         disabled={exporting}/>
                 </div>
                 {progress}

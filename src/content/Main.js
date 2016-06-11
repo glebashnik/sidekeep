@@ -37,6 +37,7 @@ iframe.setAttribute('seamless', 'seamless');
 
 $(iframe).css({
     position: 'fixed',
+    display: 'none',
     top: '0',
     right: '0',
     width: '300px',

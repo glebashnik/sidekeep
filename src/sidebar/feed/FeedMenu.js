@@ -85,18 +85,6 @@ export default class FeedMenu extends React.Component {
                                 </HoverIconButton>}>
                         {selectedFeed ? <EditFeed feed={selectedFeed}/> : null}
                     </Tab>
-                    <Tab value="collaborate"
-                         label={<HoverIconButton
-                                    iconClassName="material-icons"
-                                    color={Theme.palette.iconLight}
-                                    hoverColor="white"
-                                    selectColor="white"
-                                    selected={tab === 'collaborate'}
-                                    tooltip="Collaborate">
-                                    group
-                                </HoverIconButton>}>
-                        {selectedFeed ? <FeedShare feed={selectedFeed}/> : null}
-                    </Tab>
                     <Tab value="export"
                          label={<IconButton tooltip="Export">
                                     <ExportIcon
