@@ -65,6 +65,16 @@ export default class Toolbar extends React.Component {
             </HoverIconButton>
         );
 
+        // const searchButton = <HoverIconButton
+        //     style={{marginRight: -10}}
+        //     onClick={Actions.openSearch}
+        //     iconClassName="material-icons"
+        //     color={Theme.palette.iconLight}
+        //     hoverColor="white">
+        //     search
+        // </HoverIconButton>;
+        const searchButton = null;
+
         const contentElem = state.ui.search
             ? (
             <div style={styles.content}>
@@ -98,14 +108,7 @@ export default class Toolbar extends React.Component {
                     menu
                 </HoverIconButton>
                 <div style={styles.title} onClick={Actions.toggleMenu}>{selectedFeedName}</div>
-                <HoverIconButton
-                    style={{marginRight: -10}}
-                    onClick={Actions.openSearch}
-                    iconClassName="material-icons"
-                    color={Theme.palette.iconLight}
-                    hoverColor="white">
-                    search
-                </HoverIconButton>
+                {searchButton}
                 {closeButton}
             </div>
         );

@@ -2,9 +2,7 @@ import _ from 'lodash';
 import React from 'react'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 import Theme from './Theme';
-import Colors from 'material-ui/lib/styles/colors';
 import Snackbar from 'material-ui/lib/snackbar';
 
 import Store from '../shared/Store'

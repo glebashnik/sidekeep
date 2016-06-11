@@ -58,16 +58,9 @@ export default class Help extends React.Component {
                 <div style={styles.step}>
                     <div style={styles.text}>
                         <div style={styles.number}>3</div>
-                        <div style={styles.description}>Export collected information to a document or a presentation.</div>
+                        <div style={styles.description}>Export collected information to Google Doc.</div>
                     </div>
                     <img style={styles.img} src="images/export.png"/>
-                </div>
-                <div style={styles.step}>
-                    <div style={styles.text}>
-                        <div style={styles.number}>4</div>
-                        <div style={styles.description}>Collaborate with your friends. Send a link to the topic by email or chat.</div>
-                    </div>
-                    <img style={styles.img} src="images/collaborate.png"/>
                 </div>
             </div>
         );

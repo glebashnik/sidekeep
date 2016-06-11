@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 
 import Avatar from 'material-ui/lib/avatar';
@@ -39,7 +38,7 @@ export default class CommentAdd extends React.Component {
             <div style={styles.container}>
                 <Avatar size={35} style={styles.avatar} src={this.props.user.image}/>
                 <TextField
-                    hintText="Comment"
+                    hintText="Note"
                     multiLine={true}
                     ref="text"
                     onEnterKeyDown={this.add}/>
