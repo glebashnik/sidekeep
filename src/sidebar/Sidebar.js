@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import React from 'react'
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Theme from './Theme';
-import Snackbar from 'material-ui/lib/snackbar';
+import Snackbar from 'material-ui/Snackbar';
 
 import Store from '../shared/Store'
 import Actions from '../shared/Actions';
@@ -11,20 +10,24 @@ import Actions from '../shared/Actions';
 import Toolbar from './Toolbar';
 import Card from './post/Card';
 
+import {cyan500} from 'material-ui/styles/colors';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
 injectTapEventPlugin();
+
+const muiTheme = getMuiTheme({
+    palette: {
+        textColor: cyan500
+    },
+    appBar: {
+        height: 50
+    }
+});
+
 
 export default class Sidebar extends React.Component {
     state = Store.state;
-
-    static childContextTypes = {
-        muiTheme: React.PropTypes.object
-    };
-
-    getChildContext() {
-        return {
-            muiTheme: ThemeManager.getMuiTheme(Theme)
-        };
-    }
 
     onChange = () => {
         this.setState(Store.state);
@@ -53,8 +56,7 @@ export default class Sidebar extends React.Component {
                 overflowY: 'scroll',
                 flexGrow: 1
             },
-            entity: {
-            }
+            entity: {}
         };
 
         const root = this.state.posts;
@@ -78,6 +80,7 @@ export default class Sidebar extends React.Component {
                 openOnMount/> : null;
 
         return (
+            <MuiThemeProvider muiTheme={muiTheme}>
             <div style={styles.container}>
                 <Toolbar state={this.state}/>
                 <div style={styles.feed}>
@@ -85,6 +88,7 @@ export default class Sidebar extends React.Component {
                 </div>
                 {snackbar}
             </div>
+            </MuiThemeProvider>
         );
     }
 }

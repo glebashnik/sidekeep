@@ -1,6 +1,5 @@
-import _ from 'lodash';
 import React from 'react';
-import FontIcon from 'material-ui/lib/font-icon';
+import FontIcon from 'material-ui/FontIcon';
 
 import Theme from '../Theme';
 import HoverBox from '../ui/HoverBox';

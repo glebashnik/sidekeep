@@ -52,6 +52,7 @@
     "client_id": "845684901574-p8j67pm2h7l30qb1esii9ultirs1cm54.apps.googleusercontent.com",
     "scopes": [
       "profile",
+      "email",
       "https://www.googleapis.com/auth/drive.file"
     ]
   },

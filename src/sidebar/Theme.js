@@ -1,6 +1,7 @@
-import Colors from 'material-ui/lib/styles/colors';
-import ColorManipulator from 'material-ui/lib/utils/color-manipulator';
-import Spacing from 'material-ui/lib/styles/spacing';
+var Colors = require('material-ui/styles/colors');
+var ColorManipulator = require('material-ui/utils/colorManipulator');
+import Spacing from 'material-ui/styles/spacing';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 export default {
     spacing: Spacing,

@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React from 'react';
-import Colors from 'material-ui/lib/styles/colors';
 
 import NewFeed from './NewFeed';
 import FeedItem from './FeedItem';

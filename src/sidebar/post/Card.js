@@ -1,5 +1,4 @@
 import React from 'react';
-import Colors from 'material-ui/lib/styles/colors';
 import moment from 'moment';
 
 import Theme from '../Theme';

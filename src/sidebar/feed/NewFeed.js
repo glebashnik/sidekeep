@@ -1,10 +1,7 @@
 import React from 'react';
-import FontIcon from 'material-ui/lib/font-icon';
-import IconButton from 'material-ui/lib/icon-button';
-import TextField from 'material-ui/lib/text-field';
-import Colors from 'material-ui/lib/styles/colors';
-
-import Theme from '../Theme';
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
+import TextField from 'material-ui/TextField';
 import Actions from '../../shared/Actions';
 
 export default class NewFeed extends React.Component {
@@ -21,6 +18,11 @@ export default class NewFeed extends React.Component {
         }
     };
 
+    keyDown = (event) => {
+        if (event.key == 'Enter')
+            this.addFeed();
+    };
+
     render() {
         const style = {
             display: 'flex',
@@ -32,11 +34,11 @@ export default class NewFeed extends React.Component {
         return (
             <div style={style}>
                 <IconButton onClick={this.addFeed}>
-                    <FontIcon color={Colors.grey600} className="material-icons">add</FontIcon>
+                    <FontIcon color="#757575" className="material-icons">add</FontIcon>
                 </IconButton>
                 <TextField
                     style={{width: 230}}
-                    onEnterKeyDown={this.addFeed}
+                    onKeyDown={this.keyDown}
                     hintText='New topic name'
                     ref="name"/>
             </div>

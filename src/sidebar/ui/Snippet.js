@@ -1,6 +1,6 @@
 import React from 'react';
 import QuoteIcon from './../icons/QuoteIcon';
-import Colors from 'material-ui/lib/styles/colors';
+import Colors from 'material-ui/styles/colors';
 
 export default class Snippet extends React.Component {
     static propTypes = {

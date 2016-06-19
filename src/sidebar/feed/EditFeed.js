@@ -1,8 +1,8 @@
 import React from 'react';
 
-import TextField from 'material-ui/lib/text-field';
-import RaisedButton from 'material-ui/lib/raised-button';
-import Checkbox from 'material-ui/lib/checkbox';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import Checkbox from 'material-ui/Checkbox';
 
 import Actions from '../../shared/Actions';
 
@@ -20,13 +20,15 @@ export default class EditFeed extends React.Component {
     };
 
     saveFeed = () => {
-        const nameField = this.refs.name;
+        if (event.key == 'Enter') {
+            const nameField = this.refs.name;
 
-        if (this.isValid()) {
-            Actions.renameFeed(this.props.feed.id, nameField.getValue());
-            Actions.toggleMenu();
-        } else
-            nameField.setErrorText("Topic name can't be empty");
+            if (this.isValid()) {
+                Actions.renameFeed(this.props.feed.id, nameField.getValue());
+                Actions.toggleMenu();
+            } else
+                nameField.setErrorText("Topic name can't be empty");
+        }
     };
 
     deleteFeed = () => {
@@ -87,7 +89,7 @@ export default class EditFeed extends React.Component {
             <div style={styles.container}>
                 <TextField
                     onChange={this.changeName}
-                    onEnterKeyDown={this.saveFeed}
+                    onKeyDown={this.saveFeed}
                     floatingLabelText="Change topic name"
                     defaultValue={this.props.feed.name}
                     ref="name"/>
