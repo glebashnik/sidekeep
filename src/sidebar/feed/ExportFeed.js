@@ -1,6 +1,6 @@
 import React from 'react';
-import RaisedButton from 'material-ui/lib/raised-button';
-import LinearProgress from 'material-ui/lib/linear-progress';
+import RaisedButton from 'material-ui/RaisedButton';
+import LinearProgress from 'material-ui/LinearProgress';
 
 import Actions from '../../shared/Actions';
 

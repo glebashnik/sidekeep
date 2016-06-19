@@ -1,6 +1,5 @@
 import React from 'react';
-import IconButton from 'material-ui/lib/icon-button';
-import Avatar from 'material-ui/lib/avatar';
+import Avatar from 'material-ui/Avatar';
 import Theme from '../Theme';
 
 export default class CommentContent extends React.Component {

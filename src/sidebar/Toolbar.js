@@ -1,9 +1,8 @@
-import _ from 'lodash';
 import React from 'react';
 
 import HoverIconButton from './ui/HoverIconButton';
-import Colors from 'material-ui/lib/styles/colors';
-import TextField from 'material-ui/lib/text-field';
+import Colors from 'material-ui/styles/colors';
+import TextField from 'material-ui/TextField';
 
 import Theme from './Theme';
 import FeedMenu from './feed/FeedMenu';
@@ -55,6 +54,7 @@ export default class Toolbar extends React.Component {
         const selectedFeedId = state.user.selectedFeed;
         const selectedFeedName = selectedFeedId ? state.feeds[selectedFeedId].name : 'Click to select a topic';
         const menuElem = state.ui.menu ? <FeedMenu state={state}/> : null;
+        console.log(menuElem);
         const closeButton = (
             <HoverIconButton
                 onClick={Actions.toggleSidebar}
@@ -118,7 +118,6 @@ export default class Toolbar extends React.Component {
                 {contentElem}
                 {menuElem}
             </div>
-
         );
     }
 }

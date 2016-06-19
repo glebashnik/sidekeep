@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Avatar from 'material-ui/lib/avatar';
+import Avatar from 'material-ui/avatar';
 import Actions from '../../shared/Actions';
-import TextField from 'material-ui/lib/text-field';
+import TextField from 'material-ui/TextField';
 
 export default class CommentAdd extends React.Component {
     static propTypes = {
@@ -11,13 +11,14 @@ export default class CommentAdd extends React.Component {
     };
 
     componentDidMount() {
-        this.refs.text.focus();
+        this.refs.note.focus();
     }
 
-    add = (event) => {
-        event.preventDefault();
-        Actions.addComment(this.props.post.id, this.refs.text.getValue());
-        this.refs.text.clearValue();
+    addNote = (event) => {
+        if (event.key == 'Enter') {
+            event.preventDefault();
+            Actions.addComment(this.props.post.id, this.refs.note.getValue());
+        }
     };
 
     render() {
@@ -38,10 +39,10 @@ export default class CommentAdd extends React.Component {
             <div style={styles.container}>
                 <Avatar size={35} style={styles.avatar} src={this.props.user.image}/>
                 <TextField
-                    hintText="Note"
+                    hintText="Add Note"
                     multiLine={true}
-                    ref="text"
-                    onEnterKeyDown={this.add}/>
+                    ref="note"
+                    onKeyDown={this.addNote}/>
             </div>
         );
     }

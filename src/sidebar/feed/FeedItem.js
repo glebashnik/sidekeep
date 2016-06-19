@@ -1,6 +1,4 @@
 import React from 'react';
-import Colors from 'material-ui/lib/styles/colors';
-
 import Theme from '../Theme';
 import Actions from '../../shared/Actions';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Theme from '../Theme';
-import Colors from 'material-ui/lib/styles/colors';
+var Colors = require('material-ui/styles/colors');
 
 export default class Help extends React.Component {
     render() {

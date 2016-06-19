@@ -1,10 +1,10 @@
 import React from 'react';
 
-import IconMenu from 'material-ui/lib/menus/icon-menu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import FolderIcon from 'material-ui/lib/svg-icons/file/folder';
-import DeleteIcon from 'material-ui/lib/svg-icons/action/delete';
-import FontIcon from 'material-ui/lib/font-icon';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import FolderIcon from 'material-ui/svg-icons/file/folder';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import FontIcon from 'material-ui/FontIcon';
 
 import Theme from '../Theme';
 import Actions from '../../shared/Actions';

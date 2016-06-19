@@ -1,16 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
 
-import Tabs from 'material-ui/lib/tabs/tabs';
-import Tab from 'material-ui/lib/tabs/tab';
-import Colors from 'material-ui/lib/styles/colors';
+import {Tabs, Tab} from 'material-ui/Tabs';
 
 import Theme from '../Theme';
 import IconButton from '../ui/HoverIconButton';
 import HoverIconButton from '../ui/HoverIconButton';
 import FeedList from './FeedList';
 import EditFeed from './EditFeed';
-import FeedShare from './FeedShare';
 import ExportFeed from './ExportFeed';
 import Help from './Help';
 
@@ -41,7 +38,7 @@ export default class FeedMenu extends React.Component {
             overlay: {
                 width: '100%',
                 flexGrow: 1,
-                background: Colors.lightBlack
+                background: 'rgba(0, 0, 0, 0.54)'
             },
             inkBar: {
                 background: 'white',
@@ -52,6 +49,7 @@ export default class FeedMenu extends React.Component {
 
         const state = this.props.state;
         const tab = state.ui.tab;
+        console.log(tab);
         const selectedFeed = _.find(state.feeds, {selected: true});
 
         return (

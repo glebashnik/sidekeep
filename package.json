@@ -7,7 +7,7 @@
     "react-dom": "*",
     "material-ui": "*",
     "react-tap-event-plugin": "*",
-    "firebase": "*",
+    "firebase": "2.*",
     "query-string": "*",
     "copy-to-clipboard": "*",
     "moment": "*",
