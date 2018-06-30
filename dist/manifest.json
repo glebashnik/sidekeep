@@ -3,8 +3,7 @@
   "short_name": "Sidekeep",
   "version": "0.1.8.7",
   "manifest_version": 2,
-  "description": "Collect links, text snippets and images, make notes, export to Google Doc.",
-  "homepage_url": "https://aftersearch.firebaseapp.com/tutorial/tutorial.html",
+  "description": "Collect links, text snippets and images, make notes, export to Google Doc",
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
   "icons": {
     "128": "images/icon128.png",
