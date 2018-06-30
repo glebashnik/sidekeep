@@ -1,0 +1,59 @@
+{
+  "name": "Sidekeep - Collect information with ease!",
+  "short_name": "Sidekeep",
+  "version": "0.1.8.7",
+  "manifest_version": 2,
+  "description": "Collect links, text snippets and images, make notes, export to Google Doc",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
+  "icons": {
+    "128": "images/icon128.png",
+    "48": "images/icon48.png",
+    "16": "images/icon16.png"
+  },
+  "background": {
+    "scripts": [
+      "src/background.js",
+      "src/gapi.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_icon": "images/icon19.png",
+    "default_title": "Sidekeep"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "src/content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    "images/*",
+    "src/*",
+    "sidebar.html"
+  ],
+  "permissions": [
+    "<all_urls>",
+    "storage",
+    "tabs",
+    "activeTab",
+    "contextMenus",
+    "webNavigation",
+    "downloads",
+    "identity"
+  ],
+  "oauth2": {
+    "client_id": "???",
+    "scopes": [
+      "profile",
+      "email",
+      "https://www.googleapis.com/auth/drive.file"
+    ]
+  },
+  "key": "???"
+}
