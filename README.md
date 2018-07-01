@@ -9,4 +9,4 @@ Details in [Chrome Web Store](https://chrome.google.com/webstore/detail/sidekeep
 
 ## Technical overview
 
-The extension is implemented using React. It implements a Flux architecture adapted to the Chrome extension architecture. Application state and logic are implemented in the background page, while UI is in the content page. This allows to share state across multiple pages, while UI is integrated as a sidebar in multiple pages.
+The extension is implemented with React using Flux architecture adapted to Chrome extension API. Application state and logic are contained in the background page, while UI is running in the content page. This allows to share state across multiple pages and display changes acreoss multiple pages. The state is persisted in Firebase with google login credentials.
